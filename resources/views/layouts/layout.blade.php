@@ -46,7 +46,8 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="{{route('labour.index')}}" class="site_title"><i class="fa fa-paw"></i> <span>TheFirst Labours</span></a>
+              <a href="{{route('labour.index')}}" class="site_title">
+                <span>TheFirst Labours</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -54,7 +55,7 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="{{URL::asset('images/user.png')}}" alt="..." class="img-circle profile_img">
+                <img src="{{URL::asset('images/logo-tfg.png')}}"  class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
@@ -216,7 +217,7 @@
                 <ul class=" navbar-right">
                   <li class="nav-item dropdown open" style="padding-left: 15px;">
                     <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                      <img src="{{URL::asset('images/user.png')}}" alt=""> {{Auth::user()->name}}
+                      <img src="{{URL::asset('images/logo-tfg.png')}}" alt=""> {{Auth::user()->name}}
                     </a>
                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                       {{-- <a class="dropdown-item"  href="javascript:;"> Profile</a>
@@ -247,7 +248,7 @@
                     <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
                       <li class="nav-item">
                         <a class="dropdown-item">
-                          <span class="image"><img src="{{URL::asset('images/img.jpg')}}" alt="Profile Image" /></span>
+                          <span class="image"><img src="{{URL::asset('images/logo-tfg.png')}}" alt="Profile Image" /></span>
                           <span>
                             <span>John Smith</span>
                             <span class="time">3 mins ago</span>
@@ -259,7 +260,7 @@
                       </li>
                       <li class="nav-item">
                         <a class="dropdown-item">
-                          <span class="image"><img src="{{URL::asset('images/img.jpg')}}" alt="Profile Image" /></span>
+                          <span class="image"><img src="{{URL::asset('images/logo-tfg.png')}}" alt="Profile Image" /></span>
                           <span>
                             <span>John Smith</span>
                             <span class="time">3 mins ago</span>
