@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 @section('content')
     <div class="row">
-        <div class="col-md-12 col-sm-12 ">
+        <div class="col-md-6 col-sm-6 ">
 
             @if ($message = Session::get('success'))
                 <div class="alert alert-success alert-dismissible bg-success text-white border-0 fade show" role="alert">
@@ -16,6 +16,7 @@
                     <strong>{{ $message }}</strong>
                 </div>
             @endif 
+
             
 
             <div class="x_panel">
@@ -41,29 +42,19 @@
                    
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table table-striped jambo_table bulk_action">
+                            <table class="table table-striped jambo_table bulk_action import">
                                 <thead>
                                     <tr>
                                         <th>ลบ</th>
                                         <th>ID</th>
                                         <th>ชื่อกลุ่ม</th>
-                                        <th>ผู้เพิ่ม</th>
+                                        <th>สถานะ</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach ($import as $v)
-                                        <tr>
-                                            <td><a href="" class="text-danger"><i class="fa fa-trash"></i></a></td>
-                                            <td>{{$v->import_id}}</td>
-                                            <td>{{$v->import_name}}</td>
-                                            <td>{{$v->import_user_add}}</td>
-                                            <td><a href="" class="text-info"><i class="fa fa-edit"></i></a></td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
+                              
                             </table>
-                            {!! $import->withQueryString()->links('pagination::bootstrap-5') !!}
+                           
                         </div>
                     </div>
                 </div>
@@ -80,7 +71,32 @@
         </div>
     </div>
 
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true"
+        id="modal-edit-import-group">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
+
     <script>
+        $(document).ready(function(){
+            $('.import').DataTable({
+                processing: true,
+                serverSide:true,
+                ajax: "{{route('importgroup.index')}}",
+                columns: [
+                    {data: 'delete',name: 'delete'},
+                    {data: 'import_id',name: 'import_id'},
+                    {data: 'import_name',name: 'import_name'},
+                    {data: 'status',name: 'status'},
+                    {data: 'action',name: 'action'},
+                ]
+              
+            });
+        });
+
         $(document).ready(function() {
             $('.import-group').click(function(e) {
                 e.preventDefault();
@@ -91,5 +107,6 @@
                 modal.find('.modal-content').load($(this).attr('href'));
             });
         });
+       
     </script>
 @endsection

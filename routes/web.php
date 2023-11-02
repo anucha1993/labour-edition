@@ -49,5 +49,14 @@ Route::post('labour/report/excel/labour/all',[\App\Http\Controllers\report\Repor
 
 // Import Group
 Route::get('importgroup/',[\App\Http\Controllers\importGroup\importGroupController::class,'index'])->name('importgroup.index');
+Route::get('importgroup/edit/{importGroupModel}',[\App\Http\Controllers\importGroup\importGroupController::class,'edit'])->name('importgroup.edit');
+Route::put('importgroup/update/{importGroupModel}',[\App\Http\Controllers\importGroup\importGroupController::class,'update'])->name('importgroup.update');
+Route::get('importgroup/delete/{importGroupModel}',[\App\Http\Controllers\importGroup\importGroupController::class,'destroy'])->name('importgroup.delete');
 Route::get('importgroup/modal/add',[\App\Http\Controllers\importGroup\importGroupController::class,'modalAdd'])->name('importgroup.modalAdd');
 Route::post('importgroup/modal/store',[\App\Http\Controllers\importGroup\importGroupController::class,'modalStore'])->name('importgroup.modalStore');
+
+//Excel import Labour
+
+Route::get('import/excel/labour',[\App\Http\Controllers\file_import_excel\labourImportExcel::class,'index'])->name('excelImport.labour');
+Route::get('import/excel/check',[\App\Http\Controllers\file_import_excel\labourImportExcel::class,'checkLabour'])->name('excelImport.checkLabour');
+Route::post('import/excel/import',[\App\Http\Controllers\file_import_excel\labourImportExcel::class,'import'])->name('excelImport.import');

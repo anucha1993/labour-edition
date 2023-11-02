@@ -156,6 +156,27 @@
                                 </div>
 
 
+                                <div class="x_title">
+                                    <h2 class="text-success">กลุ่มนำเข้าแรงงานต่างด้าว<small></small></h2>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">กลุ่มนำเข้า</label>
+                                          
+                                            <select name="import_id" class="form-control">
+                                                <option selected disabled>กรุณาเลือก</option>
+                                                @foreach ($import as $v)
+                                                <option value="{{$v->import_id}}">{{$v->import_name}}</option>
+                                                @endforeach
+                                           
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
 
                                 <div class="x_title">
                                     <h2 class="text-success">รายละเอียดหนังสือเดินทาง<small></small></h2>

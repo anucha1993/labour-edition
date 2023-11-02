@@ -77,20 +77,21 @@ class reportLabourAllExcell implements FromCollection, WithHeadings,WithMapping
                    'labour.labour_visa_date_start01','labour.labour_visa_date_end01','labour.labour_visa_date_start02','labour.labour_visa_date_end02',
                    'labour.labour_work_permit_number','labour.labour_work_permit_date_start','labour.labour_work_permit_date_end','labour.labour_work_permit_date_start01','labour.labour_work_permit_date_end01',
                    'labour.labour_work_permit_date_start02','labour_work_permit_date_end02','labour_work_permit_date_end02','labour.labour_work','labour.labour_escape',
-                   'labour.labour_department','labour.labour_code','labour.labour_ninety_date_start','labour.labour_ninety_date_end','labour.labour_note',
+                   'labour.labour_department','labour.labour_code','labour.labour_ninety_date_start','labour.labour_ninety_date_end','labour.labour_note','labour.labour_immigration_number',
                    'company.company_name',
                    'nationality.nationality_name')
+
         ->when($this->company_id, function ($query){
             return $query->where('company.company_id',$this->company_id);
         })
         ->when($this->status === 'job', function ($query) {
-            return $query->where('labour.labour_escape','!=' ,'Y')->where('labour.labour_resign','!=' ,'Y');
+            return $query->where('labour.labour_escape','!=' ,'Y')->where('labour_status','!=','Y')->where('labour.labour_resign','!=' ,'Y');
         })
         ->when($this->status === 'escape', function ($query) {
-            return $query->where('labour.labour_escape', 'Y');
+            return $query->where('labour.labour_escape', 'Y')->where('labour_status','!=','Y');
         })
         ->when($this->status === 'resign', function ($query) {
-            return $query->where('labour.labour_resign', 'Y');
+            return $query->where('labour.labour_resign', 'Y')->where('labour_status','!=','Y');
         })
         
         ->orderBy('labour.labour_id')
@@ -130,12 +131,13 @@ class reportLabourAllExcell implements FromCollection, WithHeadings,WithMapping
         date('d-n-Y',strtotime($labourData->labour_work_permit_date_end01)),
         date('d-n-Y',strtotime($labourData->labour_work_permit_date_start02)),
         date('d-n-Y',strtotime($labourData->labour_work_permit_date_end02)),
-        $labourData->labour_code,
+        "'".$labourData->labour_code,
         $labourData->labour_department,
         $this->getRemainingPassportDays($labourData->labour_work_permit_date_end),
         date('d-m-Y',strtotime($labourData->labour_ninety_date_start)),
         date('d-m-Y',strtotime($labourData->labour_ninety_date_end)),
         $this->getRemainingPassportDays($labourData->labour_ninety_date_end),
+        $labourData->labour_immigration_number,
         $labourData->labour_note,
       ];
     }

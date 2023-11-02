@@ -12,6 +12,7 @@ class importGroupModel extends Model
     protected $primaryKey="import_id";
     protected $fillable = [
         'import_name',
+        'import_status',
         'import_user_add',
         'import_user_edit',
     ];

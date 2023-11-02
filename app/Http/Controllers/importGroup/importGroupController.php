@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\importGroup\importGroupModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Datatables;
 
 class importGroupController extends Controller
 {
@@ -20,9 +21,48 @@ class importGroupController extends Controller
          $this->middleware('auth');
      }
 
-    public function index()
+    public function index(Request $request)
     {
         //
+        if($request->ajax())
+        {
+            $data = importGroupModel::select('*')->get();
+            return Datatables::of($data)
+            ->addColumn('delete',function ($row){
+                $delete = '<a href='.route("importgroup.delete",$row->import_id).' class="text-danger"  onclick="return confirm(`คุณต้องการ ลบข้อมูล ใช่  หรือ ไม่ ?`)" ><i class="fa fa-trash"></i></a>';
+                return $delete;
+            })
+            ->addColumn('action',function ($row){
+                $delete = '
+                <a href='.route("importgroup.edit",$row->import_id).' class="text-info import-group-edit"><i class="fa fa-edit"></i></a>
+                 
+                <script>
+                 $(document).ready(function() {
+                $(".import-group-edit").click(function(e) {
+                e.preventDefault();
+                var modal = $("#modal-edit-import-group");
+                modal.modal("show");
+                modal.addClass(" modal-lg")
+                modal.addClass("container")
+                modal.find(".modal-content").load($(this).attr("href"));
+                });
+                });
+                </script>
+                ';
+                return $delete;
+            })
+            ->addColumn('status',function ($row){
+                 if($row->import_status === 'Y')
+                 {
+                    $status = '<span class="text-success"><i class="fa fa-eye"></i></span>';
+                 }else{
+                    $status = '<span class="text-danger"><i class="fa fa-eye-slash"></i></span>';
+                 }
+                return $status;
+            })
+            ->rawColumns(['delete','action','status'])
+            ->make();
+        }
         $import = importGroupModel::select('*')->paginate(15);
         return view('import-group.index',compact('import'));
     }
@@ -76,9 +116,10 @@ class importGroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(importGroupModel $importGroupModel)
     {
         //
+        return view('import-group.modal-edit',compact('importGroupModel'));
     }
 
     /**
@@ -88,9 +129,11 @@ class importGroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, importGroupModel $importGroupModel)
     {
         //
+        $importGroupModel->update($request->all());
+        return redirect()->back()->with('success','แก้ไขข้อมูลสำเร็จ');
     }
 
     /**
@@ -99,8 +142,10 @@ class importGroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(importGroupModel $importGroupModel)
     {
         //
+        $importGroupModel->delete();
+        return redirect()->back()->with('success','ลบข้อมูลสำเร็จ');
     }
 }

@@ -19,9 +19,6 @@ class LabourModel extends Model
         'labour_company_code',
         'labour_agent',
         'labour_date_create',
-        'labour_quota',
-        'labour_surname',
-        'labour_lastname',
         'labour_nationality',
         'labour_sex',
         'labour_birth_date',
@@ -68,5 +65,6 @@ class LabourModel extends Model
         'labour_status',
         'labour_immigration_number',
         'labour_textid',
+        'import_id',
     ];
 }

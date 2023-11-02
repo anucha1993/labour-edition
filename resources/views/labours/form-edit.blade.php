@@ -185,6 +185,32 @@
                                     </div>
                                 </div>
 
+                                <div class="x_title">
+                                    <h2 class="text-success">กลุ่มนำเข้าแรงงานต่างด้าว<small></small></h2>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">กลุ่มนำเข้า</label>
+                                            @php
+                                               $importFirst =  $import->where('import_id',$labourModel->import_id)->first();
+                                            @endphp
+                                            <select name="import_id" class="form-control">
+                                            @if ($importFirst)
+                                            <option selected value="{{$labourModel->import_id}}">{{$importFirst->import_name}}</option>
+                                            @else
+                                            <option selected >ไม่มีข้อมูล</option>
+                                            @endif
+                                            @foreach ($import as $v)
+                                            <option value="{{$v->import_id}}">{{$v->import_name}}</option>
+                                            @endforeach
+                                               
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
 
                                 <div class="x_title">
                                     <h2 class="text-success">รายละเอียดหนังสือเดินทาง<small></small></h2>
@@ -522,7 +548,6 @@
                                 </div>
                             </div>
 
-
                         </div>
                         <button type="submit" class="btn btn-primary pull-right">บันทึก</button>
 
@@ -534,7 +559,7 @@
         </div>
     </div>
     </div>
-    <input type="text" id="test" name="" value="11111">
+
 
     <script>
         $(document).ready(function() {

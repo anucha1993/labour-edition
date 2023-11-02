@@ -24,17 +24,7 @@ class LabourController extends Controller
     public function index(Request $request)
     {
 
-        // if($request->all())
-        // {
-        //     $data = DB::table('labour')->select('labour.labour_passport_number')->limit(10);
-        //     return Datatables::of($data)
-        //     ->make();
-        // }
-
-
-
         $keyword = $request->input('search');
-
         $labours = LabourModel::select(
             'labour.labour_id',
             'labour.labour_name',
@@ -59,6 +49,7 @@ class LabourController extends Controller
             });
         }
 
+
         $labours = $labours->orderByDesc('labour.labour_id')->paginate(20); // แสดงข้อมูลทีละ 30 รายการ
 
         return view('labours.index', compact('labours'));
@@ -70,10 +61,11 @@ class LabourController extends Controller
     public function create()
     {
         //
+        $import = DB::table('import')->get();
         $agents = DB::table('agent')->get();
         $nationality = DB::table('nationality')->get();
         $companys = DB::table('company')->get();
-        return view('labours.form-add', compact('agents', 'nationality', 'companys'));
+        return view('labours.form-add', compact('agents', 'nationality', 'companys','import'));
     }
 
     /**
@@ -95,7 +87,7 @@ class LabourController extends Controller
         }
         //
         // dd($request);
-        $findNumber = LabourModel::latest()->value('labour_number');
+        $findNumber = LabourModel::latest()->where('labour_number','!=',NULL)->value('labour_number');
         // ถ้าไม่มีข้อมูลในตาราง
         if($findNumber === Null)
         {
@@ -128,11 +120,11 @@ class LabourController extends Controller
     public function edit(LabourModel $labourModel)
     {
         //
-
+        $import = DB::table('import')->get();
         $agents = DB::table('agent')->get();
         $nationality = DB::table('nationality')->get();
         $companys = DB::table('company')->get();
-        return view('labours.form-edit', compact('agents', 'nationality', 'companys','labourModel'));
+        return view('labours.form-edit', compact('agents', 'nationality', 'companys','labourModel','import'));
     }
 
     /**
