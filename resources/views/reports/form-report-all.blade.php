@@ -29,7 +29,7 @@
                     <form action="{{route('reportLabour.exportLabours')}}" method="post">
                         @csrf
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>ชื่อบริษัท :</label>
                                     <select name="company_id" class="form-control" id="company">
@@ -39,6 +39,19 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>กลุ่มการนำเข้า :</label>
+                                    <select name="import_id" class="form-control" id="import">
+                                        <option selected value="all">ทั้งหมด</option>
+                                        @foreach ($import as $v)
+                                            <option value="{{ $v->import_id }}">{{ $v->import_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>สถานะคนงาน :</label>
@@ -67,6 +80,11 @@
     <script>
         $(document).ready(function() {
             $('#company').select2({
+              
+            });
+        });
+        $(document).ready(function() {
+            $('#import').select2({
               
             });
         });

@@ -19,8 +19,9 @@ class ReportLabourAllCOntroller extends Controller
 
     public function index()
     {
+        $import = DB::table('import')->get();
         $company = DB::table('company')->where('company_name','!=','')->select('company.company_id','company.company_name')->latest()->get();
-        return view('reports.form-report-all',compact('company'));
+        return view('reports.form-report-all',compact('company','import'));
     }
 
 
@@ -28,7 +29,8 @@ class ReportLabourAllCOntroller extends Controller
         //dd($request);
         $company_id = $request->company_id;
         $status = $request->status;
-        return Excel::download(new reportLabourAllExcell($company_id,$status), 'labour'.date('d-m-Y').'.xlsx');
+        $import_id = $request->import_id;
+        return Excel::download(new reportLabourAllExcell($company_id,$status,$import_id), 'labour'.date('d-m-Y').'.xlsx');
         
     }
     

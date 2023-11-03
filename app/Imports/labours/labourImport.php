@@ -67,7 +67,7 @@ class labourImport implements ToCollection, WithStartRow,WithHeadingRow
                 }
                 $Seq = substr('00000000' . $number, -8, 8);
                 $NewNumber = 'CUS-' . $Seq;
-                
+
                 if($row[6] && $row[9] && $row[12] && $row[13])
                 {
                     $newRecord = LabourModel::create([
@@ -120,10 +120,10 @@ class labourImport implements ToCollection, WithStartRow,WithHeadingRow
                         'labour_textid'               => $row[12],
                         'import_id'                   => $row[20],
                     ]);
-    
+                    $this->importedIds[] = $newRecord->labour_id;
                 }
                 
-                $this->importedIds[] = $newRecord->labour_id;
+               
             }
         }
     }

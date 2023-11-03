@@ -541,10 +541,11 @@
                                     <label for="">ปิดใช้งาน</label>
                                 </div>
                             </div>
+                            
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="">หมายเหตุ</label>
-                                    <textarea name="labour_note" class="form-control" cols="15" rows="5"></textarea>
+                                    <textarea name="labour_note" class="form-control" cols="15" rows="5">{{$labourModel->labour_note}}</textarea>
                                 </div>
                             </div>
 

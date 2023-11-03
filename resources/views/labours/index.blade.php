@@ -35,6 +35,7 @@
                                             <th>เลขที่วิซ่า</th>
                                             <th>ชื่อ-นามสกุล</th>
                                             <th>บริษัท</th>
+                                            <th>กลุ่มการนำเข้า</th>
                                             <th>วันที่พาสหมดอายุ</th>
                                             <th>วันที่วีซ่าหมดอายุ</th>
                                             <th>วันที่90วันหมดอายุ</th>
@@ -48,6 +49,7 @@
                                             <td>{{$v->labour_visa_number}}</td>
                                             <td>{{$v->labour_name}}</td>
                                             <td>{{$v->company_name}}</td>
+                                            <td>{{($v->import_name == '' ? "ไม่พบข้อมูล" : $v->import_name)}}</td>
                                             <td>
                                                 @if (strtotime($v->labour_passport_date_end) < strtotime('today'))
                                                 {{date('d/m/Y',strtotime($v->labour_passport_date_end))}} <span class="badge badge-danger">หมดอายุแล้ว</span>

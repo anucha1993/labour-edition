@@ -28,6 +28,7 @@ class LabourController extends Controller
         $labours = LabourModel::select(
             'labour.labour_id',
             'labour.labour_name',
+            'import.import_name',
             'labour.labour_visa_number',
             'labour.labour_passport_number',
             'labour.labour_passport_date_end',
@@ -35,7 +36,9 @@ class LabourController extends Controller
             'labour.labour_ninety_date_end',
             'company.company_name'
         )
-            ->leftJoin('company', 'company.company_id', '=', 'labour.labour_company');
+            ->leftJoin('company', 'company.company_id', '=', 'labour.labour_company')
+            ->leftJoin('import', 'import.import_id', '=', 'labour.import_id');
+           
         // ตรวจสอบว่ามีการค้นหาหรือไม่ หากมีให้กรองข้อมูลตามคำค้นหา
         if (!empty($keyword)) {
             $labours = $labours->where(function ($query) use ($keyword) {
@@ -48,7 +51,7 @@ class LabourController extends Controller
                     ->orWhere('labour.labour_ninety_date_end', 'LIKE', "%$keyword%");
             });
         }
-
+        $labours = $labours->where('labour.labour_passport_number','!=', '');
 
         $labours = $labours->orderByDesc('labour.labour_id')->paginate(20); // แสดงข้อมูลทีละ 30 รายการ
 
