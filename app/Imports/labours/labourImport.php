@@ -80,7 +80,7 @@ class labourImport implements ToCollection, WithStartRow,WithHeadingRow
                         'labour_agent'                 => $this->agency,
                         'labour_date_create'           => date('Y-m-d',strtotime($now)),
                         'labour_nationality'           => $this->nationality,
-                        'labour_sex'                   => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[4]),date('Y-m-d'),
+                        'labour_sex'                   => $row[4],
                         'labour_birth_date'            => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[18]),date('Y-m-d'),
                         'labour_passport_number'       => $row[6],
                         'labour_passport_date_start'   => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[7]),date('Y-m-d'),

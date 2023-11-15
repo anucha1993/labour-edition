@@ -4,159 +4,134 @@ namespace App\Exports\reports;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Exports\YourExportSheet;
 use Illuminate\Support\Facades\DB;
 use App\Models\Labours\LabourModel;
+use League\Fractal\Resource\Collection;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
-class reportLabourAllExcell implements FromCollection, WithHeadings,WithMapping
+class reportLabourAllExcell implements FromCollection, WithMultipleSheets
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
 
-    
 
-    public function headings(): array
+
+    private $data;
+
+    public function sheets(): array
     {
-        return [
-            'ลำดับ',               //A
-            'ชื่อบริษัท',             //B
-            'กลุ่มการนำเข้า',             //B
-            'ชื่อแรงงาน',            //C
-            'สัญชาติ',              //D
-            'วันเกิด',               
-            'เลขหนังสือเดินทาง',
-            'เลขบัตรประตัวประชาชน',
-            'วันออกเล่ม',
-            'วันหมดเล่ม',
-            'เล่มพาสเหลือ',
-            'เลขที่วีซ่า',
-            'วันเริ่มวีซ่าล่าสุด',
-            'วีซ่าสิ้นสุดล่าสุด',
-            'วันเริ่มวีซ่า(รอบที่ 1)',
-            'วีซ่าสิ้นสุด(รอบที่ 1)',
-            'วันเริ่มวีซ่า(รอบที่ 2)',
-            'วีซ่าสิ้นสุด(รอบที่ 2)',
-            'วีซ่าเหลือ',
-            'เลขที่ใบอนุญาตทำงาน',
-            'ใบอนุญาตเริ่มต้น(ล่าสุด)',
-            'ใบอนุญาตสิ้นสุด(ล่าสุด)',
-            'วันเริ่มวีซ่า(รอบที่ 1)',
-            'วีซ่าสิ้นสุด(รอบที่ 1)',
-            'วันเริ่มวีซ่า(รอบที่ 2)',
-            'วีซ่าสิ้นสุด(รอบที่ 2)',
-            'รหัสพนักงาน',
-            'แผนก',
-            'เวิร์คเหลือ',
-            'รายงานตัว90วันเริ่มต้น',
-            'รายงานตัว90วันสิ้นสุด',
-            '90 วันเหลือ',
-            'ข้อมูล ตม.',
-            'หมายเหตุ',
-        ];
+        // กลุ่มข้อมูลตาม labour_company
+        $labourCompanies = $this->data->groupBy('labour_company');
+
+        $sheets = [];
+
+        foreach ($labourCompanies as $labourCompany => $data) {
+            $sheets[] = new YourExportSheet($data, $labourCompany);
+        }
+
+        return $sheets;
     }
     private $company_id;
     private $import_id;
     private $status;
-    public function __construct($company_id,$status,$import_id)
+    private $ninety_day_start;
+    private $ninety_day_end;
+    private $visa_start;
+    private $visa_end;
+    private $work_start;
+    private $work_end;
+    private $passport_start;
+    private $passport_end;
+
+    public function __construct($data, $company_id, $status, $import_id, $ninety_day_start, $ninety_day_end, $visa_start, $visa_end, $work_start, $work_end, $passport_start, $passport_end)
     {
         $this->company_id = $company_id;
         $this->status = $status;
         $this->import_id = $import_id;
+
+        $this->ninety_day_start = $ninety_day_start;
+        $this->ninety_day_end   = $ninety_day_end;
+        $this->visa_start       = $visa_start;
+        $this->visa_end         = $visa_end;
+        $this->work_start       = $work_start;
+        $this->work_end         = $work_end;
+        $this->passport_start   = $passport_start;
+        $this->passport_end     = $passport_end;
+
+        // dd($this->company_id);
+
+        $data = LabourModel::leftJoin('company', 'company.company_id', '=', 'labour.labour_company')
+            ->leftJoin('nationality', 'nationality.nationality_id', '=', 'labour.labour_nationality')
+            ->leftJoin('import', 'import.import_id', '=', 'labour.import_id')
+
+
+            ->when($this->company_id != 'all', function ($query) {
+                return $query->where('company.company_id', $this->company_id);
+            })
+
+            ->when($this->import_id != 'all', function ($query) {
+                return $query->where('labour.import_id', $this->import_id);
+            })
+
+            ->when($this->status === 'job', function ($query) {
+                return $query->where('labour.labour_work', '=', 'Y')->where('labour_status', '!=', 'Y')->where('labour.labour_resign', '!=', 'Y');
+            })
+            ->when($this->status === 'escape', function ($query) {
+                return $query->where('labour.labour_escape', 'Y')->where('labour_status', '!=', 'Y');
+            })
+            ->when($this->status === 'resign', function ($query) {
+                return $query->where('labour.labour_resign', 'Y')->where('labour_status', '!=', 'Y');
+            })
+            // 90 วัน
+            ->when($this->import_id != 'all', function ($query) {
+                return $query->where('labour.import_id', $this->import_id);
+            })
+
+            ->when($this->ninety_day_start !== null && $this->ninety_day_end !== null, function ($query) {
+                return $query->whereDate('labour_ninety_date_end', '>=', $this->ninety_day_start)
+                    ->whereDate('labour_ninety_date_end', '<=', $this->ninety_day_end);
+            })
+
+            ->when($this->visa_start !== null && $this->visa_end !== null, function ($query) {
+                return $query->whereDate('labour_visa_date_end', '>=', $this->visa_start)
+                    ->whereDate('labour_visa_date_end', '<=', $this->visa_end);
+            })
+
+            ->when($this->work_start !== null && $this->work_end !== null, function ($query) {
+                return $query->whereDate('labour_work_permit_date_end', '>=', $this->work_start)
+                    ->whereDate('labour_work_permit_date_end', '<=', $this->work_end);
+            })
+
+            ->when($this->passport_start !== null && $this->passport_end !== null, function ($query) {
+                return $query->whereDate('labour_passport_date_end', '>=', $this->passport_start)
+                    ->whereDate('labour_passport_date_end', '<=', $this->passport_end);
+            })
+
+
+
+            ->orderBy('labour.labour_id')
+            ->get();
+
+        $row_count = $data->count(); // จำนวนแถวที่ได้
+        if ($row_count === 0) {
+            echo "<script>alert('ไม่พบข้อมูล'); window.history.go(-1);</script>";
+        }
+        
+
+        $this->data = $data; // แก้ไขตรงนี้
+
     }
 
     public function collection()
     {
-         $chunkSize = 1000; // จำนวนแถวในแต่ละช่วง
-         $labourData = DB::table('labour')->leftJoin('company','company.company_id','=','labour.labour_company')
-         ->leftJoin('nationality','nationality.nationality_id','=','labour.labour_nationality')
-         ->leftJoin('import','import.import_id','=','labour.import_id')
-         ->select('labour.labour_name','labour.labour_birth_date','labour.labour_passport_number','labour.labour_textid','labour.labour_passport_date_start',
-                   'labour.labour_passport_date_end','labour.labour_visa_number','labour.labour_visa_number','labour.labour_visa_date_start','labour.labour_visa_date_end',
-                   'labour.labour_visa_date_start01','labour.labour_visa_date_end01','labour.labour_visa_date_start02','labour.labour_visa_date_end02',
-                   'labour.labour_work_permit_number','labour.labour_work_permit_date_start','labour.labour_work_permit_date_end','labour.labour_work_permit_date_start01','labour.labour_work_permit_date_end01',
-                   'labour.labour_work_permit_date_start02','labour_work_permit_date_end02','labour_work_permit_date_end02','labour.labour_work','labour.labour_escape',
-                   'labour.labour_department','labour.labour_code','labour.labour_ninety_date_start','labour.labour_ninety_date_end','labour.labour_note','labour.labour_immigration_number',
-                   'company.company_name',
-                   'import.import_name',
-                   'nationality.nationality_name')
-
-        ->when($this->company_id, function ($query){
-            return $query->where('company.company_id',$this->company_id);
-        })
-        ->when($this->import_id != 'all', function ($query) {
-            return $query->where('labour.import_id',$this->import_id);
-        })
-
-        ->when($this->status === 'job', function ($query) {
-            return $query->where('labour.labour_escape','!=' ,'Y')->where('labour_status','!=','Y')->where('labour.labour_resign','!=' ,'Y');
-        })
-        ->when($this->status === 'escape', function ($query) {
-            return $query->where('labour.labour_escape', 'Y')->where('labour_status','!=','Y');
-        })
-        ->when($this->status === 'resign', function ($query) {
-            return $query->where('labour.labour_resign', 'Y')->where('labour_status','!=','Y');
-        })
-        
-        ->orderBy('labour.labour_id')
-        ->get();
-         return $labourData;
+        // ไม่ต้อง return $data จากนี้
     }
-
-
-
-    private $No = 0;
-    public function map($labourData): array
-    {
-      $chunkSize = 10000; // จำนวนแถวในแต่ละช่วง
-      return [
-        ++$this->No,                     
-        $labourData->company_name,       
-        ($labourData->import_name == '' ? "ไม่พบข้อมูล" : $labourData->import_name),       
-        $labourData->labour_name,        
-        $labourData->nationality_name,   
-        date('d-m-Y',strtotime($labourData->labour_birth_date)), 
-        $labourData->labour_passport_number, 
-        "'".$labourData->labour_textid, 
-        date('d-m-Y',strtotime($labourData->labour_passport_date_start)), 
-        date('d-m-Y',strtotime($labourData->labour_passport_date_end)),
-        $this->getRemainingPassportDays($labourData->labour_passport_date_end),
-        $labourData->labour_visa_number,
-        date('d-m-Y',strtotime($labourData->labour_visa_date_start)),
-        date('d-m-Y',strtotime($labourData->labour_visa_date_end)),
-        date('d-m-Y',strtotime($labourData->labour_visa_date_start01)),
-        date('d-m-Y',strtotime($labourData->labour_visa_date_end01)),
-        date('d-m-Y',strtotime($labourData->labour_visa_date_start02)),
-        date('d-m-Y',strtotime($labourData->labour_visa_date_end02)),
-        $this->getRemainingPassportDays($labourData->labour_visa_date_end),
-        "'".$labourData->labour_work_permit_number,
-        date('d-n-Y',strtotime($labourData->labour_work_permit_date_start)),
-        date('d-n-Y',strtotime($labourData->labour_work_permit_date_end)),
-        date('d-n-Y',strtotime($labourData->labour_work_permit_date_start01)),
-        date('d-n-Y',strtotime($labourData->labour_work_permit_date_end01)),
-        date('d-n-Y',strtotime($labourData->labour_work_permit_date_start02)),
-        date('d-n-Y',strtotime($labourData->labour_work_permit_date_end02)),
-        "'".$labourData->labour_code,
-        $labourData->labour_department,
-        $this->getRemainingPassportDays($labourData->labour_work_permit_date_end),
-        date('d-m-Y',strtotime($labourData->labour_ninety_date_start)),
-        date('d-m-Y',strtotime($labourData->labour_ninety_date_end)),
-        $this->getRemainingPassportDays($labourData->labour_ninety_date_end),
-        $labourData->labour_immigration_number,
-        $labourData->labour_note,
-      ];
-    }
-    private function getRemainingPassportDays($expiryDate) {
-        $today = Carbon::now();
-        $expiryDate = Carbon::parse($expiryDate);
-        return $expiryDate->diffInDays($today);
-    }
-    
-
-   
 }
