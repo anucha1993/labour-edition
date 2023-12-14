@@ -72,23 +72,32 @@ class reportLabourAllExcell implements FromCollection, WithMultipleSheets
             ->leftJoin('nationality', 'nationality.nationality_id', '=', 'labour.labour_nationality')
             ->leftJoin('import', 'import.import_id', '=', 'labour.import_id')
 
-
+            //ตามบริษัท
             ->when($this->company_id != 'all', function ($query) {
                 return $query->where('company.company_id', $this->company_id);
             })
-
+            //ตามกลุ่มนำเข้า
             ->when($this->import_id != 'all', function ($query) {
                 return $query->where('labour.import_id', $this->import_id);
             })
-
+            //สถานะทำงาน
             ->when($this->status === 'job', function ($query) {
-                return $query->where('labour.labour_work', '=', 'Y')->where('labour_status', '!=', 'Y')->where('labour.labour_resign', '!=', 'Y');
+                return $query->where('labour.labour_work', '=', 'Y')
+                ->where('labour_status', '!=', 'Y')
+                ->where('labour.labour_resign', '!=', 'Y')
+                ->where('labour.labour_status', '=', 'Y');
             })
+            //สถานะหลบหนี
             ->when($this->status === 'escape', function ($query) {
-                return $query->where('labour.labour_escape', 'Y')->where('labour_status', '!=', 'Y');
+                return $query->where('labour.labour_escape', 'Y')
+                ->where('labour.labour_status', '=', 'Y')
+                ->where('labour_status', '!=', 'Y');
             })
+            //สถานะลาออก
             ->when($this->status === 'resign', function ($query) {
-                return $query->where('labour.labour_resign', 'Y')->where('labour_status', '!=', 'Y');
+                return $query->where('labour.labour_resign', 'Y')
+                ->where('labour.labour_status', '=', 'Y')
+                ->where('labour_status', '!=', 'Y');
             })
             // 90 วัน
             ->when($this->import_id != 'all', function ($query) {
@@ -97,22 +106,22 @@ class reportLabourAllExcell implements FromCollection, WithMultipleSheets
 
             ->when($this->ninety_day_start !== null && $this->ninety_day_end !== null, function ($query) {
                 return $query->whereDate('labour_ninety_date_end', '>=', $this->ninety_day_start)
-                    ->whereDate('labour_ninety_date_end', '<=', $this->ninety_day_end);
+                             ->whereDate('labour_ninety_date_end', '<=', $this->ninety_day_end);
             })
 
             ->when($this->visa_start !== null && $this->visa_end !== null, function ($query) {
                 return $query->whereDate('labour_visa_date_end', '>=', $this->visa_start)
-                    ->whereDate('labour_visa_date_end', '<=', $this->visa_end);
+                             ->whereDate('labour_visa_date_end', '<=', $this->visa_end);
             })
 
             ->when($this->work_start !== null && $this->work_end !== null, function ($query) {
                 return $query->whereDate('labour_work_permit_date_end', '>=', $this->work_start)
-                    ->whereDate('labour_work_permit_date_end', '<=', $this->work_end);
+                             ->whereDate('labour_work_permit_date_end', '<=', $this->work_end);
             })
 
             ->when($this->passport_start !== null && $this->passport_end !== null, function ($query) {
                 return $query->whereDate('labour_passport_date_end', '>=', $this->passport_start)
-                    ->whereDate('labour_passport_date_end', '<=', $this->passport_end);
+                             ->whereDate('labour_passport_date_end', '<=', $this->passport_end);
             })
 
 

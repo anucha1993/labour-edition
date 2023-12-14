@@ -5,7 +5,9 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     <strong>{{ $message }}</strong>
 </div>
+
 @endif
+
     <div class="row">
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
@@ -30,52 +32,62 @@
 
                                     <table class="table labours table-striped jambo_table bulk_action">
                                     <thead >
-                                        <tr class="headings">
-                                            <th>เลขที่พาส</th>
-                                            <th>เลขที่วิซ่า</th>
-                                            <th>ชื่อ-นามสกุล</th>
-                                            <th>บริษัท</th>
-                                            <th>กลุ่มการนำเข้า</th>
-                                            <th>วันที่พาสหมดอายุ</th>
-                                            <th>วันที่วีซ่าหมดอายุ</th>
-                                            <th>วันที่90วันหมดอายุ</th>
-                                            <th>Actions</th>
+                                        <tr class="headings" class="text-center">
+                                            <th class="text-center" >สัญชาติ</th>
+                                            <th class="text-center" >เลขที่พาส</th>
+                                            <th class="text-center" >เลขที่วิซ่า</th>
+                                            <th class="text-center" >ชื่อ-นามสกุล</th>
+                                            <th class="text-center" >บริษัท</th>
+                                            <th class="text-center" >กลุ่มการนำเข้า</th>
+                                            <th class="text-center" >วันที่พาสหมดอายุ</th>
+                                            <th class="text-center" >วันที่วีซ่าหมดอายุ</th>
+                                            <th class="text-center" >วันที่90วันหมดอายุ</th>
+                                            <th class="text-center" >Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($labours as $v)
                                         <tr>
-                                            <td>{{$v->labour_passport_number}}</td>
-                                            <td>{{$v->labour_visa_number}}</td>
+                                            <td class="text-center">
+                                                <span  style="font-size: 15px" class="{{$v->nationality_flag}}"></span>
+                                            </td>
+                                            <td class="text-center"><span style="font-size: 12px" class="badge badge-success">{{$v->labour_passport_number}}</span></td>
+                                            <td class="text-center"><span style="font-size: 12px" class="badge badge-secondary">{{$v->labour_visa_number}}</span></td>
                                             <td>{{$v->labour_name}}</td>
                                             <td>{{$v->company_name}}</td>
                                             <td>{{($v->import_name == '' ? "ไม่พบข้อมูล" : $v->import_name)}}</td>
-                                            <td>
+                                            <td class="text-center">
                                                 @if (strtotime($v->labour_passport_date_end) < strtotime('today'))
-                                                {{date('d/m/Y',strtotime($v->labour_passport_date_end))}} <span class="badge badge-danger">หมดอายุแล้ว</span>
+                                                 <span style="font-size: 12px" class="badge badge-danger">{{date('d/m/Y',strtotime($v->labour_passport_date_end))}} </span>
+                                                 <i class="fa fa-info-circle text-danger" data-toggle="tooltip" data-placement="top" title="หมดอายุ"></i>
                                              
                                                 @else
-                                                {{date('d/m/Y',strtotime($v->labour_passport_date_end))}}
+                                                <span style="font-size: 12px" class="badge badge-success">{{date('d/m/Y',strtotime($v->labour_passport_date_end))}}  </span>
+                                                <i class="fa fa-info-circle text-success" data-toggle="tooltip" data-placement="top" title="ปกติ"></i>
                                                 @endif
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 @if (strtotime($v->labour_visa_date_end) < strtotime('today'))
-                                                {{date('d/m/Y',strtotime($v->labour_visa_date_end))}} <span class="badge badge-danger">หมดอายุแล้ว</span>
+                                                <span style="font-size: 12px" class="badge badge-danger">{{date('d/m/Y',strtotime($v->labour_visa_date_end))}}</span>
+                                                <i class="fa fa-info-circle text-danger" data-toggle="tooltip" data-placement="top" title="หมดอายุ"></i>
                                              
                                                 @else
-                                                {{date('d/m/Y',strtotime($v->labour_visa_date_end))}}
+                                                <span style="font-size: 12px" class="badge badge-success">{{date('d/m/Y',strtotime($v->labour_visa_date_end))}}</span>
+                                                <i class="fa fa-info-circle text-success" data-toggle="tooltip" data-placement="top" title="ปกติ"></i>
                                                 @endif
 
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 @if (strtotime($v->labour_ninety_date_end) < strtotime('today'))
-                                                {{date('d/m/Y',strtotime($v->labour_ninety_date_end))}} <span class="badge badge-danger">หมดอายุแล้ว</span>
+                                              <span style="font-size: 12px" class="badge badge-danger">  {{date('d/m/Y',strtotime($v->labour_ninety_date_end))}} </span>
+                                              <i class="fa fa-info-circle text-danger" data-toggle="tooltip" data-placement="top" title="หมดอายุ"></i>
                                              
                                                 @else
-                                                {{date('d/m/Y',strtotime($v->labour_ninety_date_end))}}
+                                                <span style="font-size: 12px" class="badge badge-success">  {{date('d/m/Y',strtotime($v->labour_ninety_date_end))}} </span>
+                                                <i class="fa fa-info-circle text-success" data-toggle="tooltip" data-placement="top" title="ปกติ"></i>
                                                 @endif
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 {{-- <a href="" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a> --}}
                                                 @if (Auth::user()->type != '3')
                                                 <a href="{{route('labour.edit',$v->labour_id)}}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>

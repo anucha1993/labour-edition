@@ -34,10 +34,12 @@ class LabourController extends Controller
             'labour.labour_passport_date_end',
             'labour.labour_visa_date_end',
             'labour.labour_ninety_date_end',
-            'company.company_name'
+            'company.company_name',
+            'nationality.nationality_flag'
         )
             ->leftJoin('company', 'company.company_id', '=', 'labour.labour_company')
-            ->leftJoin('import', 'import.import_id', '=', 'labour.import_id');
+            ->leftJoin('import', 'import.import_id', '=', 'labour.import_id')
+            ->leftJoin('nationality', 'nationality.nationality_id', '=', 'labour.labour_nationality');
            
         // ตรวจสอบว่ามีการค้นหาหรือไม่ หากมีให้กรองข้อมูลตามคำค้นหา
         if (!empty($keyword)) {
@@ -53,7 +55,7 @@ class LabourController extends Controller
         }
         $labours = $labours->where('labour.labour_passport_number','!=', '');
 
-        $labours = $labours->orderByDesc('labour.labour_id')->paginate(20); // แสดงข้อมูลทีละ 30 รายการ
+        $labours = $labours->orderByDesc('labour.labour_id')->paginate(10); // แสดงข้อมูลทีละ 30 รายการ
 
         return view('labours.index', compact('labours'));
     }
