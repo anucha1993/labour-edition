@@ -83,7 +83,7 @@ class reportLabourAllExcell implements FromCollection, WithMultipleSheets
             //สถานะทำงาน
             ->when($this->status === 'job', function ($query) {
                 return $query->where('labour.labour_work', '=', 'Y')
-                ->where('labour_status', '=', 'Y')
+                ->where('labour.labour_status', '=', 'Y')
                 ->where('labour.labour_resign', '!=', 'Y')
                 ->where('labour.labour_status', '=', 'Y');
             })
