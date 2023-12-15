@@ -89,14 +89,12 @@ class reportLabourAllExcell implements FromCollection, WithMultipleSheets
             //สถานะหลบหนี
             ->when($this->status === 'escape', function ($query) {
                 return $query->where('labour.labour_escape', 'Y')
-                ->where('labour.labour_status', '=', 'Y')
-                ->where('labour_status', '!=', 'Y');
+                ->where('labour.labour_status', '=', 'Y');
             })
             //สถานะลาออก
             ->when($this->status === 'resign', function ($query) {
                 return $query->where('labour.labour_resign', 'Y')
-                ->where('labour.labour_status', '=', 'Y')
-                ->where('labour_status', '!=', 'Y');
+                ->where('labour.labour_status', '=', 'Y');
             })
             // 90 วัน
             ->when($this->import_id != 'all', function ($query) {
@@ -122,6 +120,7 @@ class reportLabourAllExcell implements FromCollection, WithMultipleSheets
                 return $query->whereDate('labour_passport_date_end', '>=', $this->passport_start)
                              ->whereDate('labour_passport_date_end', '<=', $this->passport_end);
             })
+
 
 
             ->orderBy('labour.labour_id')
