@@ -25,9 +25,14 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
         return $this->data;
     }
 
-    public function title(): string
-    {
-        return $this->data->first()->company_name;
+    private static $i_com = 0;
+    public function title(): string {
+        $firstData = $this->data->first();
+        if ($firstData !== null && isset($firstData->company_name)) {
+            return (string) $firstData->company_name;
+        } else {
+            return 'NULL-' . ++self::$i_com; // ใช้ self::$i เพื่อให้เก็บค่าต่อเนื่องทุกครั้งที่เข้าสู่ else
+        }
     }
 
     public function headings(): array
