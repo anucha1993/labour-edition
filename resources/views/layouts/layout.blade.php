@@ -30,6 +30,7 @@
         rel="stylesheet">
     <link href="{{ URL::asset('vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+   
     <!-- Custom Theme Style -->
     <link href="{{ URL::asset('build/css/custom.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" />
@@ -99,8 +100,8 @@
                                 <li><a><i class="fa fa-file-excel-o"></i>นำเข้าข้อมูล<span
                                     class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
-                                <li><a href="{{route('excelImport.labour')}}">นำเข้าข้อมูลคนต่างด้าว</a>
-                                </li>
+                                <li><a href="{{route('excelImport.labour')}}">นำเข้าข้อมูลคนต่างด้าว</a></li>
+                                <li><a href="{{route('department.employee.id')}}">นำเข้าข้อมูล แผนก & รหัสพนักงาน</a></li>
                             </ul>
                         </li>
 
@@ -111,6 +112,7 @@
                       <li><a href="index3.html">Dashboard3</a></li>
                     </ul>
                   </li>
+                  
                   <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="form.html">General Form</a></li>
@@ -437,6 +439,9 @@
     <script src="{{ URL::asset('vendors/jszip/dist/jszip.min.js') }}"></script>
     <script src="{{ URL::asset('vendors/pdfmake/build/pdfmake.min.js') }}"></script>
     <script src="{{ URL::asset('vendors/pdfmake/build/vfs_fonts.js') }}"></script>
+    <script src="{{ URL::asset('vendors/dropzone/dist/min/dropzone.min.js') }}"></script>
+    <script src="{{ URL::asset('vendors/nprogress/nprogress.js') }}"></script>
+
 
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('build/js/custom.min.js') }}"></script>

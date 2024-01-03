@@ -21,10 +21,9 @@ use App\Http\Controllers\HomeController;
 // });
 // Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home',[\App\Http\Controllers\labours\LabourController::class,'index'])->name('home');
 Route::get('/',[\App\Http\Controllers\labours\LabourController::class,'index'])->name('labours');
 Route::get('labours',[\App\Http\Controllers\labours\LabourController::class,'index'])->name('labour.index');
 
@@ -34,9 +33,9 @@ Route::get('labour/edit/{labourModel}',[\App\Http\Controllers\labours\LabourCont
 Route::put('labour/update/{labourModel}',[\App\Http\Controllers\labours\LabourController::class,'update'])->name('labour.update');
 
 //Address Select
-Route::get('/address/select/provinces', [App\Http\Controllers\AddressSelect\AddressSelectController::class, 'provinces'])->name('address.provinces');
-Route::get('/address/select/amphures',  [App\Http\Controllers\AddressSelect\AddressSelectController::class, 'amphures'])->name('address.amphures');
-Route::get('/address/select/districts', [App\Http\Controllers\AddressSelect\AddressSelectController::class, 'districts'])->name('address.districts');
+Route::get('/address/select/provinces', [\App\Http\Controllers\AddressSelect\AddressSelectController::class, 'provinces'])->name('address.provinces');
+Route::get('/address/select/amphures',  [\App\Http\Controllers\AddressSelect\AddressSelectController::class, 'amphures'])->name('address.amphures');
+Route::get('/address/select/districts', [\App\Http\Controllers\AddressSelect\AddressSelectController::class, 'districts'])->name('address.districts');
 
 //Address Show
 Route::get('address/show',[\App\Http\Controllers\AddressShow\AddressShowController::class,'address'])->name('address.show');
@@ -61,3 +60,7 @@ Route::post('importgroup/modal/store',[\App\Http\Controllers\importGroup\importG
 Route::get('import/excel/labour',[\App\Http\Controllers\file_import_excel\labourImportExcel::class,'index'])->name('excelImport.labour');
 Route::get('import/excel/check',[\App\Http\Controllers\file_import_excel\labourImportExcel::class,'checkLabour'])->name('excelImport.checkLabour');
 Route::post('import/excel/import',[\App\Http\Controllers\file_import_excel\labourImportExcel::class,'import'])->name('excelImport.import');
+//excel import department employeeID
+Route::get('import/excel/department/employee/id',[\App\Http\Controllers\file_import_excel\labourDepartmantEmployeeIDExcel::class,'index'])->name('department.employee.id');;
+Route::post('import/excel/department/employee/id/import',[\App\Http\Controllers\file_import_excel\labourDepartmantEmployeeIDExcel::class,'import'])->name('import.department.employee.id');
+Route::post('import/excel/department/employee/update', [\App\Http\Controllers\file_import_excel\labourDepartmantEmployeeIDExcel::class, 'update'])->name('import.department.employee.update');
