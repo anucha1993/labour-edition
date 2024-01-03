@@ -138,6 +138,17 @@ class LabourController extends Controller
     public function update(Request $request, LabourModel $labourModel)
     {
         // 
+        if($request->labour_escape === null){
+            $request->merge(['labour_escape'=> "N"]);
+        }
+        if($request->labour_resign === null){
+            $request->merge(['labour_resign'=> "N"]);
+        }
+        if($request->labour_work === null){
+            $request->merge(['labour_work'=> "N"]);
+        }
+       
+        //dd($request);
         $request->merge(['labour_user_edit'=> Auth::user()->name]);
         $labourModel->update($request->all());
         return redirect()->back()->with('success','แก้ไขข้อมูลสำเร็จ!!');

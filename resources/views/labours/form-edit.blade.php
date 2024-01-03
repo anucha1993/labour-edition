@@ -501,7 +501,9 @@
                                             style="position: absolute; opacity: 0;"
                                             @if ($labourModel->labour_escape == 'Y') checked="checked" @endif>
                                         <label for="labour_work">หลบหนี</label>
+                                        
                                     </div>
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>วันที่เริ่มทำงาน :</label>
@@ -511,11 +513,12 @@
                                     </div>
 
                                     <div class="col-md-1">
-                                        <input type="checkbox" name="labour_escape" class="flat" value="Y"
+                                        <input type="checkbox" name="labour_resign" class="flat" value="Y"
                                             style="position: absolute; opacity: 0;"
-                                            @if ($labourModel->labour_escape == 'Y') checked="checked" @endif>
-                                        <label for="labour_work">ลาออก</label>
+                                            @if ($labourModel->labour_resign == 'Y') checked="checked" @endif>
+                                        <label for="labour_resign">ลาออก</label>
                                     </div>
+                                    
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>วันที่เริ่มทำงาน :</label>

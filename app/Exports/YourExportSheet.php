@@ -24,6 +24,7 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
     {
         return $this->data;
     }
+
     private static $i_com = 0;
     public function title(): string {
         $firstData = $this->data->first();
