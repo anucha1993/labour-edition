@@ -60,3 +60,7 @@ Route::post('importgroup/modal/store',[\App\Http\Controllers\importGroup\importG
 Route::get('import/excel/labour',[\App\Http\Controllers\file_import_excel\labourImportExcel::class,'index'])->name('excelImport.labour');
 Route::get('import/excel/check',[\App\Http\Controllers\file_import_excel\labourImportExcel::class,'checkLabour'])->name('excelImport.checkLabour');
 Route::post('import/excel/import',[\App\Http\Controllers\file_import_excel\labourImportExcel::class,'import'])->name('excelImport.import');
+//excel import department employeeID
+Route::get('import/excel/department/employee/id',[\App\Http\Controllers\file_import_excel\labourDepartmantEmployeeIDExcel::class,'index'])->name('department.employee.id');;
+Route::post('import/excel/department/employee/id/import',[\App\Http\Controllers\file_import_excel\labourDepartmantEmployeeIDExcel::class,'import'])->name('import.department.employee.id');
+Route::post('import/excel/department/employee/update', [\App\Http\Controllers\file_import_excel\labourDepartmantEmployeeIDExcel::class, 'update'])->name('import.department.employee.update');
