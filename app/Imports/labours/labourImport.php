@@ -97,7 +97,7 @@ class labourImport implements ToCollection, WithStartRow,WithHeadingRow
                         'labour_ninety_date_end'       => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[17]),date('Y-m-d'),
                         'labour_work'                  => 'Y',
                         'labour_work_date'             => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[19]),date('Y-m-d'),
-                        'labour_escape'                => 'Y',
+                        'labour_escape'                => 'N',
                         'labour_escape_date'           => NULL,
                         'labour_resign'                => 'N',
                         'labour_resign_date'           => NULL,
