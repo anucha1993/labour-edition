@@ -64,3 +64,8 @@ Route::post('import/excel/import',[\App\Http\Controllers\file_import_excel\labou
 Route::get('import/excel/department/employee/id',[\App\Http\Controllers\file_import_excel\labourDepartmantEmployeeIDExcel::class,'index'])->name('department.employee.id');;
 Route::post('import/excel/department/employee/id/import',[\App\Http\Controllers\file_import_excel\labourDepartmantEmployeeIDExcel::class,'import'])->name('import.department.employee.id');
 Route::post('import/excel/department/employee/update', [\App\Http\Controllers\file_import_excel\labourDepartmantEmployeeIDExcel::class, 'update'])->name('import.department.employee.update');
+
+//Update 90 Day
+Route::get('import/upadte90day/form',[\App\Http\Controllers\file_import_excel\update90dayExcel::class,'index'])->name('import.update90day'); 
+Route::post('import/upadte90day/import',[\App\Http\Controllers\file_import_excel\update90dayExcel::class,'import'])->name('import.update90day.import'); 
+Route::post('import/upadte90day/update90day',[\App\Http\Controllers\file_import_excel\update90dayExcel::class,'update90day'])->name('import.update90day.update90day'); 

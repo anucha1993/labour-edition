@@ -102,6 +102,7 @@
                             <ul class="nav child_menu">
                                 <li><a href="{{route('excelImport.labour')}}">นำเข้าข้อมูลคนต่างด้าว</a></li>
                                 <li><a href="{{route('department.employee.id')}}">นำเข้าข้อมูล แผนก & รหัสพนักงาน</a></li>
+                                <li><a href="{{route('import.update90day')}}">นำเข้าข้อมูล 90 วัน</a></li>
                             </ul>
                         </li>
 

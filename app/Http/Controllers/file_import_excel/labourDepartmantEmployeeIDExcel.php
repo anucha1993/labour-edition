@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Imports\labours\labourImportDepartmentEmployeeID;
 use App\Models\Labours\LabourModel;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class labourDepartmantEmployeeIDExcel extends Controller
@@ -54,6 +55,7 @@ class labourDepartmantEmployeeIDExcel extends Controller
                 ->update([
                     'labour_code' => $request->labour_code[$key],
                     'labour_department' => $request->labour_department[$key],
+                    'labour_user_edit' => Auth::user()->name,
                 ]);
         }
         $excelData = [];

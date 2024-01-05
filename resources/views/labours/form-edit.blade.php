@@ -436,7 +436,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="">วันที่รายงายตัว 90 วัน สิ้นสุด </label>
+                                            <label for="">วันที่รายงายตัว 90 วัน สิ้นสุด   <span class="text-success" id="ninety">รอคำนวน... </span></label>
                                             <input type="date" id="ninety-end" name="labour_ninety_date_end"
                                                 class="form-control"
                                                 value="{{ date('Y-m-d', strtotime($labourModel->labour_ninety_date_end)) }}"
@@ -445,10 +445,35 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="">จำนวนวันหมดอายุ</label>
-                                            <p class="text-success" id="ninety">รอคำนวน...</p>
+                                   
+                                    <div class="col-md-6">
+                                        <label for="">ประวัติการต่ออายุ 90 วัน</label>
+                                        <div class="90day" style="height: 150px; overflow-y: auto; border: 1px solid #ccc; padding: 5px;">
+                                            <table class="table table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>รอบที่</th>
+                                                        <th>วันที่</th>
+                                                        <th>ผู้ต่ออายุ</th>
+                                                        <th>หมายเหตุ</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @php
+                                                       
+                                                        $ninety = DB::table('90days')->where('labour_id',$labourModel->labour_id)->orderby('ninety_id','desc')->get();
+                                                        $rowsNinety = $ninety->count();
+                                                    @endphp
+                                                    @foreach ($ninety as $v)
+                                                        <tr>
+                                                            <td>{{"รอบที่ ".$rowsNinety--}}</td>
+                                                            <td>{{date('d/m/Y',strtotime($v->ninety_date_start)).' ถึง '.date('d/m/Y',strtotime($v->ninety_date_end))}}</td>
+                                                            <td>{{$v->ninety_user_add}}</td>
+                                                            <td>{{$v->ninety_note}}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
