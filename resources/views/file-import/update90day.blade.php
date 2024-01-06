@@ -14,7 +14,7 @@
             <div class="x_panel">
                 <div class="x_title">
                     <h2>Import <small>นำเข้าข้อมูล 90 วัน</small>&nbsp; <span><a
-                                href="{{ URL::asset('master-import-file/ninety.xlsx') }}" class="text-success pull-right  ">
+                                href="{{ URL::asset('master-import-file/ninetyday.xlsx') }}" class="text-success pull-right  ">
                                 &nbsp;<i class="fa fa-file-excel-o"></i> ดาวน์โหลดฟอร์มต้นฉบับ</a></span></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
