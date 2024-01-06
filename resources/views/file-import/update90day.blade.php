@@ -80,13 +80,13 @@
                                                         <td><input type="hidden" name="labour_id[]" value="{{$labour->labour_id}}">{{$labour->nationality_name }}</td>
                                                         <td><input type="hidden" name="labour_passport_number[]" value="{{ $item[0] }}">{{ $item[0] }}</td>
                                                         <td>{{ $labour->labour_name }}</td>
-                                                        <td>{{ date('d/m/Y', strtotime($labour->labour_ninety_date_start)) . ' - ' . date('Y-m-d', strtotime($labour->labour_ninety_date_end)) }}
+                                                        <td>{{ date('d/m/Y', strtotime($labour->labour_ninety_date_start)) . ' - ' . date('d/m/Y', strtotime($labour->labour_ninety_date_end)) }}
                                                         </td>
-                                                        <td><input type="hidden" name="labour_ninety_date_start[]" value="{{date('Y-m-d', strtotime($item[1]))}}"> 
-                                                            <input type="hidden" name="labour_ninety_date_end[]" value="{{date('Y-m-d', strtotime($item[2]))}}">
-                                                            {{ date('d/m/Y', strtotime($item[1])) . ' - ' . date('Y-m-d', strtotime($item[2])) }}
+                                                        <td><input type="hidden" name="labour_ninety_date_start[]" value="{{date('Y-m-d', strtotime($labour->labour_ninety_date_end))}}"> 
+                                                            <input type="hidden" name="labour_ninety_date_end[]" value="{{date('Y-m-d', strtotime($item[1]))}}">
+                                                            {{ date('d/m/Y', strtotime($labour->labour_ninety_date_end)) . ' - ' . date('d/m/Y', strtotime($item[1])) }}
                                                         </td>
-                                                        <td><input type="hidden" name="ninety_note[]" value="{{$item[3]}}">{{$item[3]}}</td>
+                                                        <td><input type="hidden" name="ninety_note[]" value="{{$item[2]}}">{{$item[2]}}</td>
                                                     </tr>
                                                 @else
                                                     <tr>
