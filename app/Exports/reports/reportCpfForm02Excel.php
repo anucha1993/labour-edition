@@ -2,28 +2,19 @@
 
 namespace App\Exports\reports;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
+use App\Exports\CPFexportSheet;
+use App\Exports\CPFexportSubformSheet;
 use App\Exports\YourExportSheet;
-use Illuminate\Support\Facades\DB;
 use App\Models\Labours\LabourModel;
-use League\Fractal\Resource\Collection;
-use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
-use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
-class reportLabourAllExcell implements FromCollection, WithMultipleSheets
+class reportCpfForm02Excel implements FromCollection,WithMultipleSheets
 {
     /**
-     * @return \Illuminate\Support\Collection
-     */
-
-
-
+    * @return \Illuminate\Support\Collection
+    */
+   
     private $data;
 
     public function sheets(): array
@@ -34,7 +25,7 @@ class reportLabourAllExcell implements FromCollection, WithMultipleSheets
         $sheets = [];
 
         foreach ($labourCompanies as $labourCompany => $data) {
-            $sheets[] = new YourExportSheet($data, $labourCompany);
+            $sheets[] = new CPFexportSubformSheet($data, $labourCompany);
         }
 
         return $sheets;
@@ -53,9 +44,9 @@ class reportLabourAllExcell implements FromCollection, WithMultipleSheets
 
     public function __construct($data, $company_id, $status, $import_id, $ninety_day_start, $ninety_day_end, $visa_start, $visa_end, $work_start, $work_end, $passport_start, $passport_end)
     {
-        $this->company_id = $company_id;
-        $this->status = $status;
-        $this->import_id = $import_id;
+        $this->company_id       = $company_id;
+        $this->status           = $status;
+        $this->import_id        = $import_id;
         $this->ninety_day_start = $ninety_day_start;
         $this->ninety_day_end   = $ninety_day_end;
         $this->visa_start       = $visa_start;
@@ -65,12 +56,13 @@ class reportLabourAllExcell implements FromCollection, WithMultipleSheets
         $this->passport_start   = $passport_start;
         $this->passport_end     = $passport_end;
 
-        dd($this->company_id);
-
+        // dd($this->company_id);
+        //ฐานข้อมูล
         $data = LabourModel::leftJoin('company', 'company.company_id', '=', 'labour.labour_company')
             ->leftJoin('nationality', 'nationality.nationality_id', '=', 'labour.labour_nationality')
             ->leftJoin('import', 'import.import_id', '=', 'labour.import_id')
             ->where('labour.labour_status', '=', 'Y')
+            ->where('company_name','like','%ซีพีเอฟ%')
             //ตามบริษัท
             ->when($this->company_id != 'all', function ($query) {
                 return $query->where('company.company_id', $this->company_id);
@@ -119,8 +111,6 @@ class reportLabourAllExcell implements FromCollection, WithMultipleSheets
                 return $query->whereDate('labour_passport_date_end', '>=', $this->passport_start)
                              ->whereDate('labour_passport_date_end', '<=', $this->passport_end);
             })
-
-
 
             ->orderBy('labour.labour_id')
             ->get();
