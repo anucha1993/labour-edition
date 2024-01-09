@@ -15,7 +15,10 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
-class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMapping,WithColumnWidths,WithEvents
+
+
+class CPFexportSubformSheet implements FromCollection,WithTitle,WithHeadings,WithMapping,WithColumnWidths,WithEvents
+
 {
     private $data;
     private $labourCompany;
@@ -72,28 +75,11 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
 
                 $event->sheet->getDelegate()->getStyle('A:Z')->applyFromArray($fontStyle);
                 // กำหนดแบบอักษรให้กับเซลล์ในช่วง A:Z ด้วยเมธอด applyFromArray()
-                $event->sheet->insertNewRowBefore(1, 1);
-                $event->sheet->setCellValue('B1', $this->companyName);
-                $event->sheet->getDelegate()->getStyle('B1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-
-                // Apply font styles for cell B1
-                $fontStyleB1 = new Font();
-                $fontStyleB1->setName('THSarabunNew');
-                $fontStyleB1->setSize(16);
-                $fontStyleB1->setBold(true);
-                $event->sheet->getDelegate()->getStyle('B1')->applyFromArray([
-                    'font' => [
-                        'name' => $fontStyleB1->getName(),
-                        'size' => $fontStyleB1->getSize(),
-                        'bold' => true, 
-
-                    ],
-                ]);
+               
 
 
 
-
-                
+    
             },
         ];
     }
@@ -107,7 +93,7 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
         
         return [
             'A' => 5,
-            'B' => 45,            
+            'B' => 65,            
             'C' => 25,            
             'D' => 25,            
             'E' => 30,            
@@ -119,12 +105,7 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
             'K' => 15,            
             'L' => 15,            
             'M' => 15,            
-            'N' => 23,            
-            'O' => 23,            
-            'P' => 23,            
-            'Q' => 20,            
-            'R' => 20,            
-            'S' => 60,            
+                 
         ];
     }
 
@@ -144,25 +125,19 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
         return [
           
             'ลำดับ', //1
-            'กลุ่มการนำเข้า',//2
-            'รหัสพนักงาน', //3
-            'แผนก',//4
-            'ชื่อแรงงาน',//5
+            'ชื่อบริษัท',//2
+            'แผนก',//3
+            'User ID',//4
+            'Name',//5
             'สัญชาติ',//6
             'วันเกิด',//7
-            'เลขหนังสือเดินทาง',//8
-            'เลขบัตรประตัวประชาชน',//9
-            'วันออกเล่ม',//10
-            'วันหมดเล่ม',//11
-            'วันเริ่มวีซ่าล่าสุด',//12
-            'วีซ่าสิ้นสุดล่าสุด',//13
-            'เลขที่ใบอนุญาตทำงาน',//14
-            'ใบอนุญาตเริ่มต้น(ล่าสุด)',//15
-            'ใบอนุญาตสิ้นสุด(ล่าสุด)',//16
-            'รายงานตัว90วันเริ่มต้น',//17
-            'รายงานตัว90วันสิ้นสุด',//18
-            'หมายเหตุ',//19
-          
+            'Country/Region',//8
+            'Document Type',//9
+            'Document Number',//10
+            'Issue Date',//11
+            'Expiry Date',//12
+            'Issue Place',//13
+
         ];
     }
 
@@ -171,61 +146,36 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
     {
         $this->companyName = $data->company_name;
       $chunkSize = 10000; // จำนวนแถวในแต่ละช่วง
-      return [
-        // ++$this->No,                     
-        // $data->company_name,       
-        // ($data->import_name == '' ? "ไม่พบข้อมูล" : $data->import_name),       
-        // $data->labour_name,        
-        // $data->nationality_name,   
-        // date('d-m-Y',strtotime($data->labour_birth_date)), 
-        // $data->labour_passport_number, 
-        // "'".$data->labour_textid, 
-        // date('d-m-Y',strtotime($data->labour_passport_date_start)), 
-        // date('d-m-Y',strtotime($data->labour_passport_date_end)),
-        // $this->getRemainingPassportDays($data->labour_passport_date_end),
-        // $data->labour_visa_number,
-        // date('d-m-Y',strtotime($data->labour_visa_date_start)),
-        // date('d-m-Y',strtotime($data->labour_visa_date_end)),
-        // date('d-m-Y',strtotime($data->labour_visa_date_start01)),
-        // date('d-m-Y',strtotime($data->labour_visa_date_end01)),
-        // date('d-m-Y',strtotime($data->labour_visa_date_start02)),
-        // date('d-m-Y',strtotime($data->labour_visa_date_end02)),
-        // $this->getRemainingPassportDays($data->labour_visa_date_end),
-        // "'".$data->labour_work_permit_number,
-        // date('d-n-Y',strtotime($data->labour_work_permit_date_start)),
-        // date('d-n-Y',strtotime($data->labour_work_permit_date_end)),
-        // date('d-n-Y',strtotime($data->labour_work_permit_date_start01)),
-        // date('d-n-Y',strtotime($data->labour_work_permit_date_end01)),
-        // date('d-n-Y',strtotime($data->labour_work_permit_date_start02)),
-        // date('d-n-Y',strtotime($data->labour_work_permit_date_end02)),
-        // "'".$data->labour_code,
-        // $data->labour_department,
-        // $this->getRemainingPassportDays($data->labour_work_permit_date_end),
-        // date('d-m-Y',strtotime($data->labour_ninety_date_start)),
-        // date('d-m-Y',strtotime($data->labour_ninety_date_end)),
-        // $this->getRemainingPassportDays($data->labour_ninety_date_end),
-        // $data->labour_immigration_number,
-        // $data->labour_note,
 
+      switch ($data->labour_nationality) {
+        case 1: // MMR
+            $documentTypes = "MMR" . $data->labour_passport_number;
+            break;
+        case 2: // KHM
+            $documentTypes = "KHM" . $data->labour_passport_number;
+            break;
+        case 3: // LAO
+            $documentTypes = "LAO" . $data->labour_passport_number;
+            break;
+        default:
+            break;
+    }
+
+      return [
         ++$this->No, //1
-        ($data->import_name == '' ? "ไม่พบข้อมูล" : $data->import_name),//2
-        "'".$data->labour_code,//3
-        ($data->labour_department == '' ? "'" : $data->labour_department),//4
+        $data->company_name,//2
+        ($data->labour_department == '' ? "'" : $data->labour_department),//3
+        ($data->labour_code == '' ? "'" : $data->labour_code),//4
         $data->labour_name,//5
         $data->nationality_name,//6
         date('d-m-Y',strtotime($data->labour_birth_date)),//7
-        $data->labour_passport_number, //8
-        ($data->labour_textid == '' ? "'" : "'".$data->labour_textid),//9
-        date('d-m-Y',strtotime($data->labour_passport_date_start)),//10
-        date('d-m-Y',strtotime($data->labour_passport_date_end)),//11
-        date('d-m-Y',strtotime($data->labour_visa_date_start)),//12
-        date('d-m-Y',strtotime($data->labour_visa_date_end)),//13
-        "'".$data->labour_work_permit_number,//14
-        date('d-n-Y',strtotime($data->labour_work_permit_date_start)),//15
-        date('d-n-Y',strtotime($data->labour_work_permit_date_end)),//16
-        date('d-m-Y',strtotime($data->labour_ninety_date_start)),//17
-        date('d-m-Y',strtotime($data->labour_ninety_date_end)),//18
-        $data->labour_note,//19
+        'Thailand',//8
+        'Thai TM47 Number',//9
+        $documentTypes,//10
+        date('d-m-Y',strtotime($data->labour_passport_date_start)),//11
+        date('d-m-Y',strtotime($data->labour_passport_date_end)),//12
+        $data->labour_TM_province,//13
+       
 
       ];
     }
@@ -234,7 +184,5 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
         $expiryDate = Carbon::parse($expiryDate);
         return $expiryDate->diffInDays($today);
     }
-
-
 
 }

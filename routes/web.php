@@ -41,11 +41,17 @@ Route::get('/address/select/districts', [\App\Http\Controllers\AddressSelect\Add
 Route::get('address/show',[\App\Http\Controllers\AddressShow\AddressShowController::class,'address'])->name('address.show');
 
 
-// Report All
+// Report All Controller
 Route::get('labour/report/form/all',[\App\Http\Controllers\report\ReportLabourAllCOntroller::class,'index'])->name('report.reportAll');
-
-//Export
+//Export 
 Route::post('labour/report/excel/labour/all',[\App\Http\Controllers\report\ReportLabourAllCOntroller::class,'exportLabours'])->name('reportLabour.exportLabours');
+
+// Report CPF
+Route::get('labour/report/cpf',[\App\Http\Controllers\report\ReportLabourCpfController::class,'index'])->name('report.cpf');
+//Export
+Route::post('labour/report/cpf/excel',[\App\Http\Controllers\report\ReportLabourCpfController::class,'exportCPF01'])->name('report.exportCPF01');
+
+
 
 // Import Group
 Route::get('importgroup/',[\App\Http\Controllers\importGroup\importGroupController::class,'index'])->name('importgroup.index');

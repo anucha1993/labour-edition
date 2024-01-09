@@ -93,6 +93,7 @@
                                             class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a href="{{ route('report.reportAll') }}">รายงานข้อมูลคนต่างด้าวทั้งหมด</a>
+                                        <li><a href="{{ route('report.cpf') }}">รายงานข้อมูลคนต่างด้าว CPF </a>
                                         </li>
                                     </ul>
                                 </li>
