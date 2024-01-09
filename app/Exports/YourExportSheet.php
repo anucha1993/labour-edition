@@ -107,7 +107,7 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
         
         return [
             'A' => 5,
-            'B' => 25,            
+            'B' => 45,            
             'C' => 25,            
             'D' => 25,            
             'E' => 30,            
