@@ -65,7 +65,7 @@ class reportLabourAllExcell implements FromCollection, WithMultipleSheets
         $this->passport_start   = $passport_start;
         $this->passport_end     = $passport_end;
 
-        dd($this->company_id);
+        //dd($this->company_id);
 
         $data = LabourModel::leftJoin('company', 'company.company_id', '=', 'labour.labour_company')
             ->leftJoin('nationality', 'nationality.nationality_id', '=', 'labour.labour_nationality')
