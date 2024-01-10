@@ -531,8 +531,8 @@
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>วันที่เริ่มทำงาน :</label>
-                                            <input type="date" name="labour_escape_date" value="Y"
+                                            <label>วันที่หลบหนี :</label>
+                                            <input type="date" name="labour_escape_date"
                                                 class="form-control" value="{{ $labourModel->labour_escape_date }}">
                                         </div>
                                     </div>
@@ -546,9 +546,9 @@
                                     
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>วันที่เริ่มทำงาน :</label>
-                                            <input type="date" name="labour_escape_date" class="form-control"
-                                                value="{{ $labourModel->labour_escape_date }}">
+                                            <label>วันที่ลาออก :</label>
+                                            <input type="date" name="labour_resign" class="form-control"
+                                                value="{{ $labourModel->labour_resign }}">
                                         </div>
                                     </div>
                                 </div>
