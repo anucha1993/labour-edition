@@ -33,9 +33,11 @@ Route::get('labour/edit/{labourModel}',[\App\Http\Controllers\labours\LabourCont
 Route::put('labour/update/{labourModel}',[\App\Http\Controllers\labours\LabourController::class,'update'])->name('labour.update');
 
 //Address Select
-Route::get('/address/select/provinces', [\App\Http\Controllers\AddressSelect\AddressSelectController::class, 'provinces'])->name('address.provinces');
+
+Route::get('/address/select/provinces',[\App\Http\Controllers\AddressSelect\AddressSelectController::class, 'provinces'])->name('address.provinces');
 Route::get('/address/select/amphures',  [\App\Http\Controllers\AddressSelect\AddressSelectController::class, 'amphures'])->name('address.amphures');
 Route::get('/address/select/districts', [\App\Http\Controllers\AddressSelect\AddressSelectController::class, 'districts'])->name('address.districts');
+
 
 //Address Show
 Route::get('address/show',[\App\Http\Controllers\AddressShow\AddressShowController::class,'address'])->name('address.show');
@@ -75,3 +77,8 @@ Route::post('import/excel/department/employee/update', [\App\Http\Controllers\fi
 Route::get('import/upadte90day/form',[\App\Http\Controllers\file_import_excel\update90dayExcel::class,'index'])->name('import.update90day'); 
 Route::post('import/upadte90day/import',[\App\Http\Controllers\file_import_excel\update90dayExcel::class,'import'])->name('import.update90day.import'); 
 Route::post('import/upadte90day/update90day',[\App\Http\Controllers\file_import_excel\update90dayExcel::class,'update90day'])->name('import.update90day.update90day'); 
+
+//Address Labour
+Route::get('import/address/labour/form',[\App\Http\Controllers\file_import_excel\AddressLabourExcel::class,'index'])->name('addressLabour.index');
+Route::post('import/address/labour/import',[\App\Http\Controllers\file_import_excel\AddressLabourExcel::class,'import'])->name('addressLabour.import');
+Route::post('import/address/labour/store',[\App\Http\Controllers\file_import_excel\AddressLabourExcel::class,'store'])->name('addressLabour.store');
