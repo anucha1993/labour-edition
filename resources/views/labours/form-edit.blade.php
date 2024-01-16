@@ -99,6 +99,7 @@
                                         </div>
                                     </div>
 
+<<<<<<< HEAD
                                 </li>
                                 <li>
                                     {{-- //สถานะลาออก --}}
@@ -127,6 +128,36 @@
                                             <input id="escapeDate" type="date" name="labour_escape_date"
                                                 style="font-size: 10px; width: 70%" class="text-center form-control"
                                                 value="{{ $labourModel->labour_escape_date }}">
+=======
+                                    <div class="col-md-1">
+                                        <input type="checkbox" name="labour_escape" value="Y" class="flat"
+                                            style="position: absolute; opacity: 0;"
+                                            @if ($labourModel->labour_escape == 'Y') checked="checked" @endif>
+                                        <label for="labour_work">หลบหนี</label>
+                                        
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>วันที่หลบหนี :</label>
+                                            <input type="date" name="labour_escape_date"
+                                                class="form-control" value="{{ $labourModel->labour_escape_date }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <input type="checkbox" name="labour_resign" class="flat" value="Y"
+                                            style="position: absolute; opacity: 0;"
+                                            @if ($labourModel->labour_resign == 'Y') checked="checked" @endif>
+                                        <label for="labour_resign">ลาออก</label>
+                                    </div>
+                                    
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>วันที่ลาออก :</label>
+                                            <input type="date" name="labour_resign" class="form-control"
+                                                value="{{ $labourModel->labour_resign }}">
+>>>>>>> bc5d3e177da448cfa9058110df1bc582ee701094
                                         </div>
                                     </div>
                                 </li>
