@@ -17,12 +17,14 @@ class AddressShowController extends Controller
         $amphur = DB::table('amphures')->select('AMPHUR_NAME')->where('AMPHUR_ID',$company->company_area)->first();
          $district = DB::table('districts')->select('DISTRICT_NAME')->where('DISTRICT_CODE',$company->company_district)->first();
          $province = DB::table('provinces')->select('PROVINCE_NAME')->where('PROVINCE_ID',$company->company_province)->first();
-    
+         $zipcodes = DB::table('zipcodes')->where('district_code',$company->company_district)->first();
+          
          $output = [
          'company' => $company,
          'amphur' => $amphur,
          'district' => $district,
-         'province'=> $province
+         'province'=> $province,
+         'zipcodes'=> $zipcodes
         ];
         return $output;
     }
