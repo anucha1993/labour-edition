@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\labours;
 
 use App\Http\Controllers\Controller;
+use App\Models\labours\AddressLabourModel;
 use App\Models\Labours\LabourModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Datatables;
@@ -17,7 +18,6 @@ class LabourController extends Controller
     {
         $this->middleware('auth');
     }
-    
     /**
      * Display a listing of the resource.
      */
@@ -70,7 +70,8 @@ class LabourController extends Controller
         $agents = DB::table('agent')->get();
         $nationality = DB::table('nationality')->get();
         $companys = DB::table('company')->get();
-        return view('labours.form-add', compact('agents', 'nationality', 'companys','import'));
+        $provinces = DB::table('provinces')->get();
+        return view('labours.form-add', compact('agents', 'nationality', 'companys','import','provinces'));
     }
 
     /**
@@ -107,7 +108,25 @@ class LabourController extends Controller
         $request->merge(['labour_number'=> $NewNumber]);
         $request->merge(['labour_user_add'=> Auth::user()->name]);
 
-        LabourModel::create($request->all());
+        $labourID = LabourModel::create($request->all());
+
+        if($request->addr_province) 
+        {
+            AddressLabourModel::create([
+                'labour_id'         => $labourID->labour_id,
+                'labour_passport'   => $request->labour_passport_number,
+                'addr_number'       => $request->addr_number,
+                'addr_province'     => $request->addr_province,
+                'addr_amphur'       => $request->addr_amphur,
+                'addr_distict'      => $request->addr_distict,
+                'addr_zipcode'      => $request->addr_zipcode,
+                'addr_note'         => $request->addr_note,
+                'addr_user_add'     => Auth::user()->name,
+                'addr_status'       => 'Y',
+            ]);
+        }
+
+
         return redirect()->route('labour.index')->with('success','เพิ่มข้อมูลคนงานสำเร็จ!!');
     }
 
@@ -129,7 +148,45 @@ class LabourController extends Controller
         $agents = DB::table('agent')->get();
         $nationality = DB::table('nationality')->get();
         $companys = DB::table('company')->get();
-        return view('labours.form-edit', compact('agents', 'nationality', 'companys','labourModel','import'));
+        $labourAddr = DB::table('address_labour')
+        ->where('labour_id',$labourModel->labour_id)
+        ->leftJoin('districts', 'districts.DISTRICT_CODE','address_labour.addr_distict')
+        ->leftJoin('amphures', 'amphures.AMPHUR_ID','address_labour.addr_amphur')
+        ->leftJoin('provinces', 'provinces.PROVINCE_ID','address_labour.addr_province')
+        ->first();
+        
+        $ComAddr = DB::table('company')
+        ->where('company_id',$labourModel->labour_company)
+        ->leftJoin('districts', 'districts.DISTRICT_CODE','company.company_district')
+        ->leftJoin('amphures',  'amphures.AMPHUR_ID',   'company.company_area')
+        ->leftJoin('provinces', 'provinces.PROVINCE_ID', 'company.company_province')
+        ->first();
+
+        if($ComAddr){
+            $AddressCompany =   $ComAddr->company_house_number.' '
+                               .($ComAddr->company_alley !== NULL ? $ComAddr->company_alley : '').' '
+                               .$ComAddr->DISTRICT_NAME.' '
+                               .$ComAddr->AMPHUR_NAME.' '
+                               .$ComAddr->PROVINCE_NAME.' '
+                               .$ComAddr->company_zipcode;
+        }else{
+            $AddressCompany = 'ไม่พบข้อมูล';
+        }
+
+        if($labourAddr){
+            $AddressLabour = $labourAddr->addr_number.' '
+                            .$labourAddr->DISTRICT_NAME.' '
+                            .$labourAddr->AMPHUR_NAME.' '
+                            .$labourAddr->PROVINCE_NAME.' '
+                            .$labourAddr->addr_zipcode;
+        }else{
+            $AddressLabour = 'ไม่พบข้อมูล';
+        }
+
+        $provinces = DB::table('provinces')->get();
+
+        return view('labours.form-edit', compact('agents', 'nationality','labourAddr','provinces',
+                    'companys','labourModel','import','AddressLabour','AddressCompany','ComAddr'));
     }
 
     /**
@@ -137,6 +194,7 @@ class LabourController extends Controller
      */
     public function update(Request $request, LabourModel $labourModel)
     {
+       
         // 
         if($request->labour_escape === null){
             $request->merge(['labour_escape'=> "N"]);
@@ -147,10 +205,50 @@ class LabourController extends Controller
         if($request->labour_work === null){
             $request->merge(['labour_work'=> "N"]);
         }
-       
+        if($request->labour_status === null){
+            $request->merge(['labour_status'=> "N"]);
+        }
+        //dd($request->labour_status);
         //dd($request);
         $request->merge(['labour_user_edit'=> Auth::user()->name]);
         $labourModel->update($request->all());
+      
+        $addrLabour = DB::table('address_labour')->where('labour_id',$request->labour_id)->count();
+
+        // ที่อยู่คนงาน
+        if($request->addr_province) {
+            if($addrLabour > 0)
+            {
+                AddressLabourModel::where('labour_id',$request->labour_id)
+                ->update([
+                    'labour_id'         => $request->labour_id,
+                    'labour_passport'   => $request->labour_passport_number,
+                    'addr_number'       => $request->addr_number,
+                    'addr_province'     => $request->addr_province,
+                    'addr_amphur'       => $request->addr_amphur,
+                    'addr_distict'      => $request->addr_distict,
+                    'addr_zipcode'      => $request->addr_zipcode,
+                    'addr_note'         => $request->addr_note,
+                    'addr_user_update'  => Auth::user()->name,
+                    'addr_status'       => 'Y',
+                ]);
+            }else{
+                AddressLabourModel::create([
+                    'labour_id'         => $request->labour_id,
+                    'labour_passport'   => $request->labour_passport_number,
+                    'addr_number'       => $request->addr_number,
+                    'addr_province'     => $request->addr_province,
+                    'addr_amphur'       => $request->addr_amphur,
+                    'addr_distict'      => $request->addr_distict,
+                    'addr_zipcode'      => $request->addr_zipcode,
+                    'addr_note'         => $request->addr_note,
+                    'addr_user_add'     => Auth::user()->name,
+                    'addr_status'       => 'Y',
+                ]);
+            }
+        }
+        
+
         return redirect()->back()->with('success','แก้ไขข้อมูลสำเร็จ!!');
     }
 
