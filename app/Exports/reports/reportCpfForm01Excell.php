@@ -61,7 +61,7 @@ class reportCpfForm01Excell implements FromCollection,WithMultipleSheets
             ->leftJoin('nationality', 'nationality.nationality_id', '=', 'labour.labour_nationality')
             ->leftJoin('import', 'import.import_id', '=', 'labour.import_id')
             ->where('labour.labour_status', '=', 'Y')
-            ->where('company_name','like','%ซีพีเอฟ%')
+
             //ตามบริษัท
             ->when($this->company_id != 'all', function ($query) {
                 return $query->where('company.company_id', $this->company_id);
