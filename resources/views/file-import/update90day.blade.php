@@ -90,7 +90,7 @@
                                                     </tr>
                                                 @else
                                                     <tr>
-                                                        <td style="color: red">ไม่พบข้อมูลในระบบ</td>
+                                                        <td style="color: red">{{$item[0]}}</td>
                                                         <td style="color: red">ไม่พบข้อมูลในระบบ</td>
                                                         <td style="color: red">ไม่พบข้อมูลในระบบ</td>
                                                         <td style="color: red">ไม่พบข้อมูลในระบบ</td>
