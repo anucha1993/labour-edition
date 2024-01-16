@@ -39,7 +39,6 @@ class update90dayExcel extends Controller
             $labourPassNum[] = $v[0];
         }
         
-      
         return view('file-import.update90day',compact('excelData','result'));
     }
 
