@@ -20,7 +20,7 @@
     <!-- iCheck -->
     <link href="{{ URL::asset('vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">
     <!-- Datatables -->
-
+    <link href="{{ URL::asset('vendors/switchery/dist/switchery.min.css') }}" rel="stylesheet">
 
     <link href="{{ URL::asset('vendors/datatables.net-bs/css/dataTables.bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}" rel="stylesheet">
@@ -33,12 +33,18 @@
    
     <!-- Custom Theme Style -->
     <link href="{{ URL::asset('build/css/custom.min.css') }}" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" />
 
     <script src="{{ URL::asset('vendors/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ URL::asset('vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+    .select2 {
+        font-size: 16px;
 
-
+    }
+</style>
 
 
 
@@ -104,6 +110,7 @@
                                 <li><a href="{{route('excelImport.labour')}}">นำเข้าข้อมูลคนต่างด้าว</a></li>
                                 <li><a href="{{route('department.employee.id')}}">นำเข้าข้อมูล แผนก & รหัสพนักงาน</a></li>
                                 <li><a href="{{route('import.update90day')}}">นำเข้าข้อมูล 90 วัน</a></li>
+                                <li><a href="{{route('addressLabour.index')}}">นำเข้าข้อมูล ที่อยู่แรงงาน</a></li>
                             </ul>
                         </li>
 
@@ -443,12 +450,13 @@
     <script src="{{ URL::asset('vendors/pdfmake/build/vfs_fonts.js') }}"></script>
     <script src="{{ URL::asset('vendors/dropzone/dist/min/dropzone.min.js') }}"></script>
     <script src="{{ URL::asset('vendors/nprogress/nprogress.js') }}"></script>
-
-
+    <script src="{{ URL::asset('vendors/bootstrap-progressbar/bootstrap-progressbar.min.js') }}"></script>
+    <script src="{{ URL::asset('vendors/switchery/dist/switchery.min.js') }}"></script>
+  
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('build/js/custom.min.js') }}"></script>
 
-    <script>
+    {{-- <script>
         // เริ่มตรวจสอบ session timeout ทุกๆ 1 นาที
         var sessionCheckInterval = setInterval(function() {
             // ตรวจสอบเงื่อนไข session timeout จากค่าที่คุณตั้งใน Laravel
@@ -457,7 +465,7 @@
                 window.location.href = '/login'; // เด้งไปหน้า login
             }
         }, 60000); // 1 นาที = 60000 มิลลิวินาที
-    </script>
+    </script> --}}
 
 </body>
 
