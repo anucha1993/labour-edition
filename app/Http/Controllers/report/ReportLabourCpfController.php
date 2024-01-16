@@ -22,6 +22,7 @@ class ReportLabourCpfController extends Controller
         $import = DB::table('import')->get();
         $company = DB::table('company')
         ->where('company_name','like','%ซีพีเอฟ%')
+        ->orWhere('company_name', 'like', '%จริญโภคภัณฑ์%')
         ->where('company_name','!=','')
         ->select('company.company_id','company.company_name')
         ->latest()
