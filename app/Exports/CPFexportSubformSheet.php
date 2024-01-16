@@ -173,7 +173,7 @@ class CPFexportSubformSheet implements FromCollection,WithTitle,WithHeadings,Wit
         'Thai TM47 Number',//9
         $documentTypes,//10
         date('d-m-Y',strtotime($data->labour_passport_date_start)),//11
-        date('d-m-Y',strtotime($data->labour_passport_date_end)),//12
+        date('d-m-Y',strtotime($data->labour_ninety_date_end)),//12
         $data->labour_TM_province,//13
        
 
