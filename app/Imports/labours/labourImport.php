@@ -2,14 +2,15 @@
 
 namespace App\Imports\labours;
 
-use App\Models\laModel;
 use Carbon\Carbon;
+use App\Models\laModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Models\Labours\LabourModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
+use App\Models\labours\AddressLabourModel;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -88,7 +89,7 @@ class labourImport implements ToCollection, WithStartRow,WithHeadingRow
                         'labour_visa_number'           => $row[9],
                         'labour_visa_date_start'       => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[10]),date('Y-m-d'),
                         'labour_visa_date_end'         => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[11]),date('Y-m-d'),
-                        'labour_visa_run_date'         => NULL,
+                        'labour_visa_run_date'         => $row[21],
                         'labour_work_permit_number'    => $row[13],
                         'labour_work_permit_date_start'=> \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[14]),date('Y-m-d'),
                         'labour_work_permit_date_end'  => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[15]),date('Y-m-d'),
@@ -102,7 +103,7 @@ class labourImport implements ToCollection, WithStartRow,WithHeadingRow
                         'labour_resign'                => 'N',
                         'labour_resign_date'           => NULL,
                         'labour_installment'           => NULL,
-                        'labour_note'                  => $row[21],
+                        'labour_note'                  => $row[22],
                         'labour_user_add'              => Auth::user()->name,
                         'labour_user_edit'             => NULL,
                         'labour_department'            => $row[0],
@@ -120,6 +121,24 @@ class labourImport implements ToCollection, WithStartRow,WithHeadingRow
                         'labour_textid'               => $row[12],
                         'import_id'                   => $row[20],
                     ]);
+
+                    if($row[22] && $row[25]) 
+                    {
+                        AddressLabourModel::create([
+                            'labour_id'         => $newRecord->labour_id,
+                            'labour_passport'   => $newRecord->labour_passport_number,
+                            'addr_number'       => $row[23],
+                            'addr_province'     => $row[26],
+                            'addr_amphur'       => $row[25],
+                            'addr_distict'      => $row[24],
+                            'addr_zipcode'      => $row[27],
+                            'addr_note'         => $row[28],
+                            'addr_user_add'     => Auth::user()->name,
+                            'addr_status'       => 'Y',
+                        ]);
+                    }
+                    
+
                     $this->importedIds[] = $newRecord->labour_id;
                 }
                 

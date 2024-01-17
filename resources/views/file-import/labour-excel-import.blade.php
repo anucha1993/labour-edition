@@ -12,7 +12,10 @@
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Import <small>นำเข้าข้อมูลข้อมูลคนต่างด้าวทั้งหมด</small>&nbsp; <span><a href="{{URL::asset('master-import-file/labour.xlsx')}}" class="text-success pull-right  "> &nbsp;<i class="fa fa-file-excel-o"></i> ดาวน์โหลดฟอร์มต้นฉบับ</a></span></h2>
+                    <h2>Import <small>นำเข้าข้อมูลข้อมูลคนต่างด้าวทั้งหมด</small>&nbsp;
+                        <span><a href="{{URL::asset('master-import-file/labour.xlsx')}}" class="text-success pull-right  "> &nbsp;<i class="fa fa-file-excel-o"></i> ดาวน์โหลดฟอร์มต้นฉบับ</a></span>
+                        <span><a href="{{URL::asset('master-import-file/addressID.xlsx')}}" class="text-success pull-right  "> &nbsp;<i class="fa fa-file-excel-o"></i> รายชื่อที่อยู่</a></span>
+                    </h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         </li>
