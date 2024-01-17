@@ -13,9 +13,12 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
-class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMapping,WithColumnWidths,WithEvents
+
+
+class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMapping,WithColumnWidths,WithEvents,WithColumnFormatting
 {
     private $data;
     private $labourCompany;
@@ -172,55 +175,21 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
         $this->companyName = $data->company_name;
       $chunkSize = 10000; // จำนวนแถวในแต่ละช่วง
       return [
-        // ++$this->No,                     
-        // $data->company_name,       
-        // ($data->import_name == '' ? "ไม่พบข้อมูล" : $data->import_name),       
-        // $data->labour_name,        
-        // $data->nationality_name,   
-        // date('d-m-Y',strtotime($data->labour_birth_date)), 
-        // $data->labour_passport_number, 
-        // "'".$data->labour_textid, 
-        // date('d-m-Y',strtotime($data->labour_passport_date_start)), 
-        // date('d-m-Y',strtotime($data->labour_passport_date_end)),
-        // $this->getRemainingPassportDays($data->labour_passport_date_end),
-        // $data->labour_visa_number,
-        // date('d-m-Y',strtotime($data->labour_visa_date_start)),
-        // date('d-m-Y',strtotime($data->labour_visa_date_end)),
-        // date('d-m-Y',strtotime($data->labour_visa_date_start01)),
-        // date('d-m-Y',strtotime($data->labour_visa_date_end01)),
-        // date('d-m-Y',strtotime($data->labour_visa_date_start02)),
-        // date('d-m-Y',strtotime($data->labour_visa_date_end02)),
-        // $this->getRemainingPassportDays($data->labour_visa_date_end),
-        // "'".$data->labour_work_permit_number,
-        // date('d-n-Y',strtotime($data->labour_work_permit_date_start)),
-        // date('d-n-Y',strtotime($data->labour_work_permit_date_end)),
-        // date('d-n-Y',strtotime($data->labour_work_permit_date_start01)),
-        // date('d-n-Y',strtotime($data->labour_work_permit_date_end01)),
-        // date('d-n-Y',strtotime($data->labour_work_permit_date_start02)),
-        // date('d-n-Y',strtotime($data->labour_work_permit_date_end02)),
-        // "'".$data->labour_code,
-        // $data->labour_department,
-        // $this->getRemainingPassportDays($data->labour_work_permit_date_end),
-        // date('d-m-Y',strtotime($data->labour_ninety_date_start)),
-        // date('d-m-Y',strtotime($data->labour_ninety_date_end)),
-        // $this->getRemainingPassportDays($data->labour_ninety_date_end),
-        // $data->labour_immigration_number,
-        // $data->labour_note,
-
+      
         ++$this->No, //1
         ($data->import_name == '' ? "ไม่พบข้อมูล" : $data->import_name),//2
-        "'".$data->labour_code,//3
+        $data->labour_code,//3
         ($data->labour_department == '' ? "'" : $data->labour_department),//4
         $data->labour_name,//5
         $data->nationality_name,//6
         date('d-m-Y',strtotime($data->labour_birth_date)),//7
         $data->labour_passport_number, //8
-        ($data->labour_textid == '' ? "'" : "'".$data->labour_textid),//9
+        ($data->labour_textid == '' ? "'" : $data->labour_textid),//9
         date('d-m-Y',strtotime($data->labour_passport_date_start)),//10
         date('d-m-Y',strtotime($data->labour_passport_date_end)),//11
         date('d-m-Y',strtotime($data->labour_visa_date_start)),//12
         date('d-m-Y',strtotime($data->labour_visa_date_end)),//13
-        "'".$data->labour_work_permit_number,//14
+        $data->labour_work_permit_number,//14
         date('d-n-Y',strtotime($data->labour_work_permit_date_start)),//15
         date('d-n-Y',strtotime($data->labour_work_permit_date_end)),//16
         date('d-m-Y',strtotime($data->labour_ninety_date_start)),//17
@@ -229,6 +198,15 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
 
       ];
     }
+
+    public function columnFormats(): array
+    {
+        return [
+            'I' => NumberFormat::FORMAT_NUMBER,
+            'N' => NumberFormat::FORMAT_NUMBER,
+        ];
+    }
+
     private function getRemainingPassportDays($expiryDate) {
         $today = Carbon::now();
         $expiryDate = Carbon::parse($expiryDate);
@@ -238,3 +216,6 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
 
 
 }
+
+
+

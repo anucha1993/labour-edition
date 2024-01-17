@@ -13,11 +13,12 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
 
 
-class CPFexportSubformSheet implements FromCollection,WithTitle,WithHeadings,WithMapping,WithColumnWidths,WithEvents
+class CPFexportSubformSheet implements FromCollection,WithTitle,WithHeadings,WithMapping,WithColumnWidths,WithEvents,WithColumnFormatting
 
 {
     private $data;
@@ -58,6 +59,7 @@ class CPFexportSubformSheet implements FromCollection,WithTitle,WithHeadings,Wit
                 $event->sheet->getDelegate()->getStyle('P')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $event->sheet->getDelegate()->getStyle('Q')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $event->sheet->getDelegate()->getStyle('R')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $event->sheet->getDelegate()->getStyle('J')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 
                
 
@@ -179,6 +181,14 @@ class CPFexportSubformSheet implements FromCollection,WithTitle,WithHeadings,Wit
 
       ];
     }
+
+    public function columnFormats(): array
+    {
+        return [
+            'D' => NumberFormat::FORMAT_NUMBER,
+        ];
+    }
+    
     private function getRemainingPassportDays($expiryDate) {
         $today = Carbon::now();
         $expiryDate = Carbon::parse($expiryDate);

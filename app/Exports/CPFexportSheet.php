@@ -13,8 +13,10 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
-class CPFexportSheet implements FromCollection,WithTitle,WithHeadings,WithMapping,WithColumnWidths,WithEvents
+
+class CPFexportSheet implements FromCollection,WithTitle,WithHeadings,WithMapping,WithColumnWidths,WithEvents,WithColumnFormatting
 {
     
         private $data;
@@ -55,6 +57,7 @@ class CPFexportSheet implements FromCollection,WithTitle,WithHeadings,WithMappin
                     $event->sheet->getDelegate()->getStyle('P')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                     $event->sheet->getDelegate()->getStyle('Q')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                     $event->sheet->getDelegate()->getStyle('R')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                    $event->sheet->getDelegate()->getStyle('J')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                     
                    
     
@@ -177,7 +180,7 @@ class CPFexportSheet implements FromCollection,WithTitle,WithHeadings,WithMappin
                     'ลำดับ' => ++$this->No,
                     'ชื่อบริษัท'=> $data->company_name,//2
                     'แผนก' => ($data->labour_department == '' ? "'" : $data->labour_department),//3
-                    'User ID' => "'".$data->labour_code,//3//4
+                    'User ID' => $data->labour_code,//3//4
                     'ชื่อ-นามสกุล' => $data->labour_name,//5
                     'สัญชาติ' => $data->nationality_name,//6
                     'วันเกิด' => date('d-m-Y',strtotime($data->labour_birth_date)),//7
@@ -203,7 +206,13 @@ class CPFexportSheet implements FromCollection,WithTitle,WithHeadings,WithMappin
             return $excelData;
         }
         
-        
+        public function columnFormats(): array
+    {
+        return [
+            'D' => NumberFormat::FORMAT_NUMBER,
+        ];
+    }
+
 
         
 
