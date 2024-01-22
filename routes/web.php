@@ -82,3 +82,16 @@ Route::post('import/upadte90day/update90day',[\App\Http\Controllers\file_import_
 Route::get('import/address/labour/form',[\App\Http\Controllers\file_import_excel\AddressLabourExcel::class,'index'])->name('addressLabour.index');
 Route::post('import/address/labour/import',[\App\Http\Controllers\file_import_excel\AddressLabourExcel::class,'import'])->name('addressLabour.import');
 Route::post('import/address/labour/store',[\App\Http\Controllers\file_import_excel\AddressLabourExcel::class,'store'])->name('addressLabour.store');
+
+//Customer
+Route::get('customer',[\App\Http\Controllers\customer\CustomerController::class,'index'])->name('customer.index');
+Route::get('customer/form',[\App\Http\Controllers\customer\CustomerController::class,'create'])->name('customer.create');
+Route::post('customer/form/store',[\App\Http\Controllers\customer\CustomerController::class,'store'])->name('customer.store');
+Route::get('customer/form/edit/{customer}',[\App\Http\Controllers\customer\CustomerController::class,'edit'])->name('customer.edit');
+Route::get('customer/show/edit/{customer}',[\App\Http\Controllers\customer\CustomerController::class,'show'])->name('customer.show');
+Route::put('customer/form/update/{customer}',[\App\Http\Controllers\customer\CustomerController::class,'update'])->name('customer.update');
+Route::get('customer/form/delete/{customer}',[\App\Http\Controllers\customer\CustomerController::class,'delete'])->name('customer.delete');
+// Report Customer
+Route::get('report/customer',[\App\Http\Controllers\report\ReportCustomerController::class, 'index'])->name('report.customer');
+Route::post('report/customer/download',[\App\Http\Controllers\report\ReportCustomerController::class, 'export'])->name('report.customer.download');
+

@@ -58,6 +58,7 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
                 $event->sheet->getDelegate()->getStyle('P')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $event->sheet->getDelegate()->getStyle('Q')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $event->sheet->getDelegate()->getStyle('R')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $event->sheet->getDelegate()->getStyle('S')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 
                
 
@@ -127,7 +128,8 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
             'P' => 23,            
             'Q' => 20,            
             'R' => 20,            
-            'S' => 60,            
+            'S' => 20,            
+            'T' => 60,            
         ];
     }
 
@@ -164,6 +166,7 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
             'ใบอนุญาตสิ้นสุด(ล่าสุด)',//16
             'รายงานตัว90วันเริ่มต้น',//17
             'รายงานตัว90วันสิ้นสุด',//18
+            'เลข ตม.',//18
             'หมายเหตุ',//19
           
         ];
@@ -194,6 +197,7 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
         date('d-n-Y',strtotime($data->labour_work_permit_date_end)),//16
         date('d-m-Y',strtotime($data->labour_ninety_date_start)),//17
         date('d-m-Y',strtotime($data->labour_ninety_date_end)),//18
+        $data->labour_immigration_number,
         $data->labour_note,//19
 
       ];

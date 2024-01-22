@@ -81,6 +81,14 @@
                         <div class="menu_section">
                             <h3>General</h3>
                             <ul class="nav side-menu">
+                                <li><a><i class="fa fa-university"></i> ข้อมูลนายจ้าง <span
+                                    class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li><a href="{{ route('customer.index') }}">ข้อมูลนายจ้าง</a></li>
+                                {{-- <li><a href="tables_dynamic.html">Table Dynamic</a></li> --}}
+                            </ul>
+                        </li>
+                        
                                 <li><a><i class="fa fa-table"></i> ข้อมูลคนต่างด้าว <span
                                             class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
@@ -100,6 +108,7 @@
                                     <ul class="nav child_menu">
                                         <li><a href="{{ route('report.reportAll') }}">รายงานข้อมูลคนต่างด้าวทั้งหมด</a>
                                         <li><a href="{{ route('report.cpf') }}">รายงานข้อมูลคนต่างด้าว CPF </a>
+                                        <li><a href="{{ route('report.customer') }}">รายงานข้อมูลนายจ้าง </a>
                                         </li>
                                     </ul>
                                 </li>
