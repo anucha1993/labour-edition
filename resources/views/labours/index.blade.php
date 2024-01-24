@@ -47,7 +47,7 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($labours as $v)
-                                        <tr>
+                                        <tr class="@if($v->labour_status == "N" || $v->labour_escape == "Y" || $v->labour_resign == "Y" ) bg bg-dark  @endif">
                                             <td class="text-center">
                                                 <span  style="font-size: 15px" class="{{$v->nationality_flag}}"></span>
                                             </td>
@@ -91,6 +91,10 @@
                                                 {{-- <a href="" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a> --}}
                                                 @if (Auth::user()->type != '3')
                                                 <a href="{{route('labour.edit',$v->labour_id)}}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                                                @endif
+
+                                                @if (Auth::user()->type == '3')
+                                                <a href="{{route('labour.edit',$v->labour_id)}}" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
                                                 @endif
                                                
                                             </td>

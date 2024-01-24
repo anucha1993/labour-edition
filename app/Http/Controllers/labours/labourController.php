@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\labours;
 
-use App\Http\Controllers\Controller;
-use App\Models\labours\AddressLabourModel;
-use App\Models\Labours\LabourModel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Datatables;
 use Illuminate\Support\Facades\DB;
+use App\Models\Labours\LabourModel;
+use App\Http\Controllers\Controller;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Models\Activity;
+use App\Models\labours\AddressLabourModel;
 
 class LabourController extends Controller
 {
@@ -35,7 +36,10 @@ class LabourController extends Controller
             'labour.labour_visa_date_end',
             'labour.labour_ninety_date_end',
             'company.company_name',
-            'nationality.nationality_flag'
+            'nationality.nationality_flag',
+            'labour.labour_status',
+            'labour.labour_escape',
+            'labour.labour_resign',
         )
             ->leftJoin('company', 'company.company_id', '=', 'labour.labour_company')
             ->leftJoin('import', 'import.import_id', '=', 'labour.import_id')
@@ -215,6 +219,18 @@ class LabourController extends Controller
         //dd($request);
         $request->merge(['labour_user_edit'=> Auth::user()->name]);
         $labourModel->update($request->all());
+        //บันทึก Log
+        activity()
+        ->performedOn($labourModel)
+        ->tap(function ($activity) use ($labourModel) {
+            // กำหนดข้อมูลในฟิลด์ที่ต้องการ
+            $activity->causer_type  = Auth::user()->name;
+            $activity->log_name     = 'labour';
+            $activity->subject_type = 'form-edit';
+            $activity->event        = 'updated';
+            $activity->properties   = $labourModel;
+        })
+        ->log($labourModel->labour_name . ',' . $labourModel->labour_passport_number);
       
         $addrLabour = DB::table('address_labour')->where('labour_id',$request->labour_id)->count();
 

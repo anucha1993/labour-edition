@@ -119,6 +119,19 @@ class labourImport implements ToCollection, WithStartRow,WithHeadingRow
                         'import_id'                   => $row[20],
                     ]);
 
+                    activity()
+                    ->performedOn($newRecord)
+                    ->tap(function ($activity) use ($newRecord) {
+                        // กำหนดข้อมูลในฟิลด์ที่ต้องการ
+                        $activity->causer_type  = Auth::user()->name;
+                        $activity->log_name     = 'labour';
+                        $activity->subject_type = 'Uplaod';
+                        $activity->event        = 'AddExcel';
+                        $activity->properties   = $newRecord;
+                    })
+                    ->log($newRecord->labour_name . ',' . $newRecord->labour_passport_number);
+
+
                     if($row[22] && $row[25]) 
                     {
                         AddressLabourModel::create([
@@ -144,6 +157,7 @@ class labourImport implements ToCollection, WithStartRow,WithHeadingRow
         }
     }
 
+    
 
 
     public function getImportedIds()

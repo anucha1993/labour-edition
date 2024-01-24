@@ -75,7 +75,7 @@
                                         <td class="text-center"><span
                                                 class="badge badge-dark">{{ $v->company_number }}</span></td>
                                         <td>{{ $v->company_name }}</td>
-                                        <td>{{ $v->company_surname . ' ' . $v->company_surname }}</td>
+                                        <td>{{ $v->company_surname . ' ' . $v->company_lastname }}</td>
                                         <td>{{ $v->company_business_type != null ? $v->company_business_type : 'ไม่พบข้อมูล' }}
                                         </td>
                                         <td class="text-center"><span
