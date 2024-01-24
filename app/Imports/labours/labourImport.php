@@ -100,7 +100,6 @@ class labourImport implements ToCollection, WithStartRow,WithHeadingRow
                         'labour_escape_date'           => NULL,
                         'labour_resign'                => 'N',
                         'labour_resign_date'           => NULL,
-                        'labour_installment'           => NULL,
                         'labour_note'                  => $row[22],
                         'labour_user_add'              => Auth::user()->name,
                         'labour_user_edit'             => NULL,
