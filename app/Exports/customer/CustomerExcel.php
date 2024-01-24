@@ -26,6 +26,7 @@ class CustomerExcel implements FromCollection, WithHeadings, WithMapping, WithCo
 
     private $province;
     private $customer;
+    private $status;
     private $data;
 
     public function columnFormats(): array
@@ -57,6 +58,7 @@ class CustomerExcel implements FromCollection, WithHeadings, WithMapping, WithCo
             'P' => 25,
             'Q' => 25,
             'R' => 25,
+            'S' => 25,
             'S' => 45,
 
         ];
@@ -75,6 +77,7 @@ class CustomerExcel implements FromCollection, WithHeadings, WithMapping, WithCo
                   $event->sheet->getDelegate()->getStyle('P')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                   $event->sheet->getDelegate()->getStyle('Q')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                   $event->sheet->getDelegate()->getStyle('R')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                  $event->sheet->getDelegate()->getStyle('S')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
                   
                  
@@ -123,6 +126,7 @@ class CustomerExcel implements FromCollection, WithHeadings, WithMapping, WithCo
             'เขต/อำเภอ',
             'จังหวัด',
             'รหัสไปรษณีย์',
+            'สถานะ',
             'หมายเหตุ',
         ];
     }
@@ -131,6 +135,20 @@ class CustomerExcel implements FromCollection, WithHeadings, WithMapping, WithCo
     private $No = 0;
     public function map($data): array
     {
+        $status = 'ไม่พบข้อมูล';
+        switch ($data->company_status) {
+            case "Close" :
+            $status = "เปิดใช้งาน";
+            break;
+            case "Ready" :
+            $status = "ปิดใช้งานชั่วคราว";
+            break;
+            case "Notcontact" :
+            $status = "ปิดใช้งานถาวร";
+            break;
+
+        }
+
         return [
             ++$this->No,
             $data->company_code,
@@ -150,25 +168,32 @@ class CustomerExcel implements FromCollection, WithHeadings, WithMapping, WithCo
             $data->AMPHUR_NAME,
             $data->PROVINCE_NAME,
             $data->company_zipcode,
+            $status,
             $data->company_note,
 
         ];
     }
 
-    public function __construct($province, $customer)
+    public function __construct($province, $customer,$status)
     {
 
         $this->province = $province;
         $this->customer = $customer;
+        $this->status = $status;
 
         $data = CustomerModel::leftjoin('provinces', 'provinces.PROVINCE_ID', 'company.company_province')
             ->leftjoin('amphures', 'amphures.AMPHUR_ID', 'company.company_area')
             ->leftjoin('districts', 'districts.DISTRICT_CODE', 'company.company_district')
+            ->where('company.company_name', '!=', NULL)
+            ->where('company.company_name', '!=', '')
             ->when($this->province != 'all', function ($query) {
                 return $query->where('company.company_province', $this->province);
             })
             ->when($this->customer != 'all', function ($query) {
                 return $query->where('company.company_id', $this->customer);
+            })
+            ->when($this->status != 'all', function ($query) {
+                return $query->where('company.company_status', $this->status);
             })
             ->get();
 

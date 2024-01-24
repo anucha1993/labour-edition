@@ -303,6 +303,13 @@
 
 
                         </div>
+
+                        <div class="col-md-12">
+                         <input type="radio" class="flat" name="company_status" value="Close" checked><label for="status"> เปิดใช้งาน </label>
+                         <input type="radio" class="flat" name="company_status" value="Ready"><label for="status"> ปิดใช้งานชั่วคราว </label>
+                         <input type="radio" class="flat" name="company_status" value="Notcontact"><label for="status"> ปิดใช้งานถาวร </label>
+                        </div>
+
                         <div class="col-md-12">
                             <div class="x_title">
                                 <h2 class="text-success"><small></small></h2>

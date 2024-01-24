@@ -31,8 +31,7 @@
     @endif
     {{-- // End Select Notify --}}
 
-!
-<button>ติดต่อสอบถาม</button>
+
     <div class="row">
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
@@ -65,6 +64,7 @@
                                     <th>ชื่อนายจ้าง</th>
                                     <th>ประเภทธุระกิจ</th>
                                     <th class="text-center">เบอร์โทรศัพท์</th>
+                                    <th>สถานะ</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -80,6 +80,17 @@
                                         </td>
                                         <td class="text-center"><span
                                                 class="badge badge-success">{{ $v->company_tel }}</span></td>
+                                            <td>
+                                                @if ($v->company_status == "Close")
+                                                    <span class="badge badge-success">เปิดใช้งาน</span>
+                                                @endif
+                                                @if ($v->company_status == "Ready")
+                                                <span class="badge badge-warning">ปิดใช้งานชั่วคราว</span>
+                                                 @endif
+                                                 @if ($v->company_status == "Notcontact")
+                                                 <span class="badge badge-danger">ปิดใช้งานถาวร</span>
+                                                  @endif
+                                            </td>
                                         <td>
                                             <a href="{{ route('customer.show', $v->company_id) }}" class="text-primary"><i
                                                     class="fa fa-eye"></i></a>&nbsp;&nbsp;

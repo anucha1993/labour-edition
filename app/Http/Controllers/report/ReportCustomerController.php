@@ -22,10 +22,10 @@ class ReportCustomerController extends Controller
 
     public function export(Request $request) 
     {
-    
+        $status   = $request->company_status;
         $province = $request->province;
         $customer = $request->customer;
-        return Excel::download(new CustomerExcel($province,$customer), 'customer-'.date('d-m-Y').'.xlsx');
+        return Excel::download(new CustomerExcel($province,$customer,$status), 'customer-'.date('d-m-Y').'.xlsx');
     }
 
 

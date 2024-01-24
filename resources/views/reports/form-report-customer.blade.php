@@ -27,7 +27,7 @@
                     <form action="{{route('report.customer.download')}}" method="post">
                               @csrf
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label>จังหวัด</label>
                                 <select name="province" id="province" class="form-control">
                                     <option value="all">ทั้งหมด</option>
@@ -45,7 +45,16 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2">
+                            <label>สถานะ</label>
+                            <select name="company_status" class="form-control">
+                                <option value="all">ทั้งหมด</option>
+                                <option value="Close">เปิดใช้งาน</option>
+                                <option value="Ready">ปิดใช้งานชั่วคราว</option>
+                                <option value="Notcontact">ปิดใช้งานถาวร</option>
+                            </select>
+                            </div>
+                            <div class="col-md-2">
                                 <label>Action</label>
                                 <br>
                                 <button type="submit" class="btn btn-success"><i class="fa fa-file-excel-o"></i>

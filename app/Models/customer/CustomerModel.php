@@ -37,5 +37,6 @@ class CustomerModel extends Model
         "company_business_type",
         "company_coordinator" ,
         "company_note",
+        "company_status", // Close = "ใช้งาน", Ready = "ไม่พร้อมใช้งาน", Notcontact = "ปิดระบบ"
     ];
 }

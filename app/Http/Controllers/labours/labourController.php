@@ -154,7 +154,10 @@ class LabourController extends Controller
         ->leftJoin('amphures', 'amphures.AMPHUR_ID','address_labour.addr_amphur')
         ->leftJoin('provinces', 'provinces.PROVINCE_ID','address_labour.addr_province')
         ->first();
+
+
         
+
         $ComAddr = DB::table('company')
         ->where('company_id',$labourModel->labour_company)
         ->leftJoin('districts', 'districts.DISTRICT_CODE','company.company_district')
