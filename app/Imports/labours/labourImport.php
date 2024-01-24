@@ -70,14 +70,12 @@ class labourImport implements ToCollection, WithStartRow,WithHeadingRow
                 $NewNumber = 'CUS-' . $Seq;
 
                 if($row[6] && $row[9] && $row[12] && $row[13])
-                {
+                {    
                     $newRecord = LabourModel::create([
                         'labour_number'                => $NewNumber,
                         'labour_code'                  => $row[1],
                         'labour_name'                  => $row[5],
                         'labour_company'               => $this->company,
-                        'labour_company_surname'       => $this->company,
-                        'labour_company_code'          => $this->company,
                         'labour_agent'                 => $this->agency,
                         'labour_date_create'           => date('Y-m-d',strtotime($now)),
                         'labour_nationality'           => $this->nationality,
