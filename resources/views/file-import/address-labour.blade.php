@@ -97,6 +97,7 @@
                                                     $province = DB::table('provinces')
                                                         ->whereIn('PROVINCE_ID', $PROVINCE_ID)
                                                         ->first();
+                                                    //  dd($item[4]);
 
                                                     if($province == NULL) {
                                                         $province = (object)['PROVINCE_NAME' => NULL];
