@@ -54,7 +54,7 @@ class LabourController extends Controller
                     ->orWhere('company.company_name', 'LIKE', "%$keyword%")
                     ->orWhere('labour.labour_passport_date_end', 'LIKE', "%$keyword%")
                     ->orWhere('labour.labour_visa_date_end', 'LIKE', "%$keyword%")
-                    ->orWhere('labour.labour_ninety_date_end', 'LIKE', "%$keyword%");
+                    ->orWhere('labour.labour_code', 'LIKE', "%$keyword%");
             });
         }
         $labours = $labours->where('labour.labour_passport_number','!=', '');

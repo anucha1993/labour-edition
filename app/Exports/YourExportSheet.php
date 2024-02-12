@@ -59,6 +59,7 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
                 $event->sheet->getDelegate()->getStyle('Q')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $event->sheet->getDelegate()->getStyle('R')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $event->sheet->getDelegate()->getStyle('S')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $event->sheet->getDelegate()->getStyle('L')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 
                
 
@@ -129,7 +130,8 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
             'Q' => 20,            
             'R' => 20,            
             'S' => 20,            
-            'T' => 60,            
+            'T' => 20,            
+            'U' => 60,            
         ];
     }
 
@@ -159,6 +161,7 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
             'เลขบัตรประตัวประชาชน',//9
             'วันออกเล่ม',//10
             'วันหมดเล่ม',//11
+            'เลขที่วิซ่า',//12
             'วันเริ่มวีซ่าล่าสุด',//12
             'วีซ่าสิ้นสุดล่าสุด',//13
             'เลขที่ใบอนุญาตทำงาน',//14
@@ -190,6 +193,7 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
         ($data->labour_textid == '' ? "'" : $data->labour_textid),//9
         date('d-m-Y',strtotime($data->labour_passport_date_start)),//10
         date('d-m-Y',strtotime($data->labour_passport_date_end)),//11
+        ($data->labour_visa_number),
         date('d-m-Y',strtotime($data->labour_visa_date_start)),//12
         date('d-m-Y',strtotime($data->labour_visa_date_end)),//13
         $data->labour_work_permit_number,//14

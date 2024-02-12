@@ -36,6 +36,7 @@
                                             <th class="text-center" >สัญชาติ</th>
                                             <th class="text-center" >เลขที่พาส</th>
                                             <th class="text-center" >เลขที่วิซ่า</th>
+                                            <th class="text-center" >รหัสพนักงาน</th>
                                             <th class="text-center" >ชื่อ-นามสกุล</th>
                                             <th class="text-center" >บริษัท</th>
                                             <th class="text-center" >กลุ่มการนำเข้า</th>
@@ -45,14 +46,20 @@
                                             <th class="text-center" >Actions</th>
                                         </tr>
                                     </thead>
+                                    {{-- <style>
+                                        .ff{
+                                            background-color: #0000002f
+                                        }
+                                    </style> --}}
                                     <tbody>
                                         @foreach ($labours as $v)
-                                        <tr class="@if($v->labour_status == "N" || $v->labour_escape == "Y" || $v->labour_resign == "Y" ) bg bg-dark  @endif">
+                                        <tr @if($v->labour_status == "N" || $v->labour_escape == "Y" || $v->labour_resign == "Y" ) style=" background-color: #0000002f;"  @endif>
                                             <td class="text-center">
                                                 <span  style="font-size: 15px" class="{{$v->nationality_flag}}"></span>
                                             </td>
                                             <td class="text-center"><span style="font-size: 12px" class="badge badge-success">{{$v->labour_passport_number}}</span></td>
                                             <td class="text-center"><span style="font-size: 12px" class="badge badge-secondary">{{$v->labour_visa_number}}</span></td>
+                                            <td class="text-center"><span style="font-size: 12px" >{{ ($v->labour_code != NULL ? $v->labour_code : "none" )}}</span></td>
                                             <td>{{$v->labour_name}}</td>
                                             <td>{{$v->company_name}}</td>
                                             <td>{{($v->import_name == '' ? "ไม่พบข้อมูล" : $v->import_name)}}</td>
