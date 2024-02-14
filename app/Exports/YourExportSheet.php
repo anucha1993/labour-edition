@@ -212,6 +212,7 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
         return [
             'I' => NumberFormat::FORMAT_NUMBER,
             'N' => NumberFormat::FORMAT_NUMBER,
+            'O' => NumberFormat::FORMAT_NUMBER,
         ];
     }
 
