@@ -68,11 +68,10 @@
                                                 <td>{{ $v->causer_type }}</td>
                                                 <td>{{ $v->causer_id }}</td>
 
-                                                <td> <a type="button" class="text-info" data-toggle="modal"
-                                                        data-target=".bs-example-modal-lg">ดูข้อมูล</a>
+                                                <td> <a type="button" class="text-info" data-toggle="modal" data-target=".bs-example-modal-lg-{{$v->id}}">ดูข้อมูล</a>
 
 
-                                                    <div class="modal fade bs-example-modal-lg" tabindex="-1"
+                                                    <div class="modal fade bs-example-modal-lg-{{$v->id}}" tabindex="-1"
                                                         role="dialog" aria-hidden="true">
                                                         <div class="modal-dialog modal-lg">
                                                             <div class="modal-content">
