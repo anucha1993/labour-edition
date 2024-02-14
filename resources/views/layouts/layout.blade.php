@@ -123,6 +123,20 @@
                             </ul>
                         </li>
 
+                        @if (Auth::user()->type == '1')
+                            
+                        <li><a><i class="fa fa-file-text-o"></i>LogFile<span
+                            class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li><a href="{{route('logfile.labour')}}">LabourLog</a></li>
+                      
+                    </ul>
+                    </li>
+                            
+                        @endif
+
+                        
+
                                 {{-- <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="index.html">Dashboard</a></li>

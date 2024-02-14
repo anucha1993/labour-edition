@@ -95,3 +95,6 @@ Route::get('customer/form/delete/{customer}',[\App\Http\Controllers\customer\Cus
 Route::get('report/customer',[\App\Http\Controllers\report\ReportCustomerController::class, 'index'])->name('report.customer');
 Route::post('report/customer/download',[\App\Http\Controllers\report\ReportCustomerController::class, 'export'])->name('report.customer.download');
 
+//LogFIle
+Route::get('logfile/labour',[\App\Http\Controllers\logfile\labourLogController::class,'index'])->name('logfile.labour');
+

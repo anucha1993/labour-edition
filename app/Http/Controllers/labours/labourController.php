@@ -40,6 +40,7 @@ class LabourController extends Controller
             'labour.labour_status',
             'labour.labour_escape',
             'labour.labour_resign',
+            'labour.labour_code',
         )
             ->leftJoin('company', 'company.company_id', '=', 'labour.labour_company')
             ->leftJoin('import', 'import.import_id', '=', 'labour.import_id')
@@ -129,6 +130,23 @@ class LabourController extends Controller
                 'addr_status'       => 'Y',
             ]);
         }
+      if($labourID->labour_id)
+      {
+         //บันทึก Log
+         activity()
+         ->performedOn($labourID)
+         ->tap(function ($activity) use ($labourID) {
+             // กำหนดข้อมูลในฟิลด์ที่ต้องการ
+             $activity->causer_type  = Auth::user()->name;
+             $activity->log_name     = 'labour';
+             $activity->subject_type = 'form-create';
+             $activity->event        = 'create';
+             $activity->properties   = $labourID;
+         })
+         ->log($labourID->labour_name . ',' . $labourID->labour_passport_number);
+      }
+
+        
 
 
         return redirect()->route('labour.index')->with('success','เพิ่มข้อมูลคนงานสำเร็จ!!');
