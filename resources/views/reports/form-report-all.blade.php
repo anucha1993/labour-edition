@@ -160,6 +160,14 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input type="checkbox" name="passport_ci" id="work" value="CC">&nbsp;<label>
+                                    Passport  CI</label>
+                            </div>
+                        </div>
+
+
 
 
                     </form>

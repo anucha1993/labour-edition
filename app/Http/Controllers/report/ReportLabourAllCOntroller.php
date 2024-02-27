@@ -42,6 +42,7 @@ class ReportLabourAllCOntroller extends Controller
         $work_end = $request->work_end;
         $passport_start = $request->passport_start;
         $passport_end = $request->passport_end;
+        $passport_ci = $request->passport_ci;
 
 
         return Excel::download(new reportLabourAllExcell(
@@ -55,7 +56,8 @@ class ReportLabourAllCOntroller extends Controller
             $work_start,
             $work_end,
             $passport_start,
-            $passport_end
+            $passport_end,
+            $passport_ci
 
         ), 'labour'.date('d-m-Y').'.xlsx');
         

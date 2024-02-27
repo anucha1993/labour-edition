@@ -50,8 +50,9 @@ class reportLabourAllExcell implements FromCollection, WithMultipleSheets
     private $work_end;
     private $passport_start;
     private $passport_end;
+    private $passport_ci;
 
-    public function __construct($data, $company_id, $status, $import_id, $ninety_day_start, $ninety_day_end, $visa_start, $visa_end, $work_start, $work_end, $passport_start, $passport_end)
+    public function __construct($data, $company_id, $status, $import_id, $ninety_day_start, $ninety_day_end, $visa_start, $visa_end, $work_start, $work_end, $passport_start, $passport_end,$passport_ci)
     {
         $this->company_id = $company_id;
         $this->status = $status;
@@ -64,6 +65,7 @@ class reportLabourAllExcell implements FromCollection, WithMultipleSheets
         $this->work_end         = $work_end;
         $this->passport_start   = $passport_start;
         $this->passport_end     = $passport_end;
+        $this->passport_ci     = $passport_ci;
 
         //dd($this->company_id);
 
@@ -98,6 +100,11 @@ class reportLabourAllExcell implements FromCollection, WithMultipleSheets
             ->when($this->status === 'resign', function ($query) {
                 return $query->where('labour.labour_resign', 'Y')
                 ->where('labour.labour_status', '=', 'Y');
+            })
+
+            //Passport CI
+            ->when($this->passport_ci === 'CC', function ($query) {
+                return $query->where('labour.labour_passport_number', 'LIKE', 'CC%');
             })
 
              //
