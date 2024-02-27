@@ -67,7 +67,7 @@ class update90dayExcel extends Controller
 
 
         $excelData =NULL;
-        $labours =  LabourModel::select('labour_passport_number')->where('labour_passport_number',$request->labour_passport_number[$key])->first();
+        $labours =  LabourModel::select('*')->where('labour_passport_number',$request->labour_passport_number[$key])->first();
         $passP[] = $labours->labour_passport_number;
 
         

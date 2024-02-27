@@ -60,7 +60,7 @@ class reportCpfForm01Excell implements FromCollection,WithMultipleSheets
         $data = LabourModel::leftJoin('company', 'company.company_id', '=', 'labour.labour_company')
             ->leftJoin('nationality', 'nationality.nationality_id', '=', 'labour.labour_nationality')
             ->leftJoin('import', 'import.import_id', '=', 'labour.import_id')
-            ->where('labour.labour_status', '=', 'Y')
+           // ->where('labour.labour_status', '=', 'Y')
 
             //ตามบริษัท
             ->when($this->company_id != 'all', function ($query) {
@@ -86,6 +86,13 @@ class reportCpfForm01Excell implements FromCollection,WithMultipleSheets
                 return $query->where('labour.labour_resign', 'Y')
                 ->where('labour.labour_status', '=', 'Y');
             })
+
+              //
+              ->when($this->status != 'all' , function ($query) {
+                return $query->where('labour.labour_status', '=', 'Y');
+            })
+
+            
             // 90 วัน
             ->when($this->import_id != 'all', function ($query) {
                 return $query->where('labour.import_id', $this->import_id);
