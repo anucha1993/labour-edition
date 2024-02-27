@@ -70,6 +70,10 @@ class reportLabourAllExcell implements FromCollection, WithMultipleSheets
         $data = LabourModel::leftJoin('company', 'company.company_id', '=', 'labour.labour_company')
             ->leftJoin('nationality', 'nationality.nationality_id', '=', 'labour.labour_nationality')
             ->leftJoin('import', 'import.import_id', '=', 'labour.import_id')
+            ->leftjoin('address_labour','address_labour.labour_id','labour.labour_id')
+            ->leftjoin('amphures','amphures.AMPHUR_ID','address_labour.addr_amphur')
+            ->leftjoin('districts','districts.DISTRICT_CODE','addr_distict')
+            ->leftjoin('provinces','provinces.PROVINCE_ID','addr_province')
             //->where('labour.labour_status', '=', 'Y')
             //ตามบริษัท
             ->when($this->company_id != 'all', function ($query) {

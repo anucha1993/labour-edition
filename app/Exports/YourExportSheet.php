@@ -60,6 +60,7 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
                 $event->sheet->getDelegate()->getStyle('R')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $event->sheet->getDelegate()->getStyle('S')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $event->sheet->getDelegate()->getStyle('L')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $event->sheet->getDelegate()->getStyle('U')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 
                
 
@@ -131,7 +132,9 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
             'R' => 20,            
             'S' => 20,            
             'T' => 20,            
-            'U' => 60,            
+            'U' => 20,            
+            'V' => 80,            
+            'W' => 60,            
         ];
     }
 
@@ -170,7 +173,9 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
             'รายงานตัว90วันเริ่มต้น',//17
             'รายงานตัว90วันสิ้นสุด',//18
             'เลข ตม.',//18
-            'หมายเหตุ',//19
+            'เบอร์ติดต่อแรงงาน',//19
+            'ที่อยู่แรงงาน',//19
+            'หมายเหตุ',//20
           
         ];
     }
@@ -202,6 +207,8 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
         date('d-m-Y',strtotime($data->labour_ninety_date_start)),//17
         date('d-m-Y',strtotime($data->labour_ninety_date_end)),//18
         $data->labour_immigration_number,
+        ($data->addr_note == '' ? "ไม่พบข้อมูล" : $data->addr_note),//9
+        ($data->addr_province == '' ? "ไม่พบที่อยู่" : 'เลขที่ '.$data->addr_number.' ตำบล/แขวง '.$data->DISTRICT_NAME. 'อำเภอ/เขต '.$data->AMPHUR_NAME.' จังหวัด '.$data->PROVINCE_NAME.' รหัสไปรษณีย์ '.$data->addr_zipcode),
         $data->labour_note,//19
 
       ];

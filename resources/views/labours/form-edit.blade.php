@@ -683,9 +683,10 @@
 
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-form-label col-md-4 col-sm-4 ">บันทึกเพิ่มเติม</label>
+                                                                class="col-form-label col-md-4 col-sm-4 ">เบอร์ติดต่อ</label>
                                                             <div class="col-md-8 col-sm-8 ">
-                                                                <textarea name="addr_note" id="" cols="30" rows="3" class="form-control">{{ $labourAddr != null ? $labourAddr->addr_note : '' }}</textarea>
+                                                          
+                                                                <input type="text" class="form-control" name="addr_note" value="{{ $labourAddr != null ? $labourAddr->addr_note : '' }}">
                                                             </div>
                                                         </div>
 

@@ -527,9 +527,9 @@
 
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-form-label col-md-4 col-sm-4 ">บันทึกเพิ่มเติม</label>
+                                                                class="col-form-label col-md-4 col-sm-4 ">เบอร์โทรศัพท์</label>
                                                             <div class="col-md-8 col-sm-8 ">
-                                                                <textarea name="addr_note" id="" cols="30" rows="3" class="form-control"></textarea>
+                                                                <input name="addr_note" class="form-control"/>
                                                             </div>
                                                         </div>
 
