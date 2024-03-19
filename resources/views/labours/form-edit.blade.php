@@ -58,7 +58,8 @@
                                 <li><i class="fa fa-map-marker user-profile-icon"></i> {{ $AddressLabour }}
                                 </li>
                                 <li>
-                                    <i class="fa fa-car" aria-hidden="true"></i> {!! $ComAddr->company_name . '<br>' . $AddressCompany !!}
+                                    <i class="fa fa-car" aria-hidden="true"></i> {!! (optional($ComAddr)->company_name ? $ComAddr->company_name . '<br>' . $AddressCompany : 'ไม่พบข้อมูล') !!}
+
                                 </li>
                                 <li>
                                     <i class="fa fa-briefcase user-profile-icon"></i>
@@ -78,7 +79,7 @@
                             <h4>รายละเอียดทั่วไป</h4>
                             <ul class="list-unstyled user_data">
                                 <li>
-                                    <p>{{ $ComAddr->company_name }}</p>
+                                    <p>{{ (optional($ComAddr)->company_name ? $ComAddr->company_name : 'ไม่พบข้อมูล') }}</p>
                                     <div class="progress progress_sm">
                                         <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="100">
                                         </div>
@@ -143,8 +144,11 @@
 
                                 </li>
                                 <li>
+                                    @if(Auth::user()->type != '3')
                                     <div class="float-end"><button type="submit"
-                                            class="btn btn-primary pull-right">บันทึกข้อมูล</button></div>
+                                        class="btn btn-primary pull-right">บันทึกข้อมูล</button></div>
+                                    @endif
+                                   
                                 </li>
 
                             </ul>
@@ -706,10 +710,10 @@
 
                                     {{-- สิ้นสุดรายละเอียดส่วนตัว --}}
 
-
+  
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content2"
                                         aria-labelledby="profile-tab">
-
+                                          
                                         {{-- ข้อมูลนายจ้าง --}}
                                         <div class="row">
                                             <div class="col-md-6 ">
@@ -721,18 +725,22 @@
 
                                                             <div class="clearfix"></div>
                                                         </div>
-
+                                                     
                                                         <div class="form-group row">
                                                             <label class="col-form-label col-md-4 col-sm-4 ">ข้อมูลนายจ้าง:
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
                                                                 <select name="labour_company" id="company"
                                                                     style="width: 308px" class="form-control">
+                                                                    @if ($labourModel->labour_company)
                                                                     <option selected
-                                                                        value="{{ $labourModel->labour_company }}">
-                                                                        {{ $ComAddr->company_name }}</option>
+                                                                    value="{{ $labourModel->labour_company }}">
+                                                                    {{ $ComAddr->company_name }}</option>
+                                                                    @endif
+                                                                   
 
                                                                     <option disabled>---Select A Company---</option>
+                                                                    
                                                                     @foreach ($companys as $v)
                                                                         <option value="{{ $v->company_id }}">
                                                                             {{ $v->company_name }}</option>
@@ -741,28 +749,29 @@
 
                                                             </div>
                                                         </div>
-
-
+                                             
+                                                        @if ($labourModel->labour_company)
                                                         <div class="form-group row">
                                                             <label
                                                                 class="col-form-label col-md-4 col-sm-4 ">ทะเบียนบริษัทเลขที่
                                                                 :
                                                             </label>
+                                                      
                                                             <div class="col-md-8 col-sm-8 ">
                                                                 <input type="text" class="form-control"
                                                                     id="company_code"
-                                                                    value="{{ $ComAddr->company_code }}"
+                                                                    value="{{ (optional($ComAddr)->company_code ? $ComAddr->company_code : null) }}"
                                                                     readonly="readonly" placeholder="ซอย">
                                                             </div>
                                                         </div>
-
+                                                         
                                                         <div class="form-group row">
                                                             <label class="col-form-label col-md-4 col-sm-4 ">อีเมล์ :
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
                                                                 <input type="text" class="form-control"
                                                                     id="company_email"
-                                                                    value="{{ $ComAddr->company_email }}"
+                                                                    value="{{ (optional($ComAddr)->company_email ? $ComAddr->company_email : null) }}"
                                                                     readonly="readonly" placeholder="ซอย">
                                                             </div>
                                                         </div>
@@ -773,7 +782,7 @@
                                                             <div class="col-md-8 col-sm-8 ">
                                                                 <input type="text" class="form-control"
                                                                     id="company_surname"
-                                                                    value="{{ $ComAddr->company_surname . ' ' . $ComAddr->company_lastname }}"
+                                                                    value=" {{ (optional($ComAddr)->company_surname ? $ComAddr->company_surname . ' ' . $ComAddr->company_lastname : null) }}"
                                                                     readonly="readonly" placeholder="ซอย">
                                                             </div>
                                                         </div>
@@ -784,7 +793,7 @@
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
                                                                 <input type="text" class="form-control"
-                                                                    id="company_tel" value="{{ $ComAddr->company_tel }}"
+                                                                    id="company_tel" value="{{ (optional($ComAddr)->company_tel ? $ComAddr->company_tel: null) }}"
                                                                     readonly="readonly" placeholder="ซอย">
                                                             </div>
                                                         </div>
@@ -795,7 +804,7 @@
                                                             <div class="col-md-8 col-sm-8 ">
                                                                 <input type="text" class="form-control"
                                                                     id="company_business_type"
-                                                                    value="{{ $ComAddr->company_business_type != null ? $ComAddr->company_business_type : 'ไม่พบข้อมูล' }}"
+                                                                    value="{{ (optional($ComAddr)->company_business_type ? $ComAddr->company_business_type: null) }}"
                                                                     readonly="readonly" placeholder="ซอย">
                                                             </div>
                                                         </div>
@@ -823,7 +832,7 @@
                                                             <div class="col-md-8 col-sm-8 ">
                                                                 <input type="text" class="form-control"
                                                                     id="company_house_number"
-                                                                    value="{{ $ComAddr->company_house_number }}"
+                                                                    value="{{ (optional($ComAddr)->company_house_number ? $ComAddr->company_house_number: null) }}"
                                                                     readonly="readonly" placeholder="Read-Only Input">
                                                             </div>
                                                         </div>
@@ -883,12 +892,14 @@
                                                         </div>
 
 
-
+                                                        @endif
 
                                                     </div>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
+                                       
                                         {{-- สิ้นสุดข้อมูลนายจ้าง --}}
 
                                     </div>

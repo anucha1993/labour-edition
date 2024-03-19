@@ -63,7 +63,7 @@ class CustomerController extends Controller
     {
 
        // เช็ค เลข vat ซ้ำ
-       $pass = CustomerModel::where('company_code',$request->company_code)->count();
+       $pass = CustomerModel::where('company_name',$request->company_name)->count();
        if($pass > 0)
        {
            return redirect()->back()->with('error','บันทึกข้อมูลล้มเหลว เนื่องจากข้อมูล บริษัท ซ้ำกันกับระบบ');
