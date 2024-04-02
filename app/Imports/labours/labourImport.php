@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\laModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use App\Models\Labours\LabourModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -41,6 +42,36 @@ class labourImport implements ToCollection, WithStartRow,WithHeadingRow
         $now = Carbon::now();
         //dd($collection);
         foreach ($collection as $row) {
+
+            $PROVINCE_ID = NULL;
+            $AMPHUR_ID = NULL;
+            $DISTRICT_ID = NULL;
+            $zip = NULL;
+
+            // จังหวัด 
+            $province = DB::table('provinces')->where('PROVINCE_NAME',$row[26])->first();
+            if($province === NULL) {
+                return redirect()->back()->with('error', 'จังหวัดไม่ถูกต้อง จังหวัด :'.$row[26]);
+            }
+            $amphur = DB::table('amphures')->where('PROVINCE_ID', $province->PROVINCE_ID)->where('AMPHUR_NAME',$row[25])->first();
+            if($amphur === NULL) {
+                return redirect()->back()->with('error', 'เขต/อำเภอ ไม่ถูกต้อง เขต/อำเภอ :'.$row[25]);
+            }
+
+            $district = DB::table('districts')->where('AMPHUR_ID',$amphur->AMPHUR_ID)->where('DISTRICT_NAME',$row[24])->first();
+            if($district === NULL) {
+                return redirect()->back()->with('error', 'แขวง/ตำบล ไม่ถูกต้อง แขวง/ตำบล :'.$row[25]);
+            }
+            $zipcode = DB::table('zipcodes')->where('district_code',$district->DISTRICT_CODE)->first();
+            if($zipcode === NULL) {
+                return redirect()->back()->with('error', 'รหัสไปรษณีย์ ไม่ถูกต้อง');
+            }
+
+            $PROVINCE_ID = $province->PROVINCE_ID;
+            $AMPHUR_ID = $amphur->AMPHUR_ID;
+            $DISTRICT_CODE = $district->DISTRICT_CODE;
+            $zip =  $zipcode->zipcode;
+
 
             if($row[6] && $row[9] && $row[12] && $row[13])
             {
@@ -131,17 +162,19 @@ class labourImport implements ToCollection, WithStartRow,WithHeadingRow
                     })
                     ->log($newRecord->labour_name . ',' . $newRecord->labour_passport_number);
 
+                  
 
-                    if($row[22] && $row[25]) 
+                    if($PROVINCE_ID && $AMPHUR_ID && $DISTRICT_CODE && $zip ) 
                     {
+            
                         AddressLabourModel::create([
                             'labour_id'         => $newRecord->labour_id,
                             'labour_passport'   => $newRecord->labour_passport_number,
                             'addr_number'       => $row[23],
-                            'addr_province'     => $row[26],
-                            'addr_amphur'       => $row[25],
-                            'addr_distict'      => $row[24],
-                            'addr_zipcode'      => $row[27],
+                            'addr_province'     => $PROVINCE_ID, ///$row[26],
+                            'addr_amphur'       => $AMPHUR_ID, //$row[25],
+                            'addr_distict'      => $DISTRICT_CODE, //$row[24],
+                            'addr_zipcode'      => $zip, //$row[27],
                             'addr_note'         => $row[28],
                             'addr_user_add'     => Auth::user()->name,
                             'addr_status'       => 'Y',
@@ -154,6 +187,7 @@ class labourImport implements ToCollection, WithStartRow,WithHeadingRow
                 
                
             }
+    
         }
     }
 

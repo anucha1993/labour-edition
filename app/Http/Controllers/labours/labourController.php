@@ -250,6 +250,8 @@ class LabourController extends Controller
         })
         ->log($labourModel->labour_name . ',' . $labourModel->labour_passport_number);
       
+        
+
         $addrLabour = DB::table('address_labour')->where('labour_id',$request->labour_id)->count();
 
         // ที่อยู่คนงาน

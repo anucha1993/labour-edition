@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\report\ReportExpireController;
+use App\Http\Controllers\dashboards\dashboardController;
+use App\Http\Controllers\checkAddress\checkAddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,16 +18,21 @@ use App\Http\Controllers\HomeController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Auth::routes();
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 // Auth::routes();
 
-Auth::routes();
+
+// Dashboard::
+Route::get('/',[dashboardController::class,'index'])->name('/');
+
+
 
 Route::get('/home',[\App\Http\Controllers\labours\LabourController::class,'index'])->name('home');
-Route::get('/',[\App\Http\Controllers\labours\LabourController::class,'index'])->name('labours');
+
 Route::get('labours',[\App\Http\Controllers\labours\LabourController::class,'index'])->name('labour.index');
 
 Route::get('labour/form-add',[\App\Http\Controllers\labours\LabourController::class,'create'])->name('labour.create');
@@ -98,3 +106,9 @@ Route::post('report/customer/download',[\App\Http\Controllers\report\ReportCusto
 //LogFIle
 Route::get('logfile/labour',[\App\Http\Controllers\logfile\labourLogController::class,'index'])->name('logfile.labour');
 
+//Check Address
+Route::post('checkaddress',[checkAddressController::class,'check'])->name('checkaddress');
+
+//Report Expire
+
+Route::get('report/reportexpire/{expireType}',[ReportExpireController::class,'exportExpire'])->name('report.exportExpire');

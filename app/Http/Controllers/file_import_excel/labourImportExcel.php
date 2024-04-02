@@ -39,8 +39,13 @@ class labourImportExcel extends Controller
 
         $importedIds = $import->getImportedIds();
         $IDsimpoert = implode(', ', $importedIds);
+
+        if($IDsimpoert) {
+         return redirect()->route('excelImport.checkLabour', ['importedIds' => $IDsimpoert])->with('success', 'นำเข้าข้อมูลสำเร็จ!');
+        }else {
+         return redirect()->route('excelImport.checkLabour', ['importedIds' => $IDsimpoert]);
+        }
     
-        return redirect()->route('excelImport.checkLabour', ['importedIds' => $IDsimpoert])->with('success', 'นำเข้าข้อมูลสำเร็จ!');
     }
 
 

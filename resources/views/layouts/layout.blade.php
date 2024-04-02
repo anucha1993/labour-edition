@@ -80,7 +80,15 @@
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                         <div class="menu_section">
                             <h3>General</h3>
+
+                          
+                              
                             <ul class="nav side-menu">
+
+                                <li><a href="{{route('/')}}"><i class="fa fa-home"></i> Home <span class="fa"></span></a>
+                                   
+                                  </li>
+
                                 <li><a><i class="fa fa-university"></i> ข้อมูลนายจ้าง <span
                                     class="fa fa-chevron-down"></span></a>
                             <ul class="nav child_menu">
@@ -135,7 +143,7 @@
                             
                         @endif
 
-                        
+                
 
                                 {{-- <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -380,7 +388,7 @@
                 <div class="">
                     <div class="page-title">
                         <div class="title_left">
-                            <h3>โปรแกรม <small>บันทึกข้อมูลคนงานต่างด้าว</small></h3>
+                            {{-- <h3>โปรแกรม <small>บันทึกข้อมูลคนงานต่างด้าว</small></h3> --}}
                         </div>
                         {{-- 
               <div class="title_right">

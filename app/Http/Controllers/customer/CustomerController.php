@@ -62,7 +62,7 @@ class CustomerController extends Controller
     public function store(Request $request) 
     {
 
-       // เช็ค เลข vat ซ้ำ
+       // เช็ค เลข  ชื่อบริษัทซ้ำ ซ้ำ
        $pass = CustomerModel::where('company_name',$request->company_name)->count();
        if($pass > 0)
        {
