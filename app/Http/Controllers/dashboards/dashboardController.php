@@ -26,6 +26,8 @@ class dashboardController extends Controller
         ->leftJoin('nationality', 'nationality.nationality_id', '=', 'labour.labour_nationality')
         ->where('labour.labour_passport_date_end','<=',Carbon::now()->addDays(15)) 
         ->where('labour.labour_status','Y')
+        ->where('labour.labour_resign','N')
+        ->where('labour.labour_escape','N')
         ->groupBy('labour.labour_id')
         ->paginate(10);
 
@@ -34,6 +36,8 @@ class dashboardController extends Controller
         ->leftJoin('nationality', 'nationality.nationality_id', '=', 'labour.labour_nationality')
         ->where('labour.labour_visa_date_end','<=', Carbon::now()->addDays(15)) 
         ->where('labour.labour_status','Y')
+        ->where('labour.labour_resign','N')
+        ->where('labour.labour_escape','N')
         ->groupBy('labour.labour_id')
         ->paginate(10);
 
@@ -42,6 +46,8 @@ class dashboardController extends Controller
         ->leftJoin('nationality', 'nationality.nationality_id', '=', 'labour.labour_nationality')
         ->where('labour.labour_work_permit_date_end','<=', Carbon::now()->addDays(15)) 
         ->where('labour.labour_status','Y')
+        ->where('labour.labour_resign','N')
+        ->where('labour.labour_escape','N')
         ->groupBy('labour.labour_id')
         ->paginate(10);
 
@@ -50,6 +56,8 @@ class dashboardController extends Controller
         ->leftJoin('nationality', 'nationality.nationality_id', '=', 'labour.labour_nationality')
         ->where('labour.labour_ninety_date_end','<=', Carbon::now()->addDays(15)) 
         ->where('labour.labour_status','Y')
+        ->where('labour.labour_resign','N')
+        ->where('labour.labour_escape','N')
         ->groupBy('labour.labour_id')
         ->paginate(10);
 

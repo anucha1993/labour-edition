@@ -48,7 +48,8 @@ class labourImport implements ToCollection, WithStartRow,WithHeadingRow
             $DISTRICT_ID = NULL;
             $zip = NULL;
 
-            // จังหวัด 
+            if(!empty($row[26])){
+                 // จังหวัด 
             $province = DB::table('provinces')->where('PROVINCE_NAME',$row[26])->first();
             if($province === NULL) {
                 return redirect()->back()->with('error', 'จังหวัดไม่ถูกต้อง จังหวัด :'.$row[26]);
@@ -71,6 +72,8 @@ class labourImport implements ToCollection, WithStartRow,WithHeadingRow
             $AMPHUR_ID = $amphur->AMPHUR_ID;
             $DISTRICT_CODE = $district->DISTRICT_CODE;
             $zip =  $zipcode->zipcode;
+            }
+           
 
 
             if($row[6] && $row[9] && $row[12] && $row[13])
