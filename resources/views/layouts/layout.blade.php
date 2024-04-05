@@ -509,11 +509,10 @@
             type: "GET",
             success: function(response) {
                 // ดึงข้อมูลจาก response
-                var TotalExpirePassport = response.TotalExpirePassport;
-                var TotalExpireVisa = response.TotalExpireVisa;
-                var TotalExpireWork = response.TotalExpireWork;
-                var TotalExpire90day = response.TotalExpire90day;
-
+                var TotalExpirePassport = response.TotalExpirePassport.toLocaleString(); 
+            var TotalExpireVisa = response.TotalExpireVisa.toLocaleString();
+            var TotalExpireWork = response.TotalExpireWork.toLocaleString();
+            var TotalExpire90day = response.TotalExpire90day.toLocaleString();
                 // แสดงแจ้งเตือน Swal.fire โดยใช้ข้อมูลที่ดึงมา
                 Swal.fire({
                     title: "เอกสารหมดอายุ",
