@@ -105,6 +105,7 @@
                                         {{-- <li><a href="tables_dynamic.html">Table Dynamic</a></li> --}}
                                     </ul>
                                 </li>
+                                
                                 <li><a><i class="fa fa-group"></i>กลุ่มนำเข้าแรงงานต่างด้าว<span
                                             class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
@@ -121,7 +122,7 @@
                                         </li>
                                     </ul>
                                 </li>
-
+                                @if (Auth::user()->type != 3) 
                                 <li><a><i class="fa fa-file-excel-o"></i>นำเข้าข้อมูล<span
                                             class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
@@ -133,7 +134,7 @@
                                         </li>
                                     </ul>
                                 </li>
-
+                                @endif
                                 @if (Auth::user()->type == '1')
                                     <li><a><i class="fa fa-file-text-o"></i>LogFile<span
                                                 class="fa fa-chevron-down"></span></a>

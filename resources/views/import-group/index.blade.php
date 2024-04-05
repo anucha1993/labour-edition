@@ -35,8 +35,10 @@
                     </ul>
                     <div class="clearfix"></div>
                 </div>
+                @if (Auth::user()->type != 3) 
                 <a href="{{ route('importgroup.modalAdd') }}"
                 class="btn btn-primary btn-sm pull-right import-group">เพิ่ม</a>
+                @endif
             <br />
                 <div class="x_content">
                    
@@ -49,7 +51,9 @@
                                         <th>ID</th>
                                         <th>ชื่อกลุ่ม</th>
                                         <th>สถานะ</th>
+                                        @if (Auth::user()->type != 3) 
                                         <th>Actions</th>
+                                        @endif
                                     </tr>
                                 </thead>
                               
@@ -91,7 +95,9 @@
                     {data: 'import_id',name: 'import_id'},
                     {data: 'import_name',name: 'import_name'},
                     {data: 'status',name: 'status'},
+                    @if (Auth::user()->type != 3) 
                     {data: 'action',name: 'action'},
+                    @endif
                 ]
               
             });

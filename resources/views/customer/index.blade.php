@@ -38,8 +38,9 @@
                 <div class="x_title">
 
                     <h2>Customer All <small>ข้อมูลนายจ้าง</small></h2>
+                    @if (Auth::user()->type === 1)
                     <a href="{{ route('customer.create') }}" class="btn btn-primary pull-right">เพิ่มนายจ้าง</a>
-
+                    @endif
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -94,8 +95,10 @@
                                         <td>
                                             <a href="{{ route('customer.show', $v->company_id) }}" class="text-primary"><i
                                                     class="fa fa-eye"></i></a>&nbsp;&nbsp;
-                                            <a href="{{ route('customer.edit', $v->company_id) }}" class="text-success"><i
-                                                    class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    @if (Auth::user()->type != 3) 
+                                                        <a href="{{ route('customer.edit', $v->company_id) }}" class="text-success"><i
+                                                            class="fa fa-edit"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    @endif
 
                                                     @if (Auth::user()->type == 1)
                                                     <a href="#" id="companyDelete"
