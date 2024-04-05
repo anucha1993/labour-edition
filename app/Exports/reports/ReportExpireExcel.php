@@ -26,6 +26,7 @@ class ReportExpireExcel implements FromCollection, WithMultipleSheets
 
      private $data;
     private $expireType;
+    private $company;
 
     public function sheets(): array
     {
@@ -41,13 +42,13 @@ class ReportExpireExcel implements FromCollection, WithMultipleSheets
         return $sheets;
     }
 
-    public function __construct($expireType)
+    public function __construct($expireType,$company)
     {
         $this->expireType = $expireType;
+        $this->company = $company;
 
 
-        //dd($this->company_id);
-
+ 
         $data = LabourModel::leftJoin('company', 'company.company_id', '=', 'labour.labour_company')
             ->leftJoin('nationality', 'nationality.nationality_id', '=', 'labour.labour_nationality')
             ->leftJoin('import', 'import.import_id', '=', 'labour.import_id')
@@ -55,24 +56,33 @@ class ReportExpireExcel implements FromCollection, WithMultipleSheets
             ->leftjoin('amphures', 'amphures.AMPHUR_ID', 'address_labour.addr_amphur')
             ->leftjoin('districts', 'districts.DISTRICT_CODE', 'addr_distict')
             ->leftjoin('provinces', 'provinces.PROVINCE_ID', 'addr_province')
+            ->leftJoin('agent', 'agent.agent_id', '=', 'labour.labour_agent')
             ->where('labour.labour_status', '=', 'Y')
+            ->where('labour.labour_resign', 'N')
+            ->where('labour.labour_escape', 'N')
+
+             // พาสหมด
+             ->when($this->company != 'NULL', function ($query) {
+                return $query->where('company.company_id',$this->company);
+            })
+
             // พาสหมด
-            ->when($this->expireType != 'passport', function ($query) {
-                return $query->where('labour.labour_passport_date_end','<=',Carbon::now()->addDays(15));
+            ->when($this->expireType === 'passport', function ($query) {
+                return $query->where('labour.labour_passport_date_end','<=',Carbon::now()->addDays(60));
             })
-            //ตามกลุ่มนำเข้า
-            ->when($this->expireType != 'visa', function ($query) {
-                return $query->where('labour.labour_visa_date_end','<=',Carbon::now()->addDays(15));
+            //Visa หมด
+            ->when($this->expireType === 'visa', function ($query) {
+                return $query->where('labour.labour_visa_date_end','<=',Carbon::now()->addDays(30));
             })
-            //สถานะทำงาน
+            //Work หมด
             ->when($this->expireType === 'work', function ($query) {
-                return $query->where('labour.labour_work_permit_date_end','<=',Carbon::now()->addDays(15));
+                return $query->where('labour.labour_work_permit_date_end','<=',Carbon::now()->addDays(30));
             })
-            //สถานะหลบหนี
+            // 90 days
             ->when($this->expireType === 'ninety', function ($query) {
                 return $query->where('labour.labour_ninety_date_end','<=',Carbon::now()->addDays(15));
             })
-           
+
             ->orderBy('labour.labour_id')
             ->get();
 

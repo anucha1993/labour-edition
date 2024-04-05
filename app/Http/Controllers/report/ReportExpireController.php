@@ -14,7 +14,8 @@ class ReportExpireController extends Controller
     public function exportExpire(Request $request)
     {
      $expireType = $request->expireType;
+     $company = $request->company;
      //dd($expireType);
-    return Excel::download(new ReportExpireExcel($expireType), 'labour-'.$expireType.'expire-'.date('d-m-Y').'.xlsx');
+    return Excel::download(new ReportExpireExcel($expireType,$company), 'labour-'.$expireType.'expire-'.date('d-m-Y').'.xlsx');
     }
 }

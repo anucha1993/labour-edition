@@ -107,6 +107,7 @@ class CPFexportSubformSheet implements FromCollection,WithTitle,WithHeadings,Wit
             'K' => 15,            
             'L' => 15,            
             'M' => 15,            
+            'N' => 40,            
                  
         ];
     }
@@ -128,17 +129,19 @@ class CPFexportSubformSheet implements FromCollection,WithTitle,WithHeadings,Wit
           
             'ลำดับ', //1
             'ชื่อบริษัท',//2
-            'แผนก',//3
-            'User ID',//4
-            'Name',//5
-            'สัญชาติ',//6
-            'วันเกิด',//7
-            'Country/Region',//8
-            'Document Type',//9
-            'Document Number',//10
-            'Issue Date',//11
-            'Expiry Date',//12
-            'Issue Place',//13
+            'เอเจนซี่', //3
+            'แผนก',//4
+            'User ID',//5
+            'Name',//6
+            'สัญชาติ',//7
+            'วันเกิด',//8
+            'Country/Region',//9
+            'Document Type',//10
+            'Document Number',//11
+            'Issue Date',//12
+            'Expiry Date',//13
+            'Issue Place',//14
+            'เอเจซี่',//15
 
         ];
     }
@@ -166,6 +169,7 @@ class CPFexportSubformSheet implements FromCollection,WithTitle,WithHeadings,Wit
       return [
         ++$this->No, //1
         $data->company_name,//2
+        ($data->agent_company == '' ? "'" : $data->agent_company),//3
         ($data->labour_department == '' ? "'" : $data->labour_department),//3
         ($data->labour_code == '' ? "'" : $data->labour_code),//4
         $data->labour_name,//5
@@ -177,6 +181,7 @@ class CPFexportSubformSheet implements FromCollection,WithTitle,WithHeadings,Wit
         date('d-m-Y',strtotime($data->labour_passport_date_start)),//11
         date('d-m-Y',strtotime($data->labour_ninety_date_end)),//12
         $data->labour_TM_province,//13
+        $data->agent_company
        
 
       ];

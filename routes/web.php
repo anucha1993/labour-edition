@@ -28,6 +28,11 @@ Auth::routes();
 
 // Dashboard::
 Route::get('/',[dashboardController::class,'index'])->name('/');
+Route::get('/dashboard/Modalshow/passport/{company}',[dashboardController::class,'ModalshowPassport'])->name('dashboard.Modalshow.passport');
+Route::get('/dashboard/Modalshow/visa/{company}',[dashboardController::class,'ModalshowVisa'])->name('dashboard.Modalshow.visa');
+Route::get('/dashboard/Modalshow/work/{company}',[dashboardController::class,'ModalshowWork'])->name('dashboard.Modalshow.work');
+Route::get('/dashboard/Modalshow/ninety/{company}',[dashboardController::class,'ModalshowNinety'])->name('dashboard.Modalshow.ninety');
+Route::get('/dashboard/alert/notify',[dashboardController::class,'alertNotifyAction'])->name('dashboard.alertNotifyAction');
 
 
 
@@ -110,5 +115,4 @@ Route::get('logfile/labour',[\App\Http\Controllers\logfile\labourLogController::
 Route::post('checkaddress',[checkAddressController::class,'check'])->name('checkaddress');
 
 //Report Expire
-
-Route::get('report/reportexpire/{expireType}',[ReportExpireController::class,'exportExpire'])->name('report.exportExpire');
+Route::get('report/reportexpire/{expireType}/{company}',[ReportExpireController::class,'exportExpire'])->name('report.exportExpire');

@@ -134,7 +134,8 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
             'T' => 20,            
             'U' => 20,            
             'V' => 80,            
-            'W' => 60,            
+            'W' => 40,            
+            'X' => 60,                    
         ];
     }
 
@@ -175,7 +176,8 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
             'เลข ตม.',//18
             'เบอร์ติดต่อแรงงาน',//19
             'ที่อยู่แรงงาน',//19
-            'หมายเหตุ',//20
+            'เอเจนซี่', //20
+            'หมายเหตุ',//21
           
         ];
     }
@@ -209,7 +211,8 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
         $data->labour_immigration_number,
         ($data->addr_note == '' ? "ไม่พบข้อมูล" : $data->addr_note),//9
         ($data->addr_province == '' ? "ไม่พบที่อยู่" : 'เลขที่ '.$data->addr_number.' ตำบล/แขวง '.$data->DISTRICT_NAME. 'อำเภอ/เขต '.$data->AMPHUR_NAME.' จังหวัด '.$data->PROVINCE_NAME.' รหัสไปรษณีย์ '.$data->addr_zipcode),
-        $data->labour_note,//19
+        $data->agent_company,//19
+        $data->labour_note,//20
 
       ];
     }

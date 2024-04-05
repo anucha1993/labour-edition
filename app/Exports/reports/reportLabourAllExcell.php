@@ -76,6 +76,7 @@ class reportLabourAllExcell implements FromCollection, WithMultipleSheets
             ->leftjoin('amphures','amphures.AMPHUR_ID','address_labour.addr_amphur')
             ->leftjoin('districts','districts.DISTRICT_CODE','addr_distict')
             ->leftjoin('provinces','provinces.PROVINCE_ID','addr_province')
+            ->leftJoin('agent', 'agent.agent_id', '=', 'labour.labour_agent')
             //->where('labour.labour_status', '=', 'Y')
             //ตามบริษัท
             ->when($this->company_id != 'all', function ($query) {

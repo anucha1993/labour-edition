@@ -60,6 +60,7 @@ class reportCpfForm01Excell implements FromCollection,WithMultipleSheets
         $data = LabourModel::leftJoin('company', 'company.company_id', '=', 'labour.labour_company')
             ->leftJoin('nationality', 'nationality.nationality_id', '=', 'labour.labour_nationality')
             ->leftJoin('import', 'import.import_id', '=', 'labour.import_id')
+            ->leftJoin('agent', 'agent.agent_id', '=', 'labour.labour_agent')
            // ->where('labour.labour_status', '=', 'Y')
 
             //ตามบริษัท

@@ -30,7 +30,7 @@
         rel="stylesheet">
     <link href="{{ URL::asset('vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-   
+
     <!-- Custom Theme Style -->
     <link href="{{ URL::asset('build/css/custom.min.css') }}" rel="stylesheet">
 
@@ -39,12 +39,12 @@
     <script src="{{ URL::asset('vendors/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ URL::asset('vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<style>
-    .select2 {
-        font-size: 16px;
+    <style>
+        .select2 {
+            font-size: 16px;
 
-    }
-</style>
+        }
+    </style>
 
 
 
@@ -81,22 +81,23 @@
                         <div class="menu_section">
                             <h3>General</h3>
 
-                          
-                              
+
+
                             <ul class="nav side-menu">
 
-                                <li><a href="{{route('/')}}"><i class="fa fa-home"></i> Home <span class="fa"></span></a>
-                                   
-                                  </li>
+                                <li><a href="{{ route('/') }}"><i
+                                            class="fa fa-bell text-danger"></i>เตือนเอกสารหมดอายุ </i></a>
+
+                                </li>
 
                                 <li><a><i class="fa fa-university"></i> ข้อมูลนายจ้าง <span
-                                    class="fa fa-chevron-down"></span></a>
-                            <ul class="nav child_menu">
-                                <li><a href="{{ route('customer.index') }}">ข้อมูลนายจ้าง</a></li>
-                                {{-- <li><a href="tables_dynamic.html">Table Dynamic</a></li> --}}
-                            </ul>
-                        </li>
-                        
+                                            class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="{{ route('customer.index') }}">ข้อมูลนายจ้าง</a></li>
+                                        {{-- <li><a href="tables_dynamic.html">Table Dynamic</a></li> --}}
+                                    </ul>
+                                </li>
+
                                 <li><a><i class="fa fa-table"></i> ข้อมูลคนต่างด้าว <span
                                             class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
@@ -122,28 +123,28 @@
                                 </li>
 
                                 <li><a><i class="fa fa-file-excel-o"></i>นำเข้าข้อมูล<span
-                                    class="fa fa-chevron-down"></span></a>
-                            <ul class="nav child_menu">
-                                <li><a href="{{route('excelImport.labour')}}">นำเข้าข้อมูลคนต่างด้าว</a></li>
-                                <li><a href="{{route('department.employee.id')}}">นำเข้าข้อมูล แผนก & รหัสพนักงาน</a></li>
-                                <li><a href="{{route('import.update90day')}}">นำเข้าข้อมูล 90 วัน</a></li>
-                                <li><a href="{{route('addressLabour.index')}}">นำเข้าข้อมูล ที่อยู่แรงงาน</a></li>
-                            </ul>
-                        </li>
+                                            class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="{{ route('excelImport.labour') }}">นำเข้าข้อมูลคนต่างด้าว</a></li>
+                                        <li><a href="{{ route('department.employee.id') }}">นำเข้าข้อมูล แผนก &
+                                                รหัสพนักงาน</a></li>
+                                        <li><a href="{{ route('import.update90day') }}">นำเข้าข้อมูล 90 วัน</a></li>
+                                        <li><a href="{{ route('addressLabour.index') }}">นำเข้าข้อมูล ที่อยู่แรงงาน</a>
+                                        </li>
+                                    </ul>
+                                </li>
 
-                        @if (Auth::user()->type == '1')
-                            
-                        <li><a><i class="fa fa-file-text-o"></i>LogFile<span
-                            class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                        <li><a href="{{route('logfile.labour')}}">LabourLog</a></li>
-                      
-                    </ul>
-                    </li>
-                            
-                        @endif
+                                @if (Auth::user()->type == '1')
+                                    <li><a><i class="fa fa-file-text-o"></i>LogFile<span
+                                                class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="{{ route('logfile.labour') }}">LabourLog</a></li>
 
-                
+                                        </ul>
+                                    </li>
+                                @endif
+
+
 
                                 {{-- <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -287,7 +288,7 @@
                         </a>
                     <a class="dropdown-item"  href="javascript:;">Help</a>  --}}
                                     <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit(); localStorage.removeItem('hasAlerted');"><i
                                             class="fa fa-sign-out pull-right"></i> Log Out</a>
 
                                     {{-- <a class="dropdown-item" href="{{ route('logout') }}"
@@ -483,7 +484,7 @@
     <script src="{{ URL::asset('vendors/nprogress/nprogress.js') }}"></script>
     <script src="{{ URL::asset('vendors/bootstrap-progressbar/bootstrap-progressbar.min.js') }}"></script>
     <script src="{{ URL::asset('vendors/switchery/dist/switchery.min.js') }}"></script>
-  
+
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('build/js/custom.min.js') }}"></script>
 
@@ -498,6 +499,46 @@
         }, 60000); // 1 นาที = 60000 มิลลิวินาที
     </script> --}}
 
+    <script>
+      $(document).ready(function() {
+    // ตรวจสอบว่าแจ้งเตือนได้ถูกแสดงไปแล้วหรือไม่
+    var hasAlerted = localStorage.getItem('hasAlerted');
+    if (!hasAlerted) {
+        $.ajax({
+            url: "{{ route('dashboard.alertNotifyAction') }}",
+            type: "GET",
+            success: function(response) {
+                // ดึงข้อมูลจาก response
+                var TotalExpirePassport = response.TotalExpirePassport;
+                var TotalExpireVisa = response.TotalExpireVisa;
+                var TotalExpireWork = response.TotalExpireWork;
+                var TotalExpire90day = response.TotalExpire90day;
+
+                // แสดงแจ้งเตือน Swal.fire โดยใช้ข้อมูลที่ดึงมา
+                Swal.fire({
+                    title: "เอกสารหมดอายุ",
+                    html: "<span class='text-left text-danger'>พาสปอร์ตหมดอายุ :</span><br>" + TotalExpirePassport + " คน <br>"+
+                          "<span class='text-left text-danger'>วีซ่าหมดอายุ :</span><br>" + TotalExpireVisa + " คน <br>"+
+                          "<span class='text-left text-danger'>ใบอนุญาตทำงานหมดอายุ :</span><br>" + TotalExpireWork + " คน <br>"+
+                          "<span class='text-left text-danger'>90วันหมดอายุ :</span><br>" + TotalExpire90day + " คน <br>",
+
+                    icon: "warning",
+                    confirmButtonText: "รับทราบข้อมูล"
+                });
+
+                // บันทึกสถานะการแจ้งเตือนไว้ใน localStorage เพื่อไม่ให้แสดงซ้ำ
+                localStorage.setItem('hasAlerted', true);
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+});
+
+
+    </script>
+    
 </body>
 
 </html>
