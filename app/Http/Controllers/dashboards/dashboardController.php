@@ -26,11 +26,13 @@ class dashboardController extends Controller
         $countLabourTotal = LabourModel::count();
         $countLabourStatusActivateTotal = LabourModel::where('labour.labour_status', 'N')->count();
 
+
         $ExpirePassport = LabourModel::select('company.company_name', 'company.company_id')
             ->leftJoin('company', 'company.company_id', '=', 'labour.labour_company')
             //กำหนดเวลาแจ้งเตือน Passport ก่อนหมดอายุ 60 วัน
             ->where('labour.labour_passport_date_end', '<=', Carbon::now()->addDays(60))
             ->where('labour.labour_status', 'Y')
+            ->where('labour.labour_passport_company_manage', 'N')
             ->where('labour.labour_resign', 'N')
             ->where('labour.labour_escape', 'N')
             ->groupBy('company.company_id')
@@ -49,6 +51,7 @@ class dashboardController extends Controller
             //กำหนดเวลาแจ้งเตือน Passport ก่อนหมดอายุ 60 วัน
             ->where('labour.labour_passport_date_end', '<=', Carbon::now()->addDays(60))
             ->where('labour.labour_status', 'Y')
+            ->where('labour.labour_passport_company_manage', 'N')
             ->where('labour.labour_resign', 'N')
             ->where('labour.labour_escape', 'N')
             ->count();
@@ -60,6 +63,7 @@ class dashboardController extends Controller
             //กำหนดเวลาแจ้งเตือน Visa ก่อนหมดอายุ 30 วัน
             ->where('labour.labour_visa_date_end', '<=', Carbon::now()->addDays(30))
             ->where('labour.labour_status', 'Y')
+            ->where('labour.labour_visa_company_manage', 'N')
             ->where('labour.labour_resign', 'N')
             ->where('labour.labour_escape', 'N')
             ->groupBy('company.company_id')
@@ -80,6 +84,7 @@ class dashboardController extends Controller
             //กำหนดเวลาแจ้งเตือน Visa ก่อนหมดอายุ 30 วัน
             ->where('labour.labour_visa_date_end', '<=', Carbon::now()->addDays(30))
             ->where('labour.labour_status', 'Y')
+            ->where('labour.labour_visa_company_manage', 'N')
             ->where('labour.labour_resign', 'N')
             ->where('labour.labour_escape', 'N')
             ->count();
@@ -90,6 +95,7 @@ class dashboardController extends Controller
             //กำหนดเวลาแจ้งเตือน Work ก่อนหมดอายุ 30 วัน
             ->where('labour.labour_work_permit_date_end', '<=', Carbon::now()->addDays(30))
             ->where('labour.labour_status', 'Y')
+            ->where('labour.labour_work_permit_company_manage', 'N')
             ->where('labour.labour_resign', 'N')
             ->where('labour.labour_escape', 'N')
             ->groupBy('company.company_id')
@@ -108,6 +114,7 @@ class dashboardController extends Controller
             ->where('labour.labour_work_permit_date_end', '<=', Carbon::now()->addDays(30))
             ->where('labour.labour_status', 'Y')
             ->where('labour.labour_resign', 'N')
+            ->where('labour.labour_work_permit_company_manage', 'N')
             ->where('labour.labour_escape', 'N')
             ->count();
 
@@ -117,6 +124,7 @@ class dashboardController extends Controller
             //กำหนดเวลาแจ้งเตือน 90Day ก่อนหมดอายุ 15 วัน
             ->where('labour.labour_ninety_date_end', '<=', Carbon::now()->addDays(15))
             ->where('labour.labour_status', 'Y')
+            ->where('labour.labour_ninety_company_manage', 'N')
             ->where('labour.labour_resign', 'N')
             ->where('labour.labour_escape', 'N')
             ->groupBy('company.company_id')
@@ -136,6 +144,7 @@ class dashboardController extends Controller
             ->where('labour.labour_ninety_date_end', '<=', Carbon::now()->addDays(15))
             ->where('labour.labour_status', 'Y')
             ->where('labour.labour_resign', 'N')
+            ->where('labour.labour_ninety_company_manage', 'N')
             ->where('labour.labour_escape', 'N')
             ->count();
 

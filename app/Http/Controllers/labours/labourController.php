@@ -219,7 +219,9 @@ class LabourController extends Controller
      */
     public function update(Request $request, LabourModel $labourModel)
     {
-       
+ 
+
+        
         // 
         if($request->labour_escape === null){
             $request->merge(['labour_escape'=> "N"]);
@@ -233,7 +235,22 @@ class LabourController extends Controller
         if($request->labour_status === null){
             $request->merge(['labour_status'=> "N"]);
         }
-        //dd($request->labour_status);
+
+        if($request->labour_passport_company_manage === null){
+            $request->merge(['labour_passport_company_manage'=> "N"]);
+        }
+
+        if($request->labour_visa_company_manage === null){
+            $request->merge(['labour_visa_company_manage'=> "N"]);
+        }
+
+        if($request->labour_work_permit_company_manage === null){
+            $request->merge(['labour_work_permit_company_manage'=> "N"]);
+        }
+        if($request->labour_ninety_company_manage === null){
+            $request->merge(['labour_ninety_company_manage'=> "N"]);
+        }
+
         //dd($request);
         $request->merge(['labour_user_edit'=> Auth::user()->name]);
         $labourModel->update($request->all());

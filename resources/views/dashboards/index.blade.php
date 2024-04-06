@@ -12,7 +12,7 @@
         <div class="col-md-2 col-sm-4  tile_stats_count">
             <span class="count_top"><i class="fa fa-clock-o"></i> พาสหมดอายุ</span>
             <div class="count ">{{ number_format($TotalExpirePassport) }}</div>
-            <span class="count_bottom"> แจ้งก่อนหมด 60 วัน </span>
+            <span class="count_bottom"> แจ้งก่อนหมด 60 วัน (ไม่รวมนายจ้างดำเนินการเอง) </span>
         </div>
         <div class="col-md-2 col-sm-4  tile_stats_count">
             <span class="count_top"><i class="fa fa-clock-o"></i> วิซ่าหมดอายุ</span>
@@ -22,12 +22,12 @@
         <div class="col-md-2 col-sm-4  tile_stats_count">
             <span class="count_top"><i class="fa fa-clock-o"></i> ใบอนุญาตทำงานหมดอายุ</span>
             <div class="count">{{ number_format($TotalExpireWork) }}</div>
-            <span class="count_bottom"> แจ้งก่อนหมด 30 วัน</span>
+            <span class="count_bottom"> แจ้งก่อนหมด 30 วัน (ไม่รวมนายจ้างดำเนินการเอง)</span>
         </div>
         <div class="col-md-2 col-sm-4  tile_stats_count">
             <span class="count_top"><i class="fa fa-clock-o"></i> 90 วันหมดอายุ</span>
             <div class="count">{{ number_format($TotalExpire90day) }}</div>
-            <span class="count_bottom"> แจ้งก่อนหมด 15 วัน</span>
+            <span class="count_bottom"> แจ้งก่อนหมด 15 วัน (ไม่รวมนายจ้างดำเนินการเอง)</span>
         </div>
 
         <div class="col-md-2 col-sm-4  tile_stats_count">

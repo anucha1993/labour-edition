@@ -1,24 +1,21 @@
 @extends('layouts.layout')
 @section('content')
     @if ($message = Session::get('success'))
-    
-
-            <script>
-                 var message = @json($message );
-                Swal.fire({
-                    icon: "success",
-                    title: message,
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            </script>
-
+        <script>
+            var message = @json($message);
+            Swal.fire({
+                icon: "success",
+                title: message,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script>
     @endif
 
     <form action="{{ route('labour.update', $labourModel->labour_id) }}" method="post">
         @csrf
         @method('put')
-        <input type="hidden" value="{{$labourModel->labour_id}}" name="labour_id">
+        <input type="hidden" value="{{ $labourModel->labour_id }}" name="labour_id">
         <div class="row">
             <div class="col-md-12 col-sm-12 ">
                 <div class="x_panel">
@@ -46,7 +43,9 @@
                                 <div id="crop-avatar">
                                     <!-- Current avatar -->
                                     @php
-                                        $na = $nationality->where('nationality_id', $labourModel->labour_nationality)->first();
+                                        $na = $nationality
+                                            ->where('nationality_id', $labourModel->labour_nationality)
+                                            ->first();
                                     @endphp
                                     <i style="font-size: 150px" class="fa {{ $na->nationality_flag }}"></i>
                                 </div>
@@ -58,7 +57,7 @@
                                 <li><i class="fa fa-map-marker user-profile-icon"></i> {{ $AddressLabour }}
                                 </li>
                                 <li>
-                                    <i class="fa fa-car" aria-hidden="true"></i> {!! (optional($ComAddr)->company_name ? $ComAddr->company_name . '<br>' . $AddressCompany : 'ไม่พบข้อมูล') !!}
+                                    <i class="fa fa-car" aria-hidden="true"></i> {!! optional($ComAddr)->company_name ? $ComAddr->company_name . '<br>' . $AddressCompany : 'ไม่พบข้อมูล' !!}
 
                                 </li>
                                 <li>
@@ -74,18 +73,52 @@
 
                             <a class="btn btn-success text-white">{{ $na->nationality_name }}</a>
                             <br />
+                            <div class="row">
+                                <div class="col-md-9 col-sm-9 ">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" @if ($labourModel->labour_passport_company_manage == "Y")  checked @endif name="labour_passport_company_manage"  class="flat-passport text-danger"> หนังสือเดินทาง
+                                            (นายจ้างดำเนินการเอง)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-9 col-sm-9 ">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" @if ($labourModel->labour_visa_company_manage == "Y") checked @endif  name="labour_visa_company_manage" class="flat-visa"> วีซ่า (นายจ้างดำเนินการเอง)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-9 col-sm-9 ">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" @if ($labourModel->labour_work_permit_company_manage == "Y") checked @endif name="labour_work_permit_company_manage" class="flat-work" > ใบอนุญาตทำงาน (นายจ้างดำเนินการเอง)
+                                        </label>
+                                    </div>
+                                </div>
 
+                                <div class="col-md-9 col-sm-9 ">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" @if ($labourModel->labour_ninety_company_manage == "Y") checked @endif  name="labour_ninety_company_manage"  class="flat-90days"> รายตัว 90 วัน (นายจ้างดำเนินการเอง)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- start skills -->
                             <h4>รายละเอียดทั่วไป</h4>
                             <ul class="list-unstyled user_data">
+
                                 <li>
-                                    <p>{{ (optional($ComAddr)->company_name ? $ComAddr->company_name : 'ไม่พบข้อมูล') }}</p>
+                                    <p>{{ optional($ComAddr)->company_name ? $ComAddr->company_name : 'ไม่พบข้อมูล' }}</p>
                                     <div class="progress progress_sm">
                                         <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="100">
                                         </div>
                                     </div>
                                 </li>
+
                                 <li>
+
                                     {{-- //สถานะทำงาน --}}
                                     <div class="row">
                                         <div class="col-4">
@@ -130,25 +163,25 @@
                                                 style="font-size: 10px; width: 70%" class="text-center form-control"
                                                 value="{{ $labourModel->labour_escape_date }}">
 
-                                 
+
                                 </li>
                                 <li>
                                     <p>บันทึกเพิ่มเติม</p>
                                     <textarea name="labour_note" class="form-control" cols="30" rows="10">{{ $labourModel->labour_note }}</textarea>
                                 </li>
                                 <li>
-                            
+
                                     <input type="checkbox" id="LabourStatus" value="{{ $labourModel->labour_status }}"
                                         class="js-switch" name="labour_status" /> <label id="text-LabourStatus"></label>
 
 
                                 </li>
                                 <li>
-                                    @if(Auth::user()->type != '3')
-                                    <div class="float-end"><button type="submit"
-                                        class="btn btn-primary pull-right">บันทึกข้อมูล</button></div>
+                                    @if (Auth::user()->type != '3')
+                                        <div class="float-end"><button type="submit"
+                                                class="btn btn-primary pull-right">บันทึกข้อมูล</button></div>
                                     @endif
-                                   
+
                                 </li>
 
                             </ul>
@@ -497,7 +530,12 @@
                                                                 <select name="labour_agent" style="font-size: 16px"
                                                                     class="form-control" required>
                                                                     @php
-                                                                        $agent = $agents->where('agent_id', $labourModel->labour_agent)->first();
+                                                                        $agent = $agents
+                                                                            ->where(
+                                                                                'agent_id',
+                                                                                $labourModel->labour_agent,
+                                                                            )
+                                                                            ->first();
                                                                     @endphp
                                                                     <option selected
                                                                         value="{{ $labourModel->labour_agent }}">
@@ -519,7 +557,12 @@
                                                                     required>
 
                                                                     @php
-                                                                        $na = $nationality->where('nationality_id', $labourModel->labour_nationality)->first();
+                                                                        $na = $nationality
+                                                                            ->where(
+                                                                                'nationality_id',
+                                                                                $labourModel->labour_nationality,
+                                                                            )
+                                                                            ->first();
                                                                     @endphp
                                                                     <option selected
                                                                         value="{{ $labourModel->labour_nationality }}">
@@ -689,8 +732,10 @@
                                                             <label
                                                                 class="col-form-label col-md-4 col-sm-4 ">เบอร์ติดต่อ</label>
                                                             <div class="col-md-8 col-sm-8 ">
-                                                          
-                                                                <input type="text" class="form-control" name="addr_note" value="{{ $labourAddr != null ? $labourAddr->addr_note : '' }}">
+
+                                                                <input type="text" class="form-control"
+                                                                    name="addr_note"
+                                                                    value="{{ $labourAddr != null ? $labourAddr->addr_note : '' }}">
                                                             </div>
                                                         </div>
 
@@ -710,10 +755,10 @@
 
                                     {{-- สิ้นสุดรายละเอียดส่วนตัว --}}
 
-  
+
                                     <div role="tabpanel" class="tab-pane fade" id="tab_content2"
                                         aria-labelledby="profile-tab">
-                                          
+
                                         {{-- ข้อมูลนายจ้าง --}}
                                         <div class="row">
                                             <div class="col-md-6 ">
@@ -725,7 +770,7 @@
 
                                                             <div class="clearfix"></div>
                                                         </div>
-                                                     
+
                                                         <div class="form-group row">
                                                             <label class="col-form-label col-md-4 col-sm-4 ">ข้อมูลนายจ้าง:
                                                             </label>
@@ -733,14 +778,14 @@
                                                                 <select name="labour_company" id="company"
                                                                     style="width: 308px" class="form-control">
                                                                     @if ($labourModel->labour_company)
-                                                                    <option selected
-                                                                    value="{{ $labourModel->labour_company }}">
-                                                                    {{ $ComAddr->company_name }}</option>
+                                                                        <option selected
+                                                                            value="{{ $labourModel->labour_company }}">
+                                                                            {{ $ComAddr->company_name }}</option>
                                                                     @endif
-                                                                   
+
 
                                                                     <option disabled>---Select A Company---</option>
-                                                                    
+
                                                                     @foreach ($companys as $v)
                                                                         <option value="{{ $v->company_id }}">
                                                                             {{ $v->company_name }}</option>
@@ -749,65 +794,70 @@
 
                                                             </div>
                                                         </div>
-                                             
+
                                                         @if ($labourModel->labour_company)
-                                                        <div class="form-group row">
-                                                            <label
-                                                                class="col-form-label col-md-4 col-sm-4 ">ทะเบียนบริษัทเลขที่
-                                                                :
-                                                            </label>
-                                                      
-                                                            <div class="col-md-8 col-sm-8 ">
-                                                                <input type="text" class="form-control"
-                                                                    id="company_code"
-                                                                    value="{{ (optional($ComAddr)->company_code ? $ComAddr->company_code : null) }}"
-                                                                    readonly="readonly" placeholder="ซอย">
-                                                            </div>
-                                                        </div>
-                                                         
-                                                        <div class="form-group row">
-                                                            <label class="col-form-label col-md-4 col-sm-4 ">อีเมล์ :
-                                                            </label>
-                                                            <div class="col-md-8 col-sm-8 ">
-                                                                <input type="text" class="form-control"
-                                                                    id="company_email"
-                                                                    value="{{ (optional($ComAddr)->company_email ? $ComAddr->company_email : null) }}"
-                                                                    readonly="readonly" placeholder="ซอย">
-                                                            </div>
-                                                        </div>
+                                                            <div class="form-group row">
+                                                                <label
+                                                                    class="col-form-label col-md-4 col-sm-4 ">ทะเบียนบริษัทเลขที่
+                                                                    :
+                                                                </label>
 
-                                                        <div class="form-group row">
-                                                            <label class="col-form-label col-md-4 col-sm-4 ">ชื่อนายจ้าง :
-                                                            </label>
-                                                            <div class="col-md-8 col-sm-8 ">
-                                                                <input type="text" class="form-control"
-                                                                    id="company_surname"
-                                                                    value=" {{ (optional($ComAddr)->company_surname ? $ComAddr->company_surname . ' ' . $ComAddr->company_lastname : null) }}"
-                                                                    readonly="readonly" placeholder="ซอย">
+                                                                <div class="col-md-8 col-sm-8 ">
+                                                                    <input type="text" class="form-control"
+                                                                        id="company_code"
+                                                                        value="{{ optional($ComAddr)->company_code ? $ComAddr->company_code : null }}"
+                                                                        readonly="readonly" placeholder="ซอย">
+                                                                </div>
                                                             </div>
-                                                        </div>
 
-                                                        <div class="form-group row">
-                                                            <label class="col-form-label col-md-4 col-sm-4 ">เบอร์โทรศัพท์
-                                                                :
-                                                            </label>
-                                                            <div class="col-md-8 col-sm-8 ">
-                                                                <input type="text" class="form-control"
-                                                                    id="company_tel" value="{{ (optional($ComAddr)->company_tel ? $ComAddr->company_tel: null) }}"
-                                                                    readonly="readonly" placeholder="ซอย">
+                                                            <div class="form-group row">
+                                                                <label class="col-form-label col-md-4 col-sm-4 ">อีเมล์ :
+                                                                </label>
+                                                                <div class="col-md-8 col-sm-8 ">
+                                                                    <input type="text" class="form-control"
+                                                                        id="company_email"
+                                                                        value="{{ optional($ComAddr)->company_email ? $ComAddr->company_email : null }}"
+                                                                        readonly="readonly" placeholder="ซอย">
+                                                                </div>
                                                             </div>
-                                                        </div>
 
-                                                        <div class="form-group row">
-                                                            <label class="col-form-label col-md-4 col-sm-4 ">ประเภทกิจการ :
-                                                            </label>
-                                                            <div class="col-md-8 col-sm-8 ">
-                                                                <input type="text" class="form-control"
-                                                                    id="company_business_type"
-                                                                    value="{{ (optional($ComAddr)->company_business_type ? $ComAddr->company_business_type: null) }}"
-                                                                    readonly="readonly" placeholder="ซอย">
+                                                            <div class="form-group row">
+                                                                <label
+                                                                    class="col-form-label col-md-4 col-sm-4 ">ชื่อนายจ้าง :
+                                                                </label>
+                                                                <div class="col-md-8 col-sm-8 ">
+                                                                    <input type="text" class="form-control"
+                                                                        id="company_surname"
+                                                                        value=" {{ optional($ComAddr)->company_surname ? $ComAddr->company_surname . ' ' . $ComAddr->company_lastname : null }}"
+                                                                        readonly="readonly" placeholder="ซอย">
+                                                                </div>
                                                             </div>
-                                                        </div>
+
+                                                            <div class="form-group row">
+                                                                <label
+                                                                    class="col-form-label col-md-4 col-sm-4 ">เบอร์โทรศัพท์
+                                                                    :
+                                                                </label>
+                                                                <div class="col-md-8 col-sm-8 ">
+                                                                    <input type="text" class="form-control"
+                                                                        id="company_tel"
+                                                                        value="{{ optional($ComAddr)->company_tel ? $ComAddr->company_tel : null }}"
+                                                                        readonly="readonly" placeholder="ซอย">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group row">
+                                                                <label
+                                                                    class="col-form-label col-md-4 col-sm-4 ">ประเภทกิจการ
+                                                                    :
+                                                                </label>
+                                                                <div class="col-md-8 col-sm-8 ">
+                                                                    <input type="text" class="form-control"
+                                                                        id="company_business_type"
+                                                                        value="{{ optional($ComAddr)->company_business_type ? $ComAddr->company_business_type : null }}"
+                                                                        readonly="readonly" placeholder="ซอย">
+                                                                </div>
+                                                            </div>
 
                                                     </div>
                                                 </div>
@@ -832,7 +882,7 @@
                                                             <div class="col-md-8 col-sm-8 ">
                                                                 <input type="text" class="form-control"
                                                                     id="company_house_number"
-                                                                    value="{{ (optional($ComAddr)->company_house_number ? $ComAddr->company_house_number: null) }}"
+                                                                    value="{{ optional($ComAddr)->company_house_number ? $ComAddr->company_house_number : null }}"
                                                                     readonly="readonly" placeholder="Read-Only Input">
                                                             </div>
                                                         </div>
@@ -890,16 +940,14 @@
                                                                     readonly="readonly" placeholder="ซอย">
                                                             </div>
                                                         </div>
-
-
                                                         @endif
 
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
-                                       
+
                                         {{-- สิ้นสุดข้อมูลนายจ้าง --}}
 
                                     </div>
@@ -922,7 +970,7 @@
                                                                 :
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
-                                                                <input type="text" class="form-control"
+                                                                <input type="text" class="form-control passport"
                                                                     value="{{ $labourModel->labour_passport_number }}"
                                                                     placeholder="หนังสือเดินทาง"
                                                                     name="labour_passport_number">
@@ -934,7 +982,7 @@
                                                                 :
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
-                                                                <input type="date" class="form-control"
+                                                                <input type="date" class="form-control passport"
                                                                     value="{{ $labourModel->labour_passport_date_start }}"
                                                                     placeholder="หนังสือเดินทาง"
                                                                     name="labour_passport_date_start">
@@ -946,7 +994,7 @@
                                                                 :
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
-                                                                <input type="date" class="form-control"
+                                                                <input type="date" class="form-control passport"
                                                                     value="{{ date('Y-m-d', strtotime($labourModel->labour_passport_date_end)) }}"
                                                                     placeholder="หนังสือเดินทาง"
                                                                     name="labour_passport_date_end">
@@ -1009,7 +1057,7 @@
 
                                                     <div class="x_content">
                                                         <div class="x_title">
-                                                            <h4 class="text-tfg">ข้อมูลวีซ่าเริ่ม<small></small></h4>
+                                                            <h4 class="text-tfg">ข้อมูลวีซ่าเริ่ม <small class="text-danger"> จำเป็นต้องระบุ รอบล่าสุดทุกครั้งเมื่อมีการต่อ</small></h4>
 
                                                             <div class="clearfix"></div>
                                                         </div>
@@ -1018,7 +1066,7 @@
                                                             <label class="col-form-label col-md-4 col-sm-4 ">เลขที่วีซ่า :
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
-                                                                <input type="text" class="form-control"
+                                                                <input type="text" class="form-control visa"
                                                                     name="labour_visa_number"
                                                                     value="{{ $labourModel->labour_visa_number }}"
                                                                     placeholder="VISA NUMBER">
@@ -1026,25 +1074,14 @@
 
                                                         </div>
 
-                                                        <div class="form-group row">
-                                                            <label
-                                                                class="col-form-label col-md-4 col-sm-4 ">วันเริ่มวิซ่า:(รอบต่อล่าสุด)
-                                                            </label>
-                                                            <div class="col-md-8 col-sm-8 ">
-                                                                <input type="date" class="form-control"
-                                                                    name="labour_visa_date_start"
-                                                                    value="{{ $labourModel->labour_visa_date_start }}"
-                                                                    placeholder="VISA NUMBER">
-                                                            </div>
-                                                        </div>
+                                                     
 
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-form-label col-md-4 col-sm-4 ">วันเริ่มวิซ่า:(รอบที่
-                                                                1)
+                                                                class="col-form-label col-md-4 col-sm-4 ">วันเริ่มวิซ่า:(ต่อปี 1)
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
-                                                                <input type="date" class="form-control"
+                                                                <input type="date" class="form-control visa"
                                                                     name="labour_visa_date_start01"
                                                                     value="{{ $labourModel->labour_visa_date_start01 }}"
                                                                     placeholder="VISA NUMBER">
@@ -1052,13 +1089,24 @@
                                                         </div>
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-form-label col-md-4 col-sm-4 ">วันเริ่มวิซ่า:(รอบที่
-                                                                2)
+                                                                class="col-form-label col-md-4 col-sm-4 ">วันเริ่มวิซ่า:(ต่อปี 2)
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
-                                                                <input type="date" class="form-control"
+                                                                <input type="date" class="form-control visa"
                                                                     name="labour_visa_date_start02"
                                                                     value="{{ $labourModel->labour_visa_date_start02 }}"
+                                                                    placeholder="VISA NUMBER">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group row">
+                                                            <label
+                                                                class="col-form-label col-md-4 col-sm-4 ">วันเริ่มวิซ่า:(รอบต่อล่าสุด หรือ ต่อปี 3,ต่อครั้งแรก)
+                                                            </label>
+                                                            <div class="col-md-8 col-sm-8 ">
+                                                                <input type="date" class="form-control visa"
+                                                                    name="labour_visa_date_start"
+                                                                    value="{{ $labourModel->labour_visa_date_start }}"
                                                                     placeholder="VISA NUMBER">
                                                             </div>
                                                         </div>
@@ -1086,7 +1134,7 @@
                                                                 :
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
-                                                                <input type="date" class="form-control"
+                                                                <input type="date" class="form-control visa"
                                                                     name="labour_visa_run_date"
                                                                     value="{{ $labourModel->labour_visa_run_date }}"
                                                                     placeholder="VISA NUMBER">
@@ -1094,24 +1142,14 @@
 
                                                         </div>
 
-                                                        <div class="form-group row">
-                                                            <label
-                                                                class="col-form-label col-md-4 col-sm-4 ">วันหมดวีซ่า:(รอบล่าสุด)
-                                                            </label>
-                                                            <div class="col-md-8 col-sm-8 ">
-                                                                <input type="date" class="form-control"
-                                                                    name="labour_visa_date_end"
-                                                                    value="{{ date('Y-m-d',strtotime($labourModel->labour_visa_date_end)) }}"
-                                                                    placeholder="VISA NUMBER">
-                                                            </div>
-                                                        </div>
+                                                      
 
                                                         <div class="form-group row">
                                                             <label class="col-form-label col-md-4 col-sm-4 ">วันหมดวีซ่า
-                                                                :(รอบที่ 1)
+                                                                :(ต่อปี 1)
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
-                                                                <input type="date" class="form-control"
+                                                                <input type="date" class="form-control visa"
                                                                     name="labour_visa_date_end01"
                                                                     value="{{ $labourModel->labour_visa_date_end01 }}"
                                                                     placeholder="VISA NUMBER">
@@ -1119,13 +1157,25 @@
                                                         </div>
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-form-label col-md-4 col-sm-4 ">วันหมดวีซ่า:(รอบที่
-                                                                2)
+                                                                class="col-form-label col-md-4 col-sm-4 ">วันหมดวีซ่า:(ต่อปี 2)
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
-                                                                <input type="date" class="form-control"
+                                                                <input type="date" class="form-control visa"
                                                                     name="labour_visa_date_end02"
                                                                     value="{{ $labourModel->labour_visa_date_end02 }}"
+                                                                    placeholder="VISA NUMBER">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group row">
+                                                            <label
+                                                                class="col-form-label col-md-4 col-sm-4 ">วันหมดวีซ่า:(รอบล่าสุด หรือ ต่อปี 3,ต่อครั้งแรก)
+                                                            </label>
+                                                            <div class="col-md-8 col-sm-8 ">
+                                                                <input type="date"
+                                                                    class="form-control visa
+                                                                    name="labour_visa_date_end"
+                                                                    value="{{ date('Y-m-d', strtotime($labourModel->labour_visa_date_end)) }}"
                                                                     placeholder="VISA NUMBER">
                                                             </div>
                                                         </div>
@@ -1158,7 +1208,7 @@
                                                             <label class="col-form-label col-md-5 col-sm-5 ">ใบอนุญาตทำงาน:
                                                             </label>
                                                             <div class="col-md-7 col-sm-7 ">
-                                                                <input type="text" class="form-control"
+                                                                <input type="text" class="form-control work"
                                                                     name="labour_work_permit_number"
                                                                     value="{{ $labourModel->labour_work_permit_number }}"
                                                                     placeholder="WORLK PERMIT NUMBER">
@@ -1171,7 +1221,7 @@
                                                                 (รอบล่าสุด)
                                                             </label>
                                                             <div class="col-md-7 col-sm-7 ">
-                                                                <input type="date" class="form-control"
+                                                                <input type="date" class="form-control work"
                                                                     name="labour_work_permit_date_start"
                                                                     value="{{ $labourModel->labour_work_permit_date_start }}">
                                                             </div>
@@ -1182,7 +1232,7 @@
                                                                 (รอบที่ 1)
                                                             </label>
                                                             <div class="col-md-7 col-sm-7 ">
-                                                                <input type="date" class="form-control"
+                                                                <input type="date" class="form-control work"
                                                                     name="labour_work_permit_date_start01"
                                                                     value="{{ $labourModel->labour_work_permit_date_start01 }}">
                                                             </div>
@@ -1193,7 +1243,7 @@
                                                                 (รอบที่ 2)
                                                             </label>
                                                             <div class="col-md-7 col-sm-7 ">
-                                                                <input type="date" class="form-control"
+                                                                <input type="date" class="form-control work"
                                                                     name="labour_work_permit_date_start02"
                                                                     value="{{ $labourModel->labour_work_permit_date_start02 }}">
                                                             </div>
@@ -1202,7 +1252,7 @@
                                                             <label class="col-form-label col-md-5 col-sm-5 ">แผนก:
                                                             </label>
                                                             <div class="col-md-7 col-sm-7 ">
-                                                                <input type="text" class="form-control"
+                                                                <input type="text" class="form-control work"
                                                                     name="labour_department"
                                                                     value="{{ $labourModel->labour_department }}"
                                                                     placeholder="labour department">
@@ -1230,7 +1280,7 @@
                                                             <label class="col-form-label col-md-5 col-sm-5 ">รหัสพนักงาน:
                                                             </label>
                                                             <div class="col-md-7 col-sm-7 ">
-                                                                <input type="text" class="form-control"
+                                                                <input type="text" class="form-control work"
                                                                     name="labour_code"
                                                                     value="{{ $labourModel->labour_code }}"
                                                                     placeholder="labour code">
@@ -1244,7 +1294,7 @@
                                                                 (รอบล่าสุด)
                                                             </label>
                                                             <div class="col-md-7 col-sm-7 ">
-                                                                <input type="date" class="form-control"
+                                                                <input type="date" class="form-control work"
                                                                     id="work-permit-end"
                                                                     name="labour_work_permit_date_end"
                                                                     value="{{ date('Y-m-d', strtotime($labourModel->labour_work_permit_date_end)) }}">
@@ -1256,7 +1306,7 @@
                                                                 (รอบที่ 1)
                                                             </label>
                                                             <div class="col-md-7 col-sm-7 ">
-                                                                <input type="date" class="form-control"
+                                                                <input type="date" class="form-control work"
                                                                     name="labour_work_permit_date_end01"
                                                                     value="{{ $labourModel->labour_work_permit_date_end01 }}">
                                                             </div>
@@ -1267,7 +1317,7 @@
                                                                 (รอบที่ 2)
                                                             </label>
                                                             <div class="col-md-7 col-sm-7 ">
-                                                                <input type="date" class="form-control"
+                                                                <input type="date" class="form-control work"
                                                                     name="labour_work_permit_date_end02"
                                                                     value="{{ $labourModel->labour_work_permit_date_end02 }}">
                                                             </div>
@@ -1307,7 +1357,7 @@
                                                                 (รอบล่าสุด)
                                                             </label>
                                                             <div class="col-md-7 col-sm-7 ">
-                                                                <input type="date" class="form-control"
+                                                                <input type="date" class="form-control 90days"
                                                                     name="labour_ninety_date_start"
                                                                     value="{{ $labourModel->labour_ninety_date_start }}">
                                                             </div>
@@ -1320,7 +1370,7 @@
                                                                 (รอบล่าสุด)
                                                             </label>
                                                             <div class="col-md-7 col-sm-7 ">
-                                                                <input type="date" class="form-control"
+                                                                <input type="date" class="form-control 90days"
                                                                     name="labour_ninety_date_end" id="ninety-end"
                                                                     value="{{ date('Y-m-d', strtotime($labourModel->labour_ninety_date_end)) }}">
                                                             </div>
@@ -1330,17 +1380,17 @@
                                                             <label class="col-form-label col-md-5 col-sm-5 ">เลขที่ ตม.
                                                             </label>
                                                             <div class="col-md-7 col-sm-7 ">
-                                                                <input type="text" class="form-control"
+                                                                <input type="text" class="form-control 90days"
                                                                     name="labour_immigration_number"
                                                                     value="{{ $labourModel->labour_immigration_number }}">
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group row">
-                                                            <label class="col-form-label col-md-5 col-sm-5 ">ตม. จังหวัด :
+                                                            <label class="col-form-label col-md-5 col-sm-5  ">ตม. จังหวัด :
                                                             </label>
                                                             <div class="col-md-7 col-sm-7 ">
-                                                                <input type="text" class="form-control"
+                                                                <input type="text" class="form-control 90days"
                                                                     name="labour_TM_province"
                                                                     value="{{ $labourModel->labour_TM_province }}">
                                                             </div>
@@ -1412,368 +1462,14 @@
         </div>
     </form>
 
-    <script>
-        $(document).ready(function() {
-            $('#addrProvince').select2();
-        });
-        $(document).ready(function() {
-            $('#addrAmphur').select2();
-        });
+  <script>
+     var Auth = @json(Auth::user()->name);
+     const  adressProvinces =  "{{ route('address.provinces') }}";
+     const  adressAmphures =  "{{ route('address.amphures') }}";
+     const  adressDistricts =  "{{ route('address.districts') }}";
+     const  adressShow =  "{{ route('address.show') }}";
+  </script>
 
-        $(document).ready(function() {
-            $('#addrDistict').select2();
-        });
-        //  ส่งข้อมูลจังหวัด
-        $(document).ready(function() {
-            $('#addrProvince').change(function() {
-                var select = $(this).val();
-                var _token = $('input[name="_token"]').val();
-
-                $.ajax({
-                    url: "{{ route('address.provinces') }}",
-                    method: 'GET',
-                    data: {
-                        select: select,
-                        _token: _token
-                    },
-                    success: function(result) {
-                        $('#addrAmphur').html(result);
-                    }
-                });
-
-            });
-
-        });
-        //ส่งข้อมูลอำเภอ
-        $(document).ready(function() {
-            $('#addrAmphur').change(function() {
-                var select = $(this).val();
-                var _token = $('input[name="token"]').val();
-                $.ajax({
-                    url: "{{ route('address.amphures') }}",
-                    method: 'GET',
-                    data: {
-                        select: select,
-                        _token: _token,
-                    },
-                    success: function(result) {
-                        $('#addrDistict').html(result);
-                    }
-                });
-            });
-        });
-        //ส่งข้อมูลตำบล
-        $(document).ready(function() {
-            $('#addrDistict').change(function() {
-                var select = $(this).val();
-                var _token = $('input[name="token"]').val();
-
-                $.ajax({
-                    url: "{{ route('address.districts') }}",
-                    method: 'GET',
-                    data: {
-                        select: select,
-                        token: _token,
-                    },
-                    success: function(result) {
-                        $('#addrZipcode').val(result);
-                    }
-                });
-            });
-        });
-
-        // ที่อยู่นายจ้าง
-        $(document).ready(function() {
-            $('#company').select2();
-        });
-        $(document).ready(function() {
-            $('#company').change(function() {
-                var select = $(this).val();
-                var _token = $('input[name="token"]').val();
-
-                $.ajax({
-                    url: "{{ route('address.show') }}",
-                    method: 'GET',
-                    data: {
-                        select: select,
-                        _token: _token,
-                    },
-                    success: function(result) {
-                        $('#company_code').val(result.company.company_code);
-                        $('#company_email').val(result.company.company_email);
-                        $('#company_email').val(result.company.company_surname + ' ' + result
-                            .company.company_lastname);
-                        $('#company_tel').val(result.company.company_tel);
-                        $('#company_business_type').val(result.company.company_business_type);
-                        $('#company_house_number').val(result.company.company_house_number);
-                        $('#company_alley').val(result.company.company_alley);
-                        $('#DISTRICT_NAME').val(result.district.DISTRICT_NAME);
-                        $('#AMPHUR_NAME').val(result.amphur.AMPHUR_NAME);
-                        $('#PROVINCE_NAME').val(result.province.PROVINCE_NAME);
-                        $('#company_zipcode').val(result.zipcodes.zipcode);
-
-                    }
-                });
-            });
-        });
-
-
-        // ตรวจสอบสถานะคนงาน
-        $(document).ready(function() {
-            var LabourStatus = document.getElementById('LabourStatus');
-            LabourStatus.checked = true;
-            // Assuming LabourStatus is a checkbox input
-            if (LabourStatus.value === 'Y') {
-                LabourStatus.checked = true;
-                document.getElementById('text-LabourStatus').innerHTML =
-                    '<span class="text-success">เปิดใช้งาน</span>';
-            } else {
-                LabourStatus.checked = false;
-                document.getElementById('text-LabourStatus').innerHTML =
-                    '<span class="text-danger">ปิดใช้งาน</span>';
-            }
-        });
-
-        
-
-        $(document).on('change', '#LabourStatus', function() {
-            var userName = @json(Auth::user()->name);
-            // No need to access LabourStatus.value here, as it's a checkbox
-            var LabourStatus = document.getElementById('LabourStatus');
-          
-            if (LabourStatus.checked) {
-                // Checkbox is checked
-                labourWork.checked = true;
-                LabourStatus.value = 'Y';
-                document.getElementById('text-LabourStatus').innerHTML =
-                    '<span class="text-success">เปิดใช้งาน</span>';
-            } else {
-                // Checkbox is unchecked
-                LabourStatus.value = 'N';
-                labourWork.checked = false;
-                document.getElementById('text-LabourStatus').innerHTML =
-                    '<span class="text-danger">ปิดใช้งาน</span>';
-                Swal.fire({
-                        title: "คุณแน่ใจใช่ไหม?",
-                        html: "หากต้องการปิดสถานะคนงาน ระบบจะจดจำชื่อ <br><i class='text-success'>" + userName +
-                            "</i> เป็นผู้ปิดระบบ",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        showCancelButtonColor: "#d33",
-                        confirmButtonText: "ยืนยัน",
-                        cancelButtonText: "ยกเลิก",
-
-                    })
-                    //เมื่อกดตกลง
-                    .then((result) => {
-                        let LabourStatus = document.getElementById('LabourStatus');
-                        if (result.isConfirmed) {
-                            Swal.fire({
-                                title: "เปลี่ยนสถานะสำเร็จ!",
-                                text: "กรุณากดบันทึกเพื่อยืนยัน",
-                                icon: "success"
-                            });
-                        }
-                        //เมื่อกดยกเลิก
-                        else if (result.dismiss === Swal.DismissReason.cancel) {
-                            let LabourStatus = document.getElementById('LabourStatus');
-                            LabourStatus.value = 'Y';
-                            LabourStatus.nextElementSibling.click();
-                            Swal.fire({
-                                title: "ยกเลิกสำเร็จ!",
-                                text: "สถานะถูกไม่ถูกเปลี่ยนแปลง",
-                                icon: "error",
-
-                            });
-                        }
-
-                    });
-            }
-            console.log(LabourStatus.value);
-
-
-        });
-        // ตรวจสอบสถานะคนงานสิ้นสุด
-
-        // ตรวจสอบสถานะการทำงาน
-        $(document).on('change', '#labourWork', function() {
-            var labourWork = document.getElementById('labourWork');
-            var resign = document.getElementById('resign');
-            if (labourWork.checked) {
-                labourWork.value = 'Y';
-                document.getElementById('text-labourWork').innerHTML = '<span class="text-success">ทำงาน</span>';
-                document.getElementById('workDate').disabled = false;
-
-            } else {
-                labourWork.value = 'N';
-                document.getElementById('text-labourWork').innerHTML = '<span class="text-danger">ไม่ทำงาน</span>';
-                document.getElementById('workDate').disabled = true;
-                
-            }
-        });
-        $(document).ready(function() {
-            var labourWork = document.getElementById('labourWork');
-            // Assuming LabourStatus is a checkbox input
-            if (labourWork.value === 'Y') {
-                labourWork.checked = true;
-                document.getElementById('workDate').disabled = false;
-                document.getElementById('text-labourWork').innerHTML = '<span class="text-success">ทำงาน</span>';
-            } else {
-                labourWork.checked = false;
-                document.getElementById('workDate').disabled = true;
-                document.getElementById('text-labourWork').innerHTML = '<span class="text-danger">ไม่ทำงาน</span>';
-            }
-        });
-        // สิ้นสุดตรวจสอบสถานะการทำงาน
-
-        // ตรวจสอบสถานะลาออก
-        $(document).on('change', '#resign', function() {
-            var resign = document.getElementById('resign');
-            var labourWork = document.getElementById('labourWork');
-
-            if (resign.checked) {
-                resign.value = 'Y';
-                document.getElementById('resignDate').style.display = 'block';
-                document.getElementById('text-resign').innerHTML = '<span class="text-danger">ลาออก</span>';
-            } else {
-                resign.value = 'N';
-                document.getElementById('resignDate').style.display = 'none';
-                document.getElementById('text-resign').innerHTML = '<span class="text-success">ไม่ลาออก</span>';
-            }
-            //abourWork.nextElementSibling.click();
-
-
-        });
-
-
-        $(document).ready(function() {
-            var resign = document.getElementById('resign');
-            // Assuming resign is a checkbox input
-            if (resign.value === 'Y') {
-                resign.checked = true;
-                document.getElementById('resignDate').style.display = 'block';
-                document.getElementById('text-resign').innerHTML = '<span class="text-danger">ลาออก</span>';
-            } else {
-                resign.checked = false;
-                document.getElementById('resignDate').style.display = 'none';
-                document.getElementById('text-resign').innerHTML = '<span class="text-success">ไม่ลาออก</span>';
-            }
-        });
-        // สิ้นสุดตรวจสอบสถานะลาออก 
-
-        // ตรวจสอบสถานะหลบหนี
-        $(document).on('change', '#escape', function() {
-            var escape = document.getElementById('escape');
-            if (escape.checked) {
-                escape.value = 'Y';
-                document.getElementById('escapeDate').style.display = 'block';
-                document.getElementById('text-escape').innerHTML = '<span class="text-danger">หลบหนี</span>';
-            } else {
-                escape.value = 'N';
-                document.getElementById('escapeDate').style.display = 'none';
-                document.getElementById('text-escape').innerHTML = '<span class="text-success">ไม่หลบหนี</span>';
-
-            }
-        });
-        $(document).ready(function() {
-            var escape = document.getElementById('escape');
-            // Assuming resign is a checkbox input
-            if (escape.value === 'Y') {
-                escape.checked = true;
-                document.getElementById('escapeDate').style.display = 'block';
-                document.getElementById('text-escape').innerHTML = '<span class="text-danger">หลบหนี</span>';
-            } else {
-                escape.checked = false;
-                document.getElementById('escapeDate').style.display = 'none';
-                document.getElementById('text-escape').innerHTML = '<span class="text-success">ไม่หลบหนี</span>';
-            }
-        });
-
-        // สิ้นสุดตรวจสอบสถานะลาออก  labourWork.nextElementSibling.click();
-        $(document).on('change', '#escape, #resign, #labourWork', function() {
-            var escape = document.getElementById('escape');
-            var resign = document.getElementById('resign');
-            var labourWork = document.getElementById('labourWork');
-
-            if (labourWork.checked) {
-
-                if (resign.checked) {
-                    resign.nextElementSibling.click();
-
-                }
-
-                if (escape.checked) {
-                    escape.nextElementSibling.click();
-                }
-            }
-
-            if (resign.checked) {
-                if (escape.checked) {
-                    escape.nextElementSibling.click();
-                }
-            }
-
-            if (escape.checked) {
-                if (resign.checked) {
-                    resign.nextElementSibling.click();
-                }
-            }
-
-        });
-
-        // ninety 
-        $(document).ready(function() {
-            $('#ninety-end').change(function() {
-                var endDate = new Date($(this).val()); // วันที่หมดอายุที่เลือก
-                var currentDate = new Date(); // วันที่ปัจจุบัน
-                var timeDiff = endDate - currentDate;
-                console.log(endDate);
-
-                if (timeDiff < 0) {
-                    $('#ninety').text('หมดอายุแล้ว');
-                } else {
-                    var years = Math.floor(timeDiff / (365 * 24 * 60 * 60 * 1000));
-                    timeDiff -= years * (365 * 24 * 60 * 60 * 1000);
-
-                    var months = Math.floor(timeDiff / (30 * 24 * 60 * 60 * 1000));
-                    timeDiff -= months * (30 * 24 * 60 * 60 * 1000);
-
-                    var days = Math.floor(timeDiff / (24 * 60 * 60 * 1000));
-
-                    $('#ninety').text(years + ' ปี ' + months + ' เดือน ' + days + ' วัน');
-
-
-                }
-            });
-            $('#ninety-end').trigger('change');
-        });
-
-
-
-        // work premit
-        $(document).ready(function() {
-            $('#work-permit-end').change(function() {
-                var endDate = new Date($(this).val()); // วันที่หมดอายุที่เลือก
-                var currentDate = new Date(); // วันที่ปัจจุบัน
-                var timeDiff = endDate - currentDate;
-
-                if (timeDiff < 0) {
-                    $('#work-permit').text('หมดอายุแล้ว');
-                } else {
-                    var years = Math.floor(timeDiff / (365 * 24 * 60 * 60 * 1000));
-                    timeDiff -= years * (365 * 24 * 60 * 60 * 1000);
-
-                    var months = Math.floor(timeDiff / (30 * 24 * 60 * 60 * 1000));
-                    timeDiff -= months * (30 * 24 * 60 * 60 * 1000);
-
-                    var days = Math.floor(timeDiff / (24 * 60 * 60 * 1000));
-
-                    $('#work-permit').text(years + ' ปี ' + months + ' เดือน ' + days + ' วัน');
-                }
-            });
-            $('#work-permit-end').trigger('change');
-        });
-    </script>
+  <script src="{{URL::asset('/js/labour/form-edit.js')}}"></script>
     <!-- end of skills -->
 @endsection

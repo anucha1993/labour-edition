@@ -58,6 +58,10 @@ class LabourModel extends Model
         'labour_immigration_number',
         'labour_textid',
         'import_id',
+        'labour_passport_company_manage',
+        'labour_visa_company_manage',
+        'labour_work_permit_company_manage',
+        'labour_ninety_company_manage',
     ];
         // ลบส่วนที่ไม่ใช้ออก วันที่ 24-01-2024
         //'labour_company_surname',
