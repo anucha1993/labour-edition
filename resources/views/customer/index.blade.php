@@ -30,15 +30,14 @@
         </script>
     @endif
     {{-- // End Select Notify --}}
-
-
+    
     <div class="row">
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
                 <div class="x_title">
 
                     <h2>Customer All <small>ข้อมูลนายจ้าง</small></h2>
-                    @if (Auth::user()->type === 1)
+                    @if (Auth::user()->type != 3)
                     <a href="{{ route('customer.create') }}" class="btn btn-primary pull-right">เพิ่มนายจ้าง</a>
                     @endif
                     <div class="clearfix"></div>

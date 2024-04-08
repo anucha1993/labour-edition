@@ -1074,7 +1074,17 @@
 
                                                         </div>
 
-                                                     
+                                                        <div class="form-group row">
+                                                            <label
+                                                                class="col-form-label col-md-4 col-sm-4 ">วันเริ่มวิซ่า:(รอบต่อล่าสุด หรือ ต่อปี 3,ต่อครั้งแรก)
+                                                            </label>
+                                                            <div class="col-md-8 col-sm-8 ">
+                                                                <input type="date" class="form-control visa"
+                                                                    name="labour_visa_date_start"
+                                                                    value="{{ $labourModel->labour_visa_date_start }}"
+                                                                    placeholder="VISA NUMBER">
+                                                            </div>
+                                                        </div>
 
                                                         <div class="form-group row">
                                                             <label
@@ -1099,17 +1109,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group row">
-                                                            <label
-                                                                class="col-form-label col-md-4 col-sm-4 ">วันเริ่มวิซ่า:(รอบต่อล่าสุด หรือ ต่อปี 3,ต่อครั้งแรก)
-                                                            </label>
-                                                            <div class="col-md-8 col-sm-8 ">
-                                                                <input type="date" class="form-control visa"
-                                                                    name="labour_visa_date_start"
-                                                                    value="{{ $labourModel->labour_visa_date_start }}"
-                                                                    placeholder="VISA NUMBER">
-                                                            </div>
-                                                        </div>
+                                                     
 
 
 
@@ -1142,7 +1142,18 @@
 
                                                         </div>
 
-                                                      
+                                                        <div class="form-group row">
+                                                            <label
+                                                                class="col-form-label col-md-4 col-sm-4 ">วันหมดวีซ่า:(รอบล่าสุด หรือ ต่อปี 3,ต่อครั้งแรก)
+                                                            </label>
+                                                            <div class="col-md-8 col-sm-8 ">
+                                                                <input type="date"
+                                                                    class="form-control visa"
+                                                                    name="labour_visa_date_end"
+                                                                    value="{{ date('Y-m-d', strtotime($labourModel->labour_visa_date_end)) }}"
+                                                                    placeholder="VISA NUMBER">
+                                                            </div>
+                                                        </div>
 
                                                         <div class="form-group row">
                                                             <label class="col-form-label col-md-4 col-sm-4 ">วันหมดวีซ่า
@@ -1167,18 +1178,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group row">
-                                                            <label
-                                                                class="col-form-label col-md-4 col-sm-4 ">วันหมดวีซ่า:(รอบล่าสุด หรือ ต่อปี 3,ต่อครั้งแรก)
-                                                            </label>
-                                                            <div class="col-md-8 col-sm-8 ">
-                                                                <input type="date"
-                                                                    class="form-control visa
-                                                                    name="labour_visa_date_end"
-                                                                    value="{{ date('Y-m-d', strtotime($labourModel->labour_visa_date_end)) }}"
-                                                                    placeholder="VISA NUMBER">
-                                                            </div>
-                                                        </div>
+                                                      
 
 
 
