@@ -63,27 +63,5 @@ class LabourModel extends Model
         'labour_work_permit_company_manage',
         'labour_ninety_company_manage',
     ];
-        // ลบส่วนที่ไม่ใช้ออก วันที่ 24-01-2024
-        //'labour_company_surname',
-        //'labour_company_code',
-        //'labour_age',
-        //'labour_month_old',
-        //'labour_day_old',
-        //'labour_passport_year',
-        //'labour_passport_month',
-        //'labour_passport_day',
-        // 'labour_house_number',
-        // 'labour_alley',
-        // 'labour_district',
-        // 'labour_area',
-        // 'labour_province',
-        // 'labour_zipcode',
-        // 'labour_tel',
-        // 'labour_fax',
-        // 'labour_email',
-        // 'labour_installment',
-        // 'labour_passport_status',
-        // 'labour_visa_status',
-        // 'labour_work_permit_status',
-        // 'labour_ninety_status',
+        
 }

@@ -84,6 +84,21 @@ class LabourController extends Controller
      */
     public function store(Request $request)
     {
+
+        if ($request->labour_textid) {
+            if (is_numeric($request->labour_textid) && strlen($request->labour_textid) != 13) {
+                return redirect()->back()->with('error', 'หมายเลขประจำตัวประชาชนไม่ถูกต้อง');
+            } 
+        }
+        
+
+        if ($request->labour_visa_number) {
+            if (is_numeric($request->labour_visa_number) && strlen($request->labour_visa_number) != 13) {
+                return redirect()->back()->with('error', 'หมายเลข IVSA ไม่ถูกต้อง');
+            } 
+        }
+
+        
         // เช็ค passport ซ้ำ 
         $pass = LabourModel::where('labour_passport_number',$request->labour_passport_number)->count();
         if($pass > 0)
@@ -221,7 +236,21 @@ class LabourController extends Controller
     {
  
 
+        if ($request->labour_textid) {
+            if (is_numeric($request->labour_textid) && strlen($request->labour_textid) != 13) {
+                return redirect()->back()->with('error', 'หมายเลขประจำตัวประชาชนไม่ถูกต้อง');
+            } 
+        }
         
+
+        if ($request->labour_visa_number) {
+            if (is_numeric($request->labour_visa_number) && strlen($request->labour_visa_number) != 13) {
+                return redirect()->back()->with('error', 'หมายเลข IVSA ไม่ถูกต้อง');
+            } 
+        }
+        
+
+
         // 
         if($request->labour_escape === null){
             $request->merge(['labour_escape'=> "N"]);

@@ -77,7 +77,9 @@
                                 <div class="col-md-9 col-sm-9 ">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" @if ($labourModel->labour_passport_company_manage == "Y")  checked @endif name="labour_passport_company_manage"  class="flat-passport text-danger"> หนังสือเดินทาง
+                                            <input type="checkbox" @if ($labourModel->labour_passport_company_manage == 'Y') checked @endif
+                                                name="labour_passport_company_manage" class="flat-passport text-danger">
+                                            หนังสือเดินทาง
                                             (นายจ้างดำเนินการเอง)
                                         </label>
                                     </div>
@@ -85,14 +87,18 @@
                                 <div class="col-md-9 col-sm-9 ">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" @if ($labourModel->labour_visa_company_manage == "Y") checked @endif  name="labour_visa_company_manage" class="flat-visa"> วีซ่า (นายจ้างดำเนินการเอง)
+                                            <input type="checkbox" @if ($labourModel->labour_visa_company_manage == 'Y') checked @endif
+                                                name="labour_visa_company_manage" class="flat-visa"> วีซ่า
+                                            (นายจ้างดำเนินการเอง)
                                         </label>
                                     </div>
                                 </div>
                                 <div class="col-md-9 col-sm-9 ">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" @if ($labourModel->labour_work_permit_company_manage == "Y") checked @endif name="labour_work_permit_company_manage" class="flat-work" > ใบอนุญาตทำงาน (นายจ้างดำเนินการเอง)
+                                            <input type="checkbox" @if ($labourModel->labour_work_permit_company_manage == 'Y') checked @endif
+                                                name="labour_work_permit_company_manage" class="flat-work"> ใบอนุญาตทำงาน
+                                            (นายจ้างดำเนินการเอง)
                                         </label>
                                     </div>
                                 </div>
@@ -100,7 +106,9 @@
                                 <div class="col-md-9 col-sm-9 ">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" @if ($labourModel->labour_ninety_company_manage == "Y") checked @endif  name="labour_ninety_company_manage"  class="flat-90days"> รายตัว 90 วัน (นายจ้างดำเนินการเอง)
+                                            <input type="checkbox" @if ($labourModel->labour_ninety_company_manage == 'Y') checked @endif
+                                                name="labour_ninety_company_manage" class="flat-90days"> รายตัว 90 วัน
+                                            (นายจ้างดำเนินการเอง)
                                         </label>
                                     </div>
                                 </div>
@@ -179,7 +187,7 @@
                                 <li>
                                     @if (Auth::user()->type != '3')
                                         <div class="float-end"><button type="submit"
-                                                class="btn btn-primary pull-right">บันทึกข้อมูล</button></div>
+                                                class="btn btn-primary pull-right btn-submit">บันทึกข้อมูล</button></div>
                                     @endif
 
                                 </li>
@@ -606,15 +614,17 @@
                                                         </div>
 
                                                         <div class="form-group row">
-                                                            <label class="col-form-label col-md-4 col-sm-4 ">เลขบัตร ปปช.
+                                                            <label class="col-form-label col-md-4 col-sm-4 ">เลขบัตร ปปช
                                                                 :</label>
                                                             <div class="col-md-8 col-sm-8 ">
                                                                 <input type="text" name="labour_textid"
-                                                                    class="form-control" placeholder="000 000 000 0"
+                                                                    class="form-control textid"
+                                                                    placeholder="000 000 000 0"
                                                                     value="{{ $labourModel->labour_textid }}">
                                                             </div>
                                                         </div>
 
+                                                       
                                                         <div class="form-group row">
                                                             <label class="col-form-label col-md-4 col-sm-4 ">วันเกิด
                                                                 :</label>
@@ -1057,7 +1067,9 @@
 
                                                     <div class="x_content">
                                                         <div class="x_title">
-                                                            <h4 class="text-tfg">ข้อมูลวีซ่าเริ่ม <small class="text-danger"> จำเป็นต้องระบุ รอบล่าสุดทุกครั้งเมื่อมีการต่อ</small></h4>
+                                                            <h4 class="text-tfg">ข้อมูลวีซ่าเริ่ม <small
+                                                                    class="text-danger"> จำเป็นต้องระบุ
+                                                                    รอบล่าสุดทุกครั้งเมื่อมีการต่อ</small></h4>
 
                                                             <div class="clearfix"></div>
                                                         </div>
@@ -1066,7 +1078,7 @@
                                                             <label class="col-form-label col-md-4 col-sm-4 ">เลขที่วีซ่า :
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
-                                                                <input type="text" class="form-control visa"
+                                                                <input type="text" class="form-control visa visa-id"
                                                                     name="labour_visa_number"
                                                                     value="{{ $labourModel->labour_visa_number }}"
                                                                     placeholder="VISA NUMBER">
@@ -1076,7 +1088,8 @@
 
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-form-label col-md-4 col-sm-4 ">วันเริ่มวิซ่า:(รอบต่อล่าสุด หรือ ต่อปี 3,ต่อครั้งแรก)
+                                                                class="col-form-label col-md-4 col-sm-4 ">วันเริ่มวิซ่า:(รอบต่อล่าสุด
+                                                                หรือ ต่อปี 3,ต่อครั้งแรก)
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
                                                                 <input type="date" class="form-control visa"
@@ -1088,7 +1101,8 @@
 
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-form-label col-md-4 col-sm-4 ">วันเริ่มวิซ่า:(ต่อปี 1)
+                                                                class="col-form-label col-md-4 col-sm-4 ">วันเริ่มวิซ่า:(ต่อปี
+                                                                1)
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
                                                                 <input type="date" class="form-control visa"
@@ -1099,7 +1113,8 @@
                                                         </div>
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-form-label col-md-4 col-sm-4 ">วันเริ่มวิซ่า:(ต่อปี 2)
+                                                                class="col-form-label col-md-4 col-sm-4 ">วันเริ่มวิซ่า:(ต่อปี
+                                                                2)
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
                                                                 <input type="date" class="form-control visa"
@@ -1109,7 +1124,7 @@
                                                             </div>
                                                         </div>
 
-                                                     
+
 
 
 
@@ -1144,11 +1159,11 @@
 
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-form-label col-md-4 col-sm-4 ">วันหมดวีซ่า:(รอบล่าสุด หรือ ต่อปี 3,ต่อครั้งแรก)
+                                                                class="col-form-label col-md-4 col-sm-4 ">วันหมดวีซ่า:(รอบล่าสุด
+                                                                หรือ ต่อปี 3,ต่อครั้งแรก)
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
-                                                                <input type="date"
-                                                                    class="form-control visa"
+                                                                <input type="date" class="form-control visa"
                                                                     name="labour_visa_date_end"
                                                                     value="{{ date('Y-m-d', strtotime($labourModel->labour_visa_date_end)) }}"
                                                                     placeholder="VISA NUMBER">
@@ -1168,7 +1183,8 @@
                                                         </div>
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-form-label col-md-4 col-sm-4 ">วันหมดวีซ่า:(ต่อปี 2)
+                                                                class="col-form-label col-md-4 col-sm-4 ">วันหมดวีซ่า:(ต่อปี
+                                                                2)
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
                                                                 <input type="date" class="form-control visa"
@@ -1178,7 +1194,7 @@
                                                             </div>
                                                         </div>
 
-                                                      
+
 
 
 
@@ -1205,10 +1221,10 @@
                                                         </div>
 
                                                         <div class="form-group row">
-                                                            <label class="col-form-label col-md-5 col-sm-5 ">ใบอนุญาตทำงาน:
+                                                            <label class="col-form-label col-md-5 col-sm-5 ">เลขใบอนุญาตทำงาน:
                                                             </label>
                                                             <div class="col-md-7 col-sm-7 ">
-                                                                <input type="text" class="form-control work"
+                                                                <input type="text" class="form-control work work-id"
                                                                     name="labour_work_permit_number"
                                                                     value="{{ $labourModel->labour_work_permit_number }}"
                                                                     placeholder="WORLK PERMIT NUMBER">
@@ -1462,14 +1478,14 @@
         </div>
     </form>
 
-  <script>
-     var Auth = @json(Auth::user()->name);
-     const  adressProvinces =  "{{ route('address.provinces') }}";
-     const  adressAmphures =  "{{ route('address.amphures') }}";
-     const  adressDistricts =  "{{ route('address.districts') }}";
-     const  adressShow =  "{{ route('address.show') }}";
-  </script>
+    <script>
+        var Auth = @json(Auth::user()->name);
+        const adressProvinces = "{{ route('address.provinces') }}";
+        const adressAmphures = "{{ route('address.amphures') }}";
+        const adressDistricts = "{{ route('address.districts') }}";
+        const adressShow = "{{ route('address.show') }}";
+    </script>
 
-  <script src="{{URL::asset('/js/labour/form-edit.js')}}"></script>
+    <script src="{{ URL::asset('/js/labour/form-edit.js') }}"></script>
     <!-- end of skills -->
 @endsection

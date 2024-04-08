@@ -126,7 +126,7 @@
                                 </li>
                                 <li>
                                     <div class="float-end"><button type="submit"
-                                            class="btn btn-primary pull-right">บันทึกข้อมูล</button></div>
+                                            class="btn btn-primary pull-right btn-submit">บันทึกข้อมูล</button></div>
                                 </li>
 
                             </ul>
@@ -271,6 +271,7 @@
                                                         </div>
                                                     </div>
                                                 </li>
+
                                                 <li>
                                                     <div class="block">
                                                         <div class="tags">
@@ -292,7 +293,7 @@
                                                     </div>
                                                 </li>
 
-                                                
+
 
                                             </ul>
                                         </div>
@@ -423,7 +424,7 @@
                                                                 :</label>
                                                             <div class="col-md-8 col-sm-8 ">
                                                                 <input type="text" name="labour_textid"
-                                                                    class="form-control" placeholder="000 000 000 0"
+                                                                    class="form-control textid" placeholder="000 000 000 0"
                                                                     value="">
                                                             </div>
                                                         </div>
@@ -842,7 +843,7 @@
                                                             <label class="col-form-label col-md-4 col-sm-4 ">เลขที่วีซ่า :
                                                             </label>
                                                             <div class="col-md-8 col-sm-8 ">
-                                                                <input type="text" class="form-control"
+                                                                <input type="text" class="form-control visa-id"
                                                                     name="labour_visa_number"
                                                                     
                                                                     placeholder="VISA NUMBER">
@@ -979,10 +980,10 @@
                                                         </div>
 
                                                         <div class="form-group row">
-                                                            <label class="col-form-label col-md-5 col-sm-5 ">ใบอนุญาตทำงาน:
+                                                            <label class="col-form-label col-md-5 col-sm-5 ">เลขใบอนุญาตทำงาน:
                                                             </label>
                                                             <div class="col-md-7 col-sm-7 ">
-                                                                <input type="text" class="form-control"
+                                                                <input type="text" class="form-control work-id"
                                                                     name="labour_work_permit_number"
                                                                    
                                                                     placeholder="WORLK PERMIT NUMBER">
@@ -1586,6 +1587,57 @@
             });
             $('#work-permit-end').trigger('change');
         });
+
+        //ตรวจสอบ การกรอก passports
+$(document).ready(function() {
+    $('.textid').on('change', function() {
+        // เอาเฉพาะตัวเลขออกเหลือเฉพาะตัวเลขเท่านั้น
+        var inputValue = $(this).val().replace(/\D/g, '');
+        // จำนวนตัวเลขทั้งหมดที่ป้อน
+        var digitCount = inputValue.length;
+        // ถ้าจำนวนตัวเลขไม่เท่ากับ 13 ให้แสดง alert
+        if (digitCount !== 13) {
+            $('.textid').val('');
+            $('.btn-submit').prop('disabled', true);
+            alert('กรุณาใส่ตัวเลข ปปช. ให้มีจำนวน 13 ตัว');
+            
+            
+        } else {
+            $('.btn-submit').prop('disabled', false);
+
+            // นำเลขมาแบ่งสามตัวเป็นกลุ่ม
+            inputValue = inputValue.replace(/(\d{3})(\d{3})(\d{3})(\d{1})/, "$1 $2 $3 $4");
+            // ใส่ค่ากลับเข้าไปใน input
+            $(this).val(inputValue);
+        }
+
+    });
+});
+
+//ตรวจสอบ การกรอก Visa
+$(document).ready(function() {
+    $('.work-id').on('change', function() {
+        // เอาเฉพาะตัวเลขออกเหลือเฉพาะตัวเลขเท่านั้น
+        var inputValue = $(this).val().replace(/\D/g, '');
+        // จำนวนตัวเลขทั้งหมดที่ป้อน
+        var digitCount = inputValue.length;
+        // ถ้าจำนวนตัวเลขไม่เท่ากับ 13 ให้แสดง alert
+        if (digitCount !== 13) {
+            $('.work-id').val('');
+            $('.btn-submit').prop('disabled', true);
+            alert('กรุณาใส่ตัวเลข Visa ให้มีจำนวน 13 ตัว');
+            
+        } else {
+            $('.btn-submit').prop('disabled', false);
+            // นำเลขมาแบ่งสามตัวเป็นกลุ่ม
+            inputValue = inputValue.replace(/(\d{3})(\d{3})(\d{3})(\d{1})/, "$1 $2 $3 $4");
+            // ใส่ค่ากลับเข้าไปใน input
+            $(this).val(inputValue);
+        }
+
+    });
+});
+
     </script>
     <!-- end of skills -->
 @endsection

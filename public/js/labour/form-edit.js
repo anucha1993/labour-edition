@@ -1,3 +1,56 @@
+//ตรวจสอบ การกรอก passports
+$(document).ready(function() {
+    $('.textid').on('change', function() {
+        // เอาเฉพาะตัวเลขออกเหลือเฉพาะตัวเลขเท่านั้น
+        var inputValue = $(this).val().replace(/\D/g, '');
+        // จำนวนตัวเลขทั้งหมดที่ป้อน
+        var digitCount = inputValue.length;
+        // ถ้าจำนวนตัวเลขไม่เท่ากับ 13 ให้แสดง alert
+        if (digitCount !== 13) {
+            $('.textid').val('');
+            $('.btn-submit').prop('disabled', true);
+            alert('กรุณาใส่ตัวเลข ปปช. ให้มีจำนวน 13 ตัว');
+            
+            
+        } else {
+            $('.btn-submit').prop('disabled', false);
+
+            // นำเลขมาแบ่งสามตัวเป็นกลุ่ม
+            inputValue = inputValue.replace(/(\d{3})(\d{3})(\d{3})(\d{1})/, "$1 $2 $3 $4");
+            // ใส่ค่ากลับเข้าไปใน input
+            $(this).val(inputValue);
+        }
+
+    });
+});
+
+//ตรวจสอบ การกรอก Visa
+$(document).ready(function() {
+    $('.work-id').on('change', function() {
+        // เอาเฉพาะตัวเลขออกเหลือเฉพาะตัวเลขเท่านั้น
+        var inputValue = $(this).val().replace(/\D/g, '');
+        // จำนวนตัวเลขทั้งหมดที่ป้อน
+        var digitCount = inputValue.length;
+        // ถ้าจำนวนตัวเลขไม่เท่ากับ 13 ให้แสดง alert
+        if (digitCount !== 13) {
+            $('.work-id').val('');
+            $('.btn-submit').prop('disabled', true);
+            alert('กรุณาใส่ตัวเลข Visa ให้มีจำนวน 13 ตัว');
+            
+        } else {
+            $('.btn-submit').prop('disabled', false);
+            // นำเลขมาแบ่งสามตัวเป็นกลุ่ม
+            inputValue = inputValue.replace(/(\d{3})(\d{3})(\d{3})(\d{1})/, "$1 $2 $3 $4");
+            // ใส่ค่ากลับเข้าไปใน input
+            $(this).val(inputValue);
+        }
+
+    });
+});
+
+
+
+
 $(document).ready(function () {
     $("#addrProvince").select2();
 });
