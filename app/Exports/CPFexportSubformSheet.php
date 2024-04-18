@@ -174,12 +174,12 @@ class CPFexportSubformSheet implements FromCollection,WithTitle,WithHeadings,Wit
         ($data->labour_code == '' ? "'" : $data->labour_code),//4
         $data->labour_name,//5
         $data->nationality_name,//6
-        date('d-m-Y',strtotime($data->labour_birth_date)),//7
+        date('d/m/Y',strtotime($data->labour_birth_date)),//7
         'Thailand',//8
         'Thai TM47 Number',//9
         $documentTypes,//10
-        date('d-m-Y',strtotime($data->labour_passport_date_start)),//11
-        date('d-m-Y',strtotime($data->labour_ninety_date_end)),//12
+        date('d/m/Y',strtotime($data->labour_passport_date_start)),//11
+        date('d/m/Y',strtotime($data->labour_ninety_date_end)),//12
         $data->labour_TM_province,//13
         $data->agent_company
        

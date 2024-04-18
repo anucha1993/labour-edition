@@ -1625,7 +1625,7 @@ $(document).ready(function() {
         if (digitCount !== 13) {
             $('.work-id').val('');
             $('.btn-submit').prop('disabled', true);
-            alert('กรุณาใส่ตัวเลข Visa ให้มีจำนวน 13 ตัว');
+            alert('กรุณาใส่ตัวเลข ใบอนุญาตทำงาน ให้มีจำนวน 13 ตัว');
             
         } else {
             $('.btn-submit').prop('disabled', false);

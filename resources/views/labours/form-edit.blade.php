@@ -12,6 +12,18 @@
         </script>
     @endif
 
+    @if ($message = Session::get('error'))
+    <script>
+        var message = @json($message);
+        Swal.fire({
+            icon: "error",
+            title: message,
+            showConfirmButton: false,
+            timer: 1500
+        });
+    </script>
+@endif
+
     <form action="{{ route('labour.update', $labourModel->labour_id) }}" method="post">
         @csrf
         @method('put')
@@ -224,8 +236,9 @@
                                         ->orderby('ninety_id', 'desc')
                                         ->limit(2)
                                         ->get();
-                                    $rowsNinety = 1;
+                                
                                     $rowsNinety = $ninety->count();
+                                    $countRow =  $rowsNinety;
 
                                 @endphp
 
@@ -1368,7 +1381,7 @@
                                                         </div>
 
                                                         <div class="form-group row">
-                                                            <label class="col-form-label col-md-5 col-sm-5 ">ราย 90
+                                                            <label class="col-form-label col-md-5 col-sm-5 ">รายงาน 90
                                                                 เริ่มต้น:
                                                                 (รอบล่าสุด)
                                                             </label>
@@ -1381,7 +1394,7 @@
 
 
                                                         <div class="form-group row">
-                                                            <label class="col-form-label col-md-5 col-sm-5 ">ราย 90
+                                                            <label class="col-form-label col-md-5 col-sm-5 ">รายงาน 90
                                                                 สิ้นสุด:
                                                                 (รอบล่าสุด)
                                                             </label>
@@ -1443,7 +1456,7 @@
 
                                                                     @foreach ($ninety as $v)
                                                                         <tr>
-                                                                            <td>{{ 'ต่อครั้งที่ ' . $rowsNinety-- }}</td>
+                                                                            <td>{{ 'ต่อครั้งที่ ' . $countRow--}}</td>
                                                                             <td>{{ date('d/m/Y', strtotime($v->ninety_date_start)) . ' ถึง ' . date('d/m/Y', strtotime($v->ninety_date_end)) }}
                                                                             </td>
                                                                             <td>{{ $v->ninety_user_add }}</td>
