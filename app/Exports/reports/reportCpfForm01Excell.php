@@ -20,13 +20,10 @@ class reportCpfForm01Excell implements FromCollection,WithMultipleSheets
     {
         // กลุ่มข้อมูลตาม labour_company
         $labourCompanies = $this->data->groupBy('labour_company');
-
         $sheets = [];
-
         foreach ($labourCompanies as $labourCompany => $data) {
             $sheets[] = new CPFexportSheet($data, $labourCompany);
         }
-
         return $sheets;
     }
     private $company_id;

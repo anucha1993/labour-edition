@@ -4,9 +4,12 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Imports\labours\LabourCustomImport;
 use App\Http\Controllers\report\ReportExpireController;
 use App\Http\Controllers\dashboards\dashboardController;
 use App\Http\Controllers\checkAddress\checkAddressController;
+use App\Http\Controllers\import_custom\createFormImportController;
+use App\Http\Controllers\file_import_excel\ImportLabourCustomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -116,3 +119,12 @@ Route::post('checkaddress',[checkAddressController::class,'check'])->name('check
 
 //Report Expire
 Route::get('report/reportexpire/{expireType}/{company}',[ReportExpireController::class,'exportExpire'])->name('report.exportExpire');
+
+//Custom Form Import
+Route::get('custom//create/form',[createFormImportController::class,'index'])->name('customFormImport.index');
+Route::post('custom/form/export',[createFormImportController::class,'export'])->name('customFormImport.export');
+
+//Import File Excel 
+Route::post('import/custom/file/excel',[ImportLabourCustomController::class,"import"])->name('import.customLabourExcel');
+Route::get('import/custom/return/form',[ImportLabourCustomController::class,"returnForm"])->name('import.returnForm');
+ 

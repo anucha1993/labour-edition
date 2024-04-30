@@ -16,7 +16,7 @@ class AddressSelectController extends Controller
         $output = '<option>Select a amphures</option>';
         foreach ($amphures as $value)
         {
-            $output.='<option value="'.$value->AMPHUR_ID.'" >'.$value->AMPHUR_NAME.'</option>';
+            $output.='<option value="'.$value->AMPHUR_ID.'" >'.$value->AMPHUR_NAME.'('.$value->AMPHUR_ID.')'.'</option>';
         }
         return $output;
     }
@@ -26,7 +26,7 @@ class AddressSelectController extends Controller
         $districts = DB::connection('mysql')->table('districts')->where('AMPHUR_ID',$request->select)->get();
         $output = '<option>Select a district </option>';
         foreach ($districts as $value){
-            $output.='<option value="'.$value->DISTRICT_CODE.'" >'.$value->DISTRICT_NAME.'</option>';
+            $output.='<option value="'.$value->DISTRICT_CODE.'" >'.$value->DISTRICT_NAME.'('.$value->DISTRICT_CODE.')'.'</option>';
         }
 
         echo $output;

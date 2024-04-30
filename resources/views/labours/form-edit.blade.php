@@ -510,6 +510,9 @@
                                             id="ninety-tab" data-toggle="tab" aria-expanded="false">รายงานตัว 90 วัน |
                                             ตม.</a>
                                     </li>
+                                    <li role="presentation" class=""><a href="#tab_content7" role="tab"
+                                        id="files-tab" data-toggle="tab" aria-expanded="false">ไฟล์เอกสาร</a>
+                                </li>
 
                                 </ul>
 
@@ -1473,6 +1476,45 @@
 
                                         </div>
                                     </div>
+
+                                    <div role="tabpanel" class="tab-pane " id="tab_content7"aria-labelledby="files-tab">
+                                    <div class="row">
+                                        <div class="col-md-12 ">
+                                            <div class="x_panel">
+
+                                                <div class="x_content">
+                                                    <div class="x_title">
+                                                        <h4 class="text-tfg">ไฟล์เอกสาร<small></small></h4>
+
+                                                        <div class="clearfix"></div>
+                                                    </div>
+
+                                                    <div class="data-container">
+
+                                                        @forelse ($files as $item)
+                                                        @php
+                                                            $file_name = basename($item->file_path);
+                                                        @endphp
+
+                                                        <li class="list-group-item ">
+                                                            <i data-feather="box" class="text-info feather-sm me-2  fa fa-file text-danger"></i>
+                                                            <a href="{{ URL::asset($item->file_path) }}"" target="_blank" class="text-black">{{$item->files_type}} ( {{$file_name}} )</a>
+                                                            <br>
+                                                        </li>
+                                                        @empty
+                                                            No data  File
+                                                        @endforelse
+                                                     
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+
                                     {{-- สิ้นสุด 90 วัน ตม. --}}
 
 

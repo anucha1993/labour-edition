@@ -11,6 +11,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
 use App\Models\labours\AddressLabourModel;
+use App\Models\labours\filesModel;
 
 class LabourController extends Controller
 {
@@ -83,10 +84,8 @@ class LabourController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
 
-  
-        
+    {
         // เช็ค passport ซ้ำ 
         $pass = LabourModel::where('labour_passport_number',$request->labour_passport_number)->count();
         if($pass > 0)
@@ -99,7 +98,7 @@ class LabourController extends Controller
         {
             return redirect()->back()->with('error','บันทึกข้อมูลล้มเหลว เนื่องจากข้อมูล Visa ซ้ำกันกับระบบ');
         }
-        //
+
         // dd($request);
         $findNumber = LabourModel::latest()->where('labour_number','!=',NULL)->value('labour_number');
         // ถ้าไม่มีข้อมูลในตาราง
@@ -213,8 +212,10 @@ class LabourController extends Controller
 
         $provinces = DB::table('provinces')->get();
 
+        $files = filesModel::where('labour_id',$labourModel->labour_id)->get();
+
         return view('labours.form-edit', compact('agents', 'nationality','labourAddr','provinces',
-                    'companys','labourModel','import','AddressLabour','AddressCompany','ComAddr'));
+                    'companys','labourModel','import','AddressLabour','AddressCompany','ComAddr','files'));
     }
 
     /**

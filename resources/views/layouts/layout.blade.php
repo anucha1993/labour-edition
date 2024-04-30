@@ -126,6 +126,7 @@
                                 <li><a><i class="fa fa-file-excel-o"></i>นำเข้าข้อมูล<span
                                             class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
+                                        <li><a href="{{ route('customFormImport.index') }}">นำเข้าข้อมูลแบบกำหนดเอง</a></li>
                                         <li><a href="{{ route('excelImport.labour') }}">นำเข้าข้อมูลคนต่างด้าว</a></li>
                                         <li><a href="{{ route('department.employee.id') }}">นำเข้าข้อมูล แผนก &
                                                 รหัสพนักงาน</a></li>

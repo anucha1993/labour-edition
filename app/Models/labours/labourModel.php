@@ -35,6 +35,7 @@ class LabourModel extends Model
         'labour_ninety_date_start',
         'labour_ninety_date_end',
         'labour_work',
+        
         'labour_work_date',
         'labour_escape',
         'labour_escape_date',
