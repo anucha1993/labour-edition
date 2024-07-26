@@ -13,16 +13,16 @@
     @endif
 
     @if ($message = Session::get('error'))
-    <script>
-        var message = @json($message);
-        Swal.fire({
-            icon: "error",
-            title: message,
-            showConfirmButton: false,
-            timer: 1500
-        });
-    </script>
-@endif
+        <script>
+            var message = @json($message);
+            Swal.fire({
+                icon: "error",
+                title: message,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        </script>
+    @endif
 
     <form action="{{ route('labour.update', $labourModel->labour_id) }}" method="post">
         @csrf
@@ -236,9 +236,9 @@
                                         ->orderby('ninety_id', 'desc')
                                         ->limit(2)
                                         ->get();
-                                
+
                                     $rowsNinety = $ninety->count();
-                                    $countRow =  $rowsNinety;
+                                    $countRow = $rowsNinety;
 
                                 @endphp
 
@@ -511,8 +511,8 @@
                                             ตม.</a>
                                     </li>
                                     <li role="presentation" class=""><a href="#tab_content7" role="tab"
-                                        id="files-tab" data-toggle="tab" aria-expanded="false">ไฟล์เอกสาร</a>
-                                </li>
+                                            id="files-tab" data-toggle="tab" aria-expanded="false">ไฟล์เอกสาร</a>
+                                    </li>
 
                                 </ul>
 
@@ -640,7 +640,7 @@
                                                             </div>
                                                         </div>
 
-                                                       
+
                                                         <div class="form-group row">
                                                             <label class="col-form-label col-md-4 col-sm-4 ">วันเกิด
                                                                 :</label>
@@ -1164,10 +1164,25 @@
                                                                 class="col-form-label col-md-4 col-sm-4 ">วันที่เดินทางเข้ามา
                                                                 :
                                                             </label>
+                                                            @php
+                                                                $days = $labourModel->labour_visa_run_date; // จำนวนวัน
+
+                                                                if (strtotime($days) === false) {
+                                                                    $unix_epoch_start = strtotime('1900-01-00'); // วันที่เริ่มต้น (Unix Epoch)
+                                                                    $target_date = date(
+                                                                        'Y-m-d',
+                                                                        $unix_epoch_start + ($days - 1) * 24 * 60 * 60,
+                                                                    );
+                                                                
+                                                                } else {
+                                                                    $target_date = $labourModel->labour_visa_run_date; 
+                                                                }
+                                                            @endphp
+
                                                             <div class="col-md-8 col-sm-8 ">
                                                                 <input type="date" class="form-control visa"
                                                                     name="labour_visa_run_date"
-                                                                    value="{{ $labourModel->labour_visa_run_date }}"
+                                                                    value="{{ date('Y-m-d', strtotime($target_date)) }}"
                                                                     placeholder="VISA NUMBER">
                                                             </div>
 
@@ -1237,7 +1252,8 @@
                                                         </div>
 
                                                         <div class="form-group row">
-                                                            <label class="col-form-label col-md-5 col-sm-5 ">เลขใบอนุญาตทำงาน:
+                                                            <label
+                                                                class="col-form-label col-md-5 col-sm-5 ">เลขใบอนุญาตทำงาน:
                                                             </label>
                                                             <div class="col-md-7 col-sm-7 ">
                                                                 <input type="text" class="form-control work work-id"
@@ -1459,7 +1475,7 @@
 
                                                                     @foreach ($ninety as $v)
                                                                         <tr>
-                                                                            <td>{{ 'ต่อครั้งที่ ' . $countRow--}}</td>
+                                                                            <td>{{ 'ต่อครั้งที่ ' . $countRow-- }}</td>
                                                                             <td>{{ date('d/m/Y', strtotime($v->ninety_date_start)) . ' ถึง ' . date('d/m/Y', strtotime($v->ninety_date_end)) }}
                                                                             </td>
                                                                             <td>{{ $v->ninety_user_add }}</td>
@@ -1478,41 +1494,45 @@
                                     </div>
 
                                     <div role="tabpanel" class="tab-pane " id="tab_content7"aria-labelledby="files-tab">
-                                    <div class="row">
-                                        <div class="col-md-12 ">
-                                            <div class="x_panel">
+                                        <div class="row">
+                                            <div class="col-md-12 ">
+                                                <div class="x_panel">
 
-                                                <div class="x_content">
-                                                    <div class="x_title">
-                                                        <h4 class="text-tfg">ไฟล์เอกสาร<small></small></h4>
+                                                    <div class="x_content">
+                                                        <div class="x_title">
+                                                            <h4 class="text-tfg">ไฟล์เอกสาร<small></small></h4>
 
-                                                        <div class="clearfix"></div>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+
+                                                        <div class="data-container">
+
+                                                            @forelse ($files as $item)
+                                                                @php
+                                                                    $file_name = basename($item->file_path);
+                                                                @endphp
+
+                                                                <li class="list-group-item ">
+                                                                    <i data-feather="box"
+                                                                        class="text-info feather-sm me-2  fa fa-file text-danger"></i>
+                                                                    <a href="{{ URL::asset($item->file_path) }}""
+                                                                        target="_blank"
+                                                                        class="text-black">{{ $item->files_type }} (
+                                                                        {{ $file_name }} )</a>
+                                                                    <br>
+                                                                </li>
+                                                            @empty
+                                                                No data File
+                                                            @endforelse
+
+
+
+                                                        </div>
+
                                                     </div>
-
-                                                    <div class="data-container">
-
-                                                        @forelse ($files as $item)
-                                                        @php
-                                                            $file_name = basename($item->file_path);
-                                                        @endphp
-
-                                                        <li class="list-group-item ">
-                                                            <i data-feather="box" class="text-info feather-sm me-2  fa fa-file text-danger"></i>
-                                                            <a href="{{ URL::asset($item->file_path) }}"" target="_blank" class="text-black">{{$item->files_type}} ( {{$file_name}} )</a>
-                                                            <br>
-                                                        </li>
-                                                        @empty
-                                                            No data  File
-                                                        @endforelse
-                                                     
-
-
-                                                    </div>
-
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                     </div>
 
                                     {{-- สิ้นสุด 90 วัน ตม. --}}
