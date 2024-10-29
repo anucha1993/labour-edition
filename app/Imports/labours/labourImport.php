@@ -121,7 +121,7 @@ class labourImport implements ToCollection, WithStartRow,WithHeadingRow
                         'labour_visa_number'           => $row[9],
                         'labour_visa_date_start'       => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[10]),date('Y-m-d'),
                         'labour_visa_date_end'         => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[11]),date('Y-m-d'),
-                        'labour_visa_run_date'         => $row[21],
+                        'labour_visa_run_date'         => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[21]),date('Y-m-d'),
                         'labour_work_permit_number'    => $row[13],
                         'labour_work_permit_date_start'=> \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[14]),date('Y-m-d'),
                         'labour_work_permit_date_end'  => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[15]),date('Y-m-d'),

@@ -73,7 +73,7 @@
                                 @foreach ($customers as $v)
                                     <tr>
                                         <td class="text-center"><span
-                                                class="badge badge-dark">{{ $v->company_id }}</span></td>
+                                                class="badge badge-dark">{{ $v->company_code }}</span></td>
                                         <td>{{ $v->company_name }}</td>
                                         <td>{{ $v->company_surname . ' ' . $v->company_lastname }}</td>
                                         <td>{{ $v->company_business_type != null ? $v->company_business_type : 'ไม่พบข้อมูล' }}

@@ -119,6 +119,8 @@
                                         <li><a href="{{ route('report.reportAll') }}">รายงานข้อมูลคนต่างด้าวทั้งหมด</a>
                                         <li><a href="{{ route('report.cpf') }}">รายงานข้อมูลคนต่างด้าว CPF </a>
                                         <li><a href="{{ route('report.customer') }}">รายงานข้อมูลนายจ้าง </a>
+                                        <li><a href="{{ route('expire.index') }}">คำนวนข้อมูลล่วงหน้า </a>
+                                        <li><a href="{{ route('report.total.index') }}">รายงานข้อมูลจำนวนแรงงานแยกบริษัท </a>
                                         </li>
                                     </ul>
                                 </li>
@@ -136,7 +138,7 @@
                                     </ul>
                                 </li>
                                 @endif
-                                @if (Auth::user()->type == '1')
+                                {{-- @if (Auth::user()->type == '1') --}}
                                     <li><a><i class="fa fa-file-text-o"></i>LogFile<span
                                                 class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
@@ -144,7 +146,7 @@
 
                                         </ul>
                                     </li>
-                                @endif
+                                {{-- @endif --}}
 
 
 

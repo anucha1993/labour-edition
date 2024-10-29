@@ -59,21 +59,14 @@ class LabourCustomImport implements ToCollection, WithStartRow
 
             // เพิ่มข้อมูลที่อัปเดตแล้วลงในอาร์เรย์ $data
             $dataColumn[] = $rowData;
-
-           
         }
         $labourIDs = [];
         foreach ($dataColumn as $row) {
-            
+
             if (isset($row['labour_passport_number']) && !empty($row['labour_passport_number'])) {
-                
-
                 $passport_number = $row['labour_passport_number'];
-
                 $labourIDs[] = $row['labour_passport_number'];
-
                 $this->dataColumn = array_keys($row);
-                
 
                 //วันที่เริ่มงาน
                 if (!empty($row['labour_work_date'])) {
@@ -162,31 +155,32 @@ class LabourCustomImport implements ToCollection, WithStartRow
 
                 //ตรวจสอบ  columns ของ larbour Table
                 $existing_columns = Schema::getColumnListing('labour'); // แทน 'labour' ด้วยชื่อตารางของคุณ
-              
+
                 $update_columns = array_intersect_key($row, array_flip($existing_columns));
                 $query = LabourModel::where('labour_passport_number', $passport_number)->update($update_columns);
-       
                 $labourID = LabourModel::select('*')->where('labour_passport_number', $passport_number)->first();
+                if ($labourID) {
+                    activity()
+                        ->performedOn($labourID)
+                        ->tap(function ($activity) use ($labourID) {
+                            $activity->causer_type = Auth::user()->name;
+                            $activity->log_name = 'labour';
+                            $activity->subject_type = 'import-custom-excel';
+                            $activity->event = 'updated';
+                            $activity->properties = $labourID;
+                        })
+                        ->log($labourID->labour_name . ',' . $labourID->labour_passport_number);
+                } else {
+                    // handle the case when $labourID is null
+                    Log::warning('Labour not found for passport number: ' . $passport_number);
+                }
 
-                activity()
-                ->performedOn($labourID)
-                ->tap(function ($activity) use ($labourID) {
-                    // กำหนดข้อมูลในฟิลด์ที่ต้องการ
-                    $activity->causer_type  = Auth::user()->name;
-                    $activity->log_name     = 'labour';
-                    $activity->subject_type = 'import-custom-excel';
-                    $activity->event        = 'updated';
-                    $activity->properties   = $labourID;
-                })
-                ->log($labourID->labour_name . ',' . $labourID->labour_passport_number);
-
-               
                 // Upload File file_passport_manage
-              
+
                 if (!empty($row['file_passport_manage'])) {
                     $file_path_passport = $row['file_passport_manage'];
                     $file_name = basename($file_path_passport);
-                    $destination_directory = public_path('storage/labour-file/' . $labourID->labour_id.'/labour-manage-passport');
+                    $destination_directory = public_path('storage/labour-file/' . $labourID->labour_id . '/labour-manage-passport');
                     // ตรวจสอบว่าโฟลเดอร์ปลายทางมีอยู่หรือไม่ หากไม่มีให้สร้างโฟลเดอร์
                     if (!file_exists($destination_directory)) {
                         mkdir($destination_directory, 0777, true); // สร้างโฟลเดอร์โดยใช้สิทธิ์เข้าถึง 0777
@@ -199,17 +193,17 @@ class LabourCustomImport implements ToCollection, WithStartRow
                         filesModel::create([
                             'labour_id' => $labourID->labour_id,
                             'files_type' => "เอกสารนายจ้างดำนเนินการต่อหนังสือเดินทางเอง",
-                            'file_path' => 'storage/labour-file/' . $labourID->labour_id.'/labour-manage-passport'.'/'.$file_name
+                            'file_path' => 'storage/labour-file/' . $labourID->labour_id . '/labour-manage-passport' . '/' . $file_name
                         ]);
                     }
                 }
 
                 // Upload File file_visa_manage
-              
+
                 if (!empty($row['file_visa_manage'])) {
                     $file_path_visa = $row['file_visa_manage'];
                     $file_name = basename($file_path_visa);
-                    $destination_directory = public_path('storage/labour-file/' . $labourID->labour_id.'/labour-manage-visa');
+                    $destination_directory = public_path('storage/labour-file/' . $labourID->labour_id . '/labour-manage-visa');
                     // ตรวจสอบว่าโฟลเดอร์ปลายทางมีอยู่หรือไม่ หากไม่มีให้สร้างโฟลเดอร์
                     if (!file_exists($destination_directory)) {
                         mkdir($destination_directory, 0777, true); // สร้างโฟลเดอร์โดยใช้สิทธิ์เข้าถึง 0777
@@ -222,75 +216,73 @@ class LabourCustomImport implements ToCollection, WithStartRow
                     filesModel::create([
                         'labour_id' => $labourID->labour_id,
                         'files_type' => "เอกสารนายจ้างดำนเนินการต่อวีซ่าเอง",
-                        'file_path' =>  'storage/labour-file/' . $labourID->labour_id.'/labour-manage-visa'.'/'.$file_name
+                        'file_path' =>  'storage/labour-file/' . $labourID->labour_id . '/labour-manage-visa' . '/' . $file_name
                     ]);
                 }
 
-                 // Upload File file_worl_manage
-                 if (!empty($row['file_work_manage'])) {
+                // Upload File file_worl_manage
+                if (!empty($row['file_work_manage'])) {
                     $file_path_work = $row['file_work_manage'];
-                     $file_name = basename($file_path_work);
-                     $destination_directory = public_path('storage/labour-file/' . $labourID->labour_id.'/labour-manage-work');
-                     // ตรวจสอบว่าโฟลเดอร์ปลายทางมีอยู่หรือไม่ หากไม่มีให้สร้างโฟลเดอร์
-                     if (!file_exists($destination_directory)) {
-                         mkdir($destination_directory, 0777, true); // สร้างโฟลเดอร์โดยใช้สิทธิ์เข้าถึง 0777
-                     }
-                     // ตรวจสอบว่าไฟล์ต้นทางมีอยู่หรือไม่ และคัดลอกไฟล์
-                     if (file_exists($file_path_work)) {
-                         $destination = $destination_directory . '/' . $file_name;
-                         copy($file_path_work, $destination);
-                     }
-                     filesModel::create([
+                    $file_name = basename($file_path_work);
+                    $destination_directory = public_path('storage/labour-file/' . $labourID->labour_id . '/labour-manage-work');
+                    // ตรวจสอบว่าโฟลเดอร์ปลายทางมีอยู่หรือไม่ หากไม่มีให้สร้างโฟลเดอร์
+                    if (!file_exists($destination_directory)) {
+                        mkdir($destination_directory, 0777, true); // สร้างโฟลเดอร์โดยใช้สิทธิ์เข้าถึง 0777
+                    }
+                    // ตรวจสอบว่าไฟล์ต้นทางมีอยู่หรือไม่ และคัดลอกไฟล์
+                    if (file_exists($file_path_work)) {
+                        $destination = $destination_directory . '/' . $file_name;
+                        copy($file_path_work, $destination);
+                    }
+                    filesModel::create([
                         'labour_id' => $labourID->labour_id,
                         'files_type' => "เอกสารนายจ้างดำนเนินการต่อใบอนุญาตเอง",
-                        'file_path' => 'storage/labour-file/' . $labourID->labour_id.'/labour-manage-work'.'/'.$file_name
+                        'file_path' => 'storage/labour-file/' . $labourID->labour_id . '/labour-manage-work' . '/' . $file_name
                     ]);
-                 }
+                }
                 // Upload File file_ninety_manage
-               
-                  if (!empty($row['file_ninety_manage'])) {
-                     $file_path_ninety = $row['file_ninety_manage'];
-                      $file_name = basename($file_path_ninety);
-                      $destination_directory = public_path('storage/labour-file/' . $labourID->labour_id.'/labour-manage-ninety');
-                      // ตรวจสอบว่าโฟลเดอร์ปลายทางมีอยู่หรือไม่ หากไม่มีให้สร้างโฟลเดอร์
-                      if (!file_exists($destination_directory)) {
-                          mkdir($destination_directory, 0777, true); // สร้างโฟลเดอร์โดยใช้สิทธิ์เข้าถึง 0777
-                      }
-                      // ตรวจสอบว่าไฟล์ต้นทางมีอยู่หรือไม่ และคัดลอกไฟล์
-                      if (file_exists($file_path_ninety)) {
-                          $destination = $destination_directory . '/' . $file_name;
-                          copy($file_path_ninety, $destination);
-                      }
-                      filesModel::create([
+
+                if (!empty($row['file_ninety_manage'])) {
+                    $file_path_ninety = $row['file_ninety_manage'];
+                    $file_name = basename($file_path_ninety);
+                    $destination_directory = public_path('storage/labour-file/' . $labourID->labour_id . '/labour-manage-ninety');
+                    // ตรวจสอบว่าโฟลเดอร์ปลายทางมีอยู่หรือไม่ หากไม่มีให้สร้างโฟลเดอร์
+                    if (!file_exists($destination_directory)) {
+                        mkdir($destination_directory, 0777, true); // สร้างโฟลเดอร์โดยใช้สิทธิ์เข้าถึง 0777
+                    }
+                    // ตรวจสอบว่าไฟล์ต้นทางมีอยู่หรือไม่ และคัดลอกไฟล์
+                    if (file_exists($file_path_ninety)) {
+                        $destination = $destination_directory . '/' . $file_name;
+                        copy($file_path_ninety, $destination);
+                    }
+                    filesModel::create([
                         'labour_id' => $labourID->labour_id,
                         'files_type' => "เอกสารนายจ้างดำนเนินการต่อรายงานตัว90วันเอง",
-                        'file_path' =>  'storage/labour-file/' . $labourID->labour_id.'/labour-manage-ninety'.'/'.$file_name
+                        'file_path' =>  'storage/labour-file/' . $labourID->labour_id . '/labour-manage-ninety' . '/' . $file_name
 
                     ]);
-                  }
+                }
 
-               
+
 
                 // INSERT 90 Days
                 if (!empty($row['ninety_date_start']) && !empty($row['ninety_date_end'])) {
                     update90dayModel::create([
                         'labour_id'        => $labourID->labour_id,
                         'labour_passport'  => $passport_number,
-                        'ninety_date_start'=> $row['ninety_date_start'],
+                        'ninety_date_start' => $row['ninety_date_start'],
                         'ninety_date_end'  => $row['ninety_date_end'],
                         'ninety_user_add'  => Auth::user()->name,
                     ]);
-                // Upload File
+                    // Upload File
 
 
 
                 }
             }
-
         }
 
         $this->labourAll = $labourIDs;
-
     }
 
     public function getExcelData()
@@ -302,5 +294,4 @@ class LabourCustomImport implements ToCollection, WithStartRow
     {
         return $this->dataColumn;
     }
-
 }

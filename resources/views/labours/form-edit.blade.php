@@ -620,12 +620,23 @@
 
                                                         <div class="form-group row">
                                                             <label
-                                                                class="col-form-label col-md-4 col-sm-4 ">คำนำหน้า/ชื่อ-นามสกุล
+                                                                class="col-form-label col-md-4 col-sm-4 ">คำนำหน้า/ชื่อ-นามสกุล(อังกฤษ)
                                                                 : </label>
                                                             <div class="col-md-8 col-sm-8 ">
                                                                 <input type="text" name="labour_name"
                                                                     class="form-control" placeholder="Mr.ame-Lastname"
                                                                     value="{{ $labourModel->labour_name }}" required>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="form-group row">
+                                                            <label
+                                                                class="col-form-label col-md-4 col-sm-4 ">ชื่อ-นามสกุล(ไทย)
+                                                                : </label>
+                                                            <div class="col-md-8 col-sm-8 ">
+                                                                <input type="text" name="labour_name_th"
+                                                                    class="form-control" placeholder="ชื่อ-นามสกุล(ไทย)"
+                                                                    value="{{ $labourModel->labour_name_th }}" >
                                                             </div>
                                                         </div>
 
@@ -1063,6 +1074,35 @@
                                                                 </select>
                                                             </div>
                                                         </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-form-label col-md-4 col-sm-4 ">เลขที่บัตรชมพู :
+                                                            </label>
+                                                            <div class="col-md-8 col-sm-8 ">
+                                                            <input type="text" class="form-control" name="labour_idcard_number" placeholder="เลขที่บัตรชมพู" value="{{$labourModel->labour_idcard_number}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-form-label col-md-4 col-sm-4 ">บัตรชมพู วันที่ออกบัตร :
+                                                            </label>
+                                                            <div class="col-md-8 col-sm-8 ">
+                                                            <input type="date" class="form-control" name="labour_idcard_date_start" value="{{$labourModel->labour_idcard_date_start}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-form-label col-md-4 col-sm-4 ">บัตรชมพู วันที่หมดอายุ :
+                                                            </label>
+                                                            <div class="col-md-8 col-sm-8 ">
+                                                            <input type="date" class="form-control" name="labour_idcard_date_end" value="{{$labourModel->labour_idcard_date_end}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-form-label col-md-4 col-sm-4 ">ครบกำหนดถ่ายบัตรชมพู :
+                                                            </label>
+                                                            <div class="col-md-8 col-sm-8 ">
+                                                            <input type="date" class="form-control" name="labour_idcard_date_notify" value="{{$labourModel->labour_idcard_date_notify}}">
+                                                            </div>
+                                                        </div>
+
 
                                                     </div>
                                                 </div>
@@ -1164,12 +1204,37 @@
                                                                 class="col-form-label col-md-4 col-sm-4 ">วันที่เดินทางเข้ามา
                                                                 :
                                                             </label>
-                                                            <div class="col-md-8 col-sm-8 ">
-                                                                <input type="date" class="form-control visa"
-                                                                    name="labour_visa_run_date"
-                                                                    value="{{ $labourModel->labour_visa_run_date }}"
-                                                                    placeholder="VISA NUMBER">
-                                                            </div>
+
+                                                          
+                                                            @php
+                                                  
+                                                            $days = $labourModel->labour_visa_run_date; // จำนวนวัน
+
+                                                            if(!empty($days)) {
+                                                                if (strtotime($days) === false) {
+                                                                $unix_epoch_start = strtotime('1900-01-00'); // วันที่เริ่มต้น (Unix Epoch)
+                                                                $target_date = date(
+                                                                    'Y-m-d',
+                                                                    $unix_epoch_start + ($days - 1) * 24 * 60 * 60,
+                                                                );
+                                                            
+                                                            } else {
+                                                                $target_date = $labourModel->labour_visa_run_date; 
+                                                            }
+                                                            }else{
+                                                                $target_date = NULL;
+                                                            }
+
+                                                           
+                                                        @endphp
+
+                                                        <div class="col-md-8 col-sm-8 ">
+                                                            <input type="date" class="form-control visa"
+                                                                name="labour_visa_run_date"
+                                                                value="{{ date('Y-m-d', strtotime($target_date)) }}"
+                                                                placeholder="VISA NUMBER">
+                                                        </div>
+
 
                                                         </div>
 
@@ -1280,6 +1345,7 @@
                                                                     value="{{ $labourModel->labour_work_permit_date_start02 }}">
                                                             </div>
                                                         </div>
+                                                        
                                                         <div class="form-group row">
                                                             <label class="col-form-label col-md-5 col-sm-5 ">แผนก:
                                                             </label>
@@ -1288,6 +1354,15 @@
                                                                     name="labour_department"
                                                                     value="{{ $labourModel->labour_department }}"
                                                                     placeholder="labour department">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group row">
+                                                            <label class="col-form-label col-md-5 col-sm-5 ">สถานที่ทำงาน :
+                                                            </label>
+                                                            <div class="col-md-7 col-sm-7 ">
+                                                                <textarea name="labour_place_of_work" class="form-control" cols="30" rows="3">{{ $labourModel->labour_place_of_work }}</textarea>
+                                                              
                                                             </div>
                                                         </div>
 

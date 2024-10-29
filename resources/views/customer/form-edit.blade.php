@@ -257,7 +257,10 @@
                                         @php
                                         $districtName = DB::table('districts')->where('DISTRICT_CODE',$customer->company_district)->first();
                                     @endphp
-                                    <option selected value="{{$districtName->DISTRICT_CODE}}">{{$districtName->DISTRICT_NAME}}</option>
+                                    @if(!empty($districtName->DISTRICT_CODE))
+                                    <option selected value="{{($districtName->DISTRICT_CODE)}}">{{$districtName->DISTRICT_NAME}}</option>
+                                    @endif
+                                  
 
                                         <option value="">None</option>
                                     </select>

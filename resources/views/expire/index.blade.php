@@ -4,7 +4,7 @@
         <div class="col-md-12 col-sm-12 ">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Report <small>รายงานข้อมูลคนต่างด้าวทั้งหมด</small></h2>
+                    <h2>Report <small>รายงานจำนวคนต่างด้าวเอกสารหมดอายุทั้งหมด</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         </li>
@@ -25,7 +25,7 @@
                 </div>
                 <div class="x_content">
                     <br />
-                    <form action="{{ route('reportLabour.exportLabours') }}" method="post">
+                    <form action="{{ route('expire.index') }}" method="get">
                         @csrf
                         <div class="row">
                             <div class="col-md-3">
@@ -67,7 +67,7 @@
                                 <div class="form-group">
                                     <label>Actions</label>
                                     <br>
-                                    <button type="submit" class="btn btn-danger">ดาวน์โหลด</button>
+                                    <button type="submit" class="btn btn-danger">ตรวจสอบ</button>
                                 </div>
                             </div>
                         </div>
@@ -82,14 +82,14 @@
                                 <div class="form-group">
                                     <label>เริ่มต้น</label>
                                     <input type="date" name="ninety_day_start" id="ninety_day_start"
-                                        class="form-control"  >
+                                        class="form-control">
                                 </div>
                             </div>
 
                             <div class="col-md-3" id="div-ninety-end" style="display: none">
                                 <div class="form-group">
                                     <label>สิ้นสุด</label>
-                                    <input type="date" name="ninety_day_end" id="ninety_day_end" class="form-control" >
+                                    <input type="date" name="ninety_day_end" id="ninety_day_end" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -138,7 +138,6 @@
                             </div>
                         </div>
 
-
                         <div class="row">
                             <div class="col-md-3">
                                 <input type="checkbox" name="passport" id="passport" value="Y">&nbsp;<label>
@@ -160,77 +159,64 @@
                                 </div>
                             </div>
                         </div>
-                        
 
                         <div class="row">
                             <div class="col-md-3">
                                 <input type="checkbox" name="passport_ci" id="work" value="CC">&nbsp;<label>
-                                    Passport  CI</label>
+                                    Passport CI</label>
                             </div>
                         </div>
 
 
-                        <div class="row">
-                            <div class="col-md-3">
-                                <input type="checkbox" name="idcard" id="idcard" value="Y">&nbsp;<label>
-                                    วันหมดอายุ บัตรชมพู</label>
-                            </div>
 
-                            <div class="col-md-3" id="div-idcard-start" style="display: none">
-                                <div class="form-group">
-                                    <label>เริ่มต้น</label>
-                                    <input type="date" name="idcard_start" id="idcard-start"
-                                        class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="col-md-3" id="div-idcard-end" style="display: none">
-                                <div class="form-group">
-                                    <label>สิ้นสุด</label>
-                                    <input type="date" name="idcard_end" id="idcard-end" class="form-control">
-                                </div>
-                            </div>
-                        </div>
 
                     </form>
                 </div>
-            </div>
+            {{-- </div>
+            @if ($request->visa === 'Y') --}}
+               <p>วันที่: {{ date('d/m/Y',strtotime( $request->visa_start))}}  ถึงวันที่: {{date('d/m/Y',strtotime( $request->visa_end))}} </p>
+                วีซ่า หมดอายุ {{  number_format($data) }} คน
+            {{-- @endif --}}
+
+            {{-- @if ($request->passport === 'Y') --}}
+            <p>วันที่: {{date('d/m/Y',strtotime($request->passport_start))}}  ถึงวันที่: {{date('d/m/Y',strtotime($request->passport_end))}} </p>
+                หนังสือเดินทาง หมดอายุ {{  number_format($data) }} คน
+            {{-- @endif --}}
+
+            {{-- @if ($request->ninety_day_check === 'Y') --}}
+            <p>วันที่: {{date('d/m/Y',strtotime($request->ninety_day_start))}}  ถึงวันที่: {{date('d/m/Y',strtotime($request->ninety_day_end))}} </p>
+             90วัน หมดอายุ {{  number_format($data) }} คน
+           {{-- @endif --}}
+
+          
+           {{-- @if ($request->work === 'Y') --}}
+           <p>วันที่: {{date('d/m/Y',strtotime($request->work_start))}}  ถึงวันที่: {{date('d/m/Y',strtotime($request->work_end))}} </p>
+           ใบอนุญาตทำงาน หมดอายุ {{  number_format($data) }} คน
+           {{-- @endif --}}
+
+            
         </div>
     </div>
 
     <script>
         $(document).ready(function() {
-            $('#idcard').change(function() {
-                if ($(this).is(':checked')) {
-                    // If the checkbox is checked
-                    $('#div-idcard-start').show();
-                    $('#div-idcard-end').show();
-                    $('#idcard').prop('required',true); // Disable the input with ID 'ninety_day_start'
-                    $('#idcard').prop('required',true); // Disable the input with ID 'ninety_day_end'
-                } else {
-                    // If the checkbox is unchecked
-                    $('#div-idcard-start').hide();
-                    $('#div-idcard-end').hide();
-                    $('#idcard-start').prop('required',false); // Enable the input with ID 'ninety_day_start'
-                    $('#idcard-start').prop('required', false); // Enable the input with ID 'ninety_day_end'
-                }
-            });
-
-    
-
             $('#ninety_day_check').change(function() {
                 if ($(this).is(':checked')) {
                     // If the checkbox is checked
                     $('#div-ninety-start').show();
                     $('#div-ninety-end').show();
-                    $('#ninety_day_start').prop('required',true); // Disable the input with ID 'ninety_day_start'
-                    $('#ninety_day_end').prop('required',true); // Disable the input with ID 'ninety_day_end'
+                    $('#ninety_day_start').prop('required',
+                    true); // Disable the input with ID 'ninety_day_start'
+                    $('#ninety_day_end').prop('required',
+                    true); // Disable the input with ID 'ninety_day_end'
                 } else {
                     // If the checkbox is unchecked
                     $('#div-ninety-start').hide();
                     $('#div-ninety-end').hide();
-                    $('#ninety_day_start').prop('required',false); // Enable the input with ID 'ninety_day_start'
-                    $('#ninety_day_end').prop('required', false); // Enable the input with ID 'ninety_day_end'
+                    $('#ninety_day_start').prop('required',
+                    false); // Enable the input with ID 'ninety_day_start'
+                    $('#ninety_day_end').prop('required',
+                    false); // Enable the input with ID 'ninety_day_end'
                 }
             });
 
@@ -241,14 +227,14 @@
                     // ถ้า checkbox ถูกเลือก (checked)
                     $('#div-visa-start').show();
                     $('#div-visa-end').show();
-                    $('#visa-start').prop('required',true);
-                    $('#visa-end').prop('required',true);
+                    $('#visa-start').prop('required', true);
+                    $('#visa-end').prop('required', true);
                 } else {
                     // ถ้า checkbox ไม่ถูกเลือก (unchecked)
                     $('#div-visa-start').hide();
                     $('#div-visa-end').hide();
-                    $('#visa-start').prop('required',false);
-                    $('#visa-end').prop('required',false);
+                    $('#visa-start').prop('required', false);
+                    $('#visa-end').prop('required', false);
                 }
             });
         });
@@ -259,15 +245,15 @@
                     // ถ้า checkbox ถูกเลือก (checked)
                     $('#div-work-start').show();
                     $('#div-work-end').show();
-                    $('#work-start').prop('required',true);
-                    $('#work-end').prop('required',true);
+                    $('#work-start').prop('required', true);
+                    $('#work-end').prop('required', true);
 
                 } else {
                     // ถ้า checkbox ไม่ถูกเลือก (unchecked)
                     $('#div-work-start').hide();
                     $('#div-work-end').hide();
-                    $('#work-start').prop('required',false);
-                    $('#work-end').prop('required',false);
+                    $('#work-start').prop('required', false);
+                    $('#work-end').prop('required', false);
                 }
             });
         });
@@ -278,14 +264,14 @@
                     // ถ้า checkbox ถูกเลือก (checked)
                     $('#div-passport-start').show();
                     $('#div-passport-end').show();
-                    $('#passport-start').prop('required',true);
-                    $('#passport-end').prop('required',true);
+                    $('#passport-start').prop('required', true);
+                    $('#passport-end').prop('required', true);
                 } else {
                     // ถ้า checkbox ไม่ถูกเลือก (unchecked)
                     $('#div-passport-start').hide();
                     $('#div-passport-end').hide();
-                    $('#passport-start').prop('required',false);
-                    $('#passport-end').prop('required',false);
+                    $('#passport-start').prop('required', false);
+                    $('#passport-end').prop('required', false);
                 }
             });
         });

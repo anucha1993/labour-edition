@@ -133,9 +133,11 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
             'S' => 20,            
             'T' => 20,            
             'U' => 20,            
-            'V' => 80,            
+            'V' => 40,            
             'W' => 40,            
-            'X' => 60,                    
+            'X' => 80, 
+            'Y' => 40,            
+            'Z' => 60,                     
         ];
     }
 
@@ -158,11 +160,13 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
             'กลุ่มการนำเข้า',//2
             'รหัสพนักงาน', //3
             'แผนก',//4
-            'ชื่อแรงงาน',//5
-            'สัญชาติ',//6
-            'วันเกิด',//7
-            'เลขหนังสือเดินทาง',//8
-            'เลขบัตรประตัวประชาชน',//9
+            'สถานที่ทำงาน',//5
+            'ชื่อแรงงาน',//6
+            'ชื่อภาษาไทย',//7
+            'สัญชาติ',//8
+            'วันเกิด',//9
+            'เลขหนังสือเดินทาง',//10
+            'เลขบัตรประตัวประชาชน',//10
             'วันออกเล่ม',//10
             'วันหมดเล่ม',//11
             'เลขที่วิซ่า',//12
@@ -193,7 +197,9 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
         ($data->import_name == '' ? "ไม่พบข้อมูล" : $data->import_name),//2
         $data->labour_code,//3
         ($data->labour_department == '' ? "'" : $data->labour_department),//4
+        $data->labour_place_of_work,//5
         $data->labour_name,//5
+        $data->labour_name_th,//5
         $data->nationality_name,//6
         date('d-m-Y',strtotime($data->labour_birth_date)),//7
         $data->labour_passport_number, //8
@@ -220,8 +226,8 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
     public function columnFormats(): array
     {
         return [
-            'I' => NumberFormat::FORMAT_NUMBER,
-            'N' => NumberFormat::FORMAT_NUMBER,
+            'K' => NumberFormat::FORMAT_NUMBER,
+            'Q' => NumberFormat::FORMAT_NUMBER,
             'O' => NumberFormat::FORMAT_NUMBER,
         ];
     }

@@ -8,8 +8,10 @@ use App\Imports\labours\LabourCustomImport;
 use App\Http\Controllers\report\ReportExpireController;
 use App\Http\Controllers\dashboards\dashboardController;
 use App\Http\Controllers\checkAddress\checkAddressController;
+use App\Http\Controllers\ExpireController;
 use App\Http\Controllers\import_custom\createFormImportController;
 use App\Http\Controllers\file_import_excel\ImportLabourCustomController;
+use App\Http\Controllers\TotalLabourController;
 
 /*
 |--------------------------------------------------------------------------
@@ -127,4 +129,12 @@ Route::post('custom/form/export',[createFormImportController::class,'export'])->
 //Import File Excel 
 Route::post('import/custom/file/excel',[ImportLabourCustomController::class,"import"])->name('import.customLabourExcel');
 Route::get('import/custom/return/form',[ImportLabourCustomController::class,"returnForm"])->name('import.returnForm');
+
+//Expire
+
+Route::get('labour/expire/custom',[ExpireController::class,"index"])->name('expire.index');
  
+//Total Export
+
+Route::get('report/labour/total',[TotalLabourController::class,"index"])->name('report.total.index');
+Route::get('report/labour/export',[TotalLabourController::class,"export"])->name('report.total.export');

@@ -420,6 +420,17 @@
                                                         </div>
 
                                                         <div class="form-group row">
+                                                            <label
+                                                                class="col-form-label col-md-4 col-sm-4 ">ชื่อ-นามสกุล(ไทย)
+                                                                : </label>
+                                                            <div class="col-md-8 col-sm-8 ">
+                                                                <input type="text" name="labour_name_th"
+                                                                    class="form-control" placeholder="ชื่อ-นามสกุล(ไทย)">
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="form-group row">
                                                             <label class="col-form-label col-md-4 col-sm-4 ">เลขบัตร ปปช.
                                                                 :</label>
                                                             <div class="col-md-8 col-sm-8 ">
@@ -1027,6 +1038,15 @@
                                                                     name="labour_department"
                                                                    
                                                                     placeholder="labour department">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group row">
+                                                            <label class="col-form-label col-md-5 col-sm-5 ">สถานที่ทำงาน :
+                                                            </label>
+                                                            <div class="col-md-7 col-sm-7 ">
+                                                                <textarea name="labour_place_of_work" class="form-control" cols="30" rows="3"></textarea>
+                                                              
                                                             </div>
                                                         </div>
 

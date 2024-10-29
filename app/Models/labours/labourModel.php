@@ -14,6 +14,7 @@ class LabourModel extends Model
         'labour_number',
         'labour_code',
         'labour_name',
+        'labour_name_th',
         'labour_company',
         'labour_agent',
         'labour_date_create',
@@ -35,7 +36,7 @@ class LabourModel extends Model
         'labour_ninety_date_start',
         'labour_ninety_date_end',
         'labour_work',
-        
+        'labour_place_of_work',
         'labour_work_date',
         'labour_escape',
         'labour_escape_date',
@@ -63,6 +64,10 @@ class LabourModel extends Model
         'labour_visa_company_manage',
         'labour_work_permit_company_manage',
         'labour_ninety_company_manage',
+        'labour_idcard_number',
+        'labour_idcard_date_start',
+        'labour_idcard_date_end',
+        'labour_idcard_date_notify',
     ];
         
 }
