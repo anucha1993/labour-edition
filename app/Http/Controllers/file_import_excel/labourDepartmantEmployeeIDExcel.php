@@ -49,12 +49,16 @@ class labourDepartmantEmployeeIDExcel extends Controller
 
     public function update(Request $request)
     {
-        // dd($request);
+         //dd($request);
         foreach ($request->labour_passport_number as $key => $value) {
             LabourModel::where('labour_passport_number', $request->labour_passport_number[$key])
                 ->update([
                     'labour_code' => $request->labour_code[$key],
                     'labour_department' => $request->labour_department[$key],
+                    'labour_idcard_number' => $request->labour_idcard_number[$key],
+                    'labour_idcard_date_start' => $request->labour_idcard_date_start[$key],
+                    'labour_idcard_date_end' => $request->labour_idcard_date_end[$key],
+                    'labour_idcard_date_notify' => $request->labour_idcard_date_notify[$key],
                     'labour_user_edit' => Auth::user()->name,
                 ]);
         }

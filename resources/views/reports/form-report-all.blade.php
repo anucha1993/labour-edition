@@ -82,14 +82,14 @@
                                 <div class="form-group">
                                     <label>เริ่มต้น</label>
                                     <input type="date" name="ninety_day_start" id="ninety_day_start"
-                                        class="form-control"  >
+                                        class="form-control">
                                 </div>
                             </div>
 
                             <div class="col-md-3" id="div-ninety-end" style="display: none">
                                 <div class="form-group">
                                     <label>สิ้นสุด</label>
-                                    <input type="date" name="ninety_day_end" id="ninety_day_end" class="form-control" >
+                                    <input type="date" name="ninety_day_end" id="ninety_day_end" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -160,27 +160,26 @@
                                 </div>
                             </div>
                         </div>
-                        
+
 
                         <div class="row">
                             <div class="col-md-3">
                                 <input type="checkbox" name="passport_ci" id="work" value="CC">&nbsp;<label>
-                                    Passport  CI</label>
+                                    Passport CI</label>
                             </div>
                         </div>
 
 
                         <div class="row">
                             <div class="col-md-3">
-                                <input type="checkbox" name="idcard" id="idcard" value="Y">&nbsp;<label>
-                                    วันหมดอายุ บัตรชมพู</label>
+                                <input type="checkbox" name="idcard" id="idcard"
+                                    value="Y">&nbsp;<label>วันหมดอายุ บัตรชมพู</label>
                             </div>
 
                             <div class="col-md-3" id="div-idcard-start" style="display: none">
                                 <div class="form-group">
                                     <label>เริ่มต้น</label>
-                                    <input type="date" name="idcard_start" id="idcard-start"
-                                        class="form-control">
+                                    <input type="date" name="idcard_start" id="idcard-start" class="form-control">
                                 </div>
                             </div>
 
@@ -192,6 +191,8 @@
                             </div>
                         </div>
 
+
+
                     </form>
                 </div>
             </div>
@@ -202,35 +203,41 @@
         $(document).ready(function() {
             $('#idcard').change(function() {
                 if ($(this).is(':checked')) {
-                    // If the checkbox is checked
+                    // ถ้าเช็คบ็อกซ์ถูกเลือก
                     $('#div-idcard-start').show();
                     $('#div-idcard-end').show();
-                    $('#idcard').prop('required',true); // Disable the input with ID 'ninety_day_start'
-                    $('#idcard').prop('required',true); // Disable the input with ID 'ninety_day_end'
+                    $('#idcard-start').prop('required', true); // ทำให้ idcard-start เป็น required
+                    $('#idcard-end').prop('required', true); // ทำให้ idcard-end เป็น required
                 } else {
-                    // If the checkbox is unchecked
+                    // ถ้าเช็คบ็อกซ์ไม่ถูกเลือก
                     $('#div-idcard-start').hide();
                     $('#div-idcard-end').hide();
-                    $('#idcard-start').prop('required',false); // Enable the input with ID 'ninety_day_start'
-                    $('#idcard-start').prop('required', false); // Enable the input with ID 'ninety_day_end'
+                    $('#idcard-start').prop('required', false); // ยกเลิก required สำหรับ idcard-start
+                    $('#idcard-end').prop('required', false); // ยกเลิก required สำหรับ idcard-end
+                    $('#idcard-start').val(''); // ตั้งค่า idcard_start เป็นค่าว่าง
+                    $('#idcard-end').val(''); // ตั้งค่า idcard_end เป็นค่าว่าง
                 }
             });
 
-    
+
 
             $('#ninety_day_check').change(function() {
                 if ($(this).is(':checked')) {
                     // If the checkbox is checked
                     $('#div-ninety-start').show();
                     $('#div-ninety-end').show();
-                    $('#ninety_day_start').prop('required',true); // Disable the input with ID 'ninety_day_start'
-                    $('#ninety_day_end').prop('required',true); // Disable the input with ID 'ninety_day_end'
+                    $('#ninety_day_start').prop('required',
+                    true); // Disable the input with ID 'ninety_day_start'
+                    $('#ninety_day_end').prop('required',
+                    true); // Disable the input with ID 'ninety_day_end'
                 } else {
                     // If the checkbox is unchecked
                     $('#div-ninety-start').hide();
                     $('#div-ninety-end').hide();
-                    $('#ninety_day_start').prop('required',false); // Enable the input with ID 'ninety_day_start'
-                    $('#ninety_day_end').prop('required', false); // Enable the input with ID 'ninety_day_end'
+                    $('#ninety_day_start').prop('required',
+                    false); // Enable the input with ID 'ninety_day_start'
+                    $('#ninety_day_end').prop('required',
+                    false); // Enable the input with ID 'ninety_day_end'
                 }
             });
 
@@ -241,14 +248,14 @@
                     // ถ้า checkbox ถูกเลือก (checked)
                     $('#div-visa-start').show();
                     $('#div-visa-end').show();
-                    $('#visa-start').prop('required',true);
-                    $('#visa-end').prop('required',true);
+                    $('#visa-start').prop('required', true);
+                    $('#visa-end').prop('required', true);
                 } else {
                     // ถ้า checkbox ไม่ถูกเลือก (unchecked)
                     $('#div-visa-start').hide();
                     $('#div-visa-end').hide();
-                    $('#visa-start').prop('required',false);
-                    $('#visa-end').prop('required',false);
+                    $('#visa-start').prop('required', false);
+                    $('#visa-end').prop('required', false);
                 }
             });
         });
@@ -259,15 +266,15 @@
                     // ถ้า checkbox ถูกเลือก (checked)
                     $('#div-work-start').show();
                     $('#div-work-end').show();
-                    $('#work-start').prop('required',true);
-                    $('#work-end').prop('required',true);
+                    $('#work-start').prop('required', true);
+                    $('#work-end').prop('required', true);
 
                 } else {
                     // ถ้า checkbox ไม่ถูกเลือก (unchecked)
                     $('#div-work-start').hide();
                     $('#div-work-end').hide();
-                    $('#work-start').prop('required',false);
-                    $('#work-end').prop('required',false);
+                    $('#work-start').prop('required', false);
+                    $('#work-end').prop('required', false);
                 }
             });
         });
@@ -278,14 +285,14 @@
                     // ถ้า checkbox ถูกเลือก (checked)
                     $('#div-passport-start').show();
                     $('#div-passport-end').show();
-                    $('#passport-start').prop('required',true);
-                    $('#passport-end').prop('required',true);
+                    $('#passport-start').prop('required', true);
+                    $('#passport-end').prop('required', true);
                 } else {
                     // ถ้า checkbox ไม่ถูกเลือก (unchecked)
                     $('#div-passport-start').hide();
                     $('#div-passport-end').hide();
-                    $('#passport-start').prop('required',false);
-                    $('#passport-end').prop('required',false);
+                    $('#passport-start').prop('required', false);
+                    $('#passport-end').prop('required', false);
                 }
             });
         });

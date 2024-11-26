@@ -112,7 +112,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     @if ($excelData)
                         <div class="x_content">
                             <div class="row">
@@ -127,6 +127,11 @@
                                                 <th >ชื่อพนักงาน</th>
                                                 <th>รหัสพนักงาน</th>
                                                 <th>แผนก</th>
+                                                <th>เลขที่บัตรชมพู</th>
+                                                <th>บัตรชมพู วันที่ออกบัตร </th>
+                                                <th>บัตรชมพู วันที่หมดอายุ </th>
+                                                <th>ครบกำหนดถ่ายบัตรชมพู</th>
+   
                                             </tr>
                                         </thead>
                                         <button type="submit" class="btn btn-primary float-end">ยืนยันข้อมูล</button>
@@ -146,6 +151,11 @@
                                                         <td>{{ $labour->labour_name }}</td>
                                                         <td><input type="hidden" name="labour_code[]" value="{{ $item[1] }}">{{ $item[1] }}</td>
                                                         <td><input type="hidden" name="labour_department[]" value="{{ $item[2] }}">{{ $item[2] }}</td>
+                                                        
+                                                        <td><input type="hidden" name="labour_idcard_number[]" value="{{ $item[3] }}">{{ $item[3] }}</td>
+                                                        <td><input type="hidden" name="labour_idcard_date_start[]" value="{{ $item[4] }}">{{ $item[4] }}</td>
+                                                        <td><input type="hidden" name="labour_idcard_date_end[]" value="{{ $item[5] }}">{{ $item[5] }}</td>
+                                                        <td><input type="hidden" name="labour_idcard_date_notify[]" value="{{ $item[6] }}">{{ $item[6] }}</td>
                                                     </tr>
                                                 @else
                                                     <tr>

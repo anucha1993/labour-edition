@@ -76,7 +76,7 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
                     ],
                 ];
 
-                $event->sheet->getDelegate()->getStyle('A:Z')->applyFromArray($fontStyle);
+                $event->sheet->getDelegate()->getStyle('A:AF')->applyFromArray($fontStyle);
                 // กำหนดแบบอักษรให้กับเซลล์ในช่วง A:Z ด้วยเมธอด applyFromArray()
                 $event->sheet->insertNewRowBefore(1, 1);
                 $event->sheet->setCellValue('B1', $this->companyName);
@@ -131,13 +131,19 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
             'Q' => 20,            
             'R' => 20,            
             'S' => 20,            
-            'T' => 20,            
+            'T' => 20,  
             'U' => 20,            
-            'V' => 40,            
-            'W' => 40,            
-            'X' => 80, 
-            'Y' => 40,            
-            'Z' => 60,                     
+            'V' => 40, 
+
+            'W' => 15,            
+            'X' => 15, 
+            'Y' => 15,        
+            'Z' => 15,                  
+            'AA' => 20,            
+            'AB' => 40,            
+            'AC' => 40, 
+            'AD' => 80,
+                   
         ];
     }
 
@@ -178,6 +184,10 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
             'รายงานตัว90วันเริ่มต้น',//17
             'รายงานตัว90วันสิ้นสุด',//18
             'เลข ตม.',//18
+            'เลขที่บัตรชมพู',
+            'วันออกบัตรชมพู',
+            'วันหมดอายุบัตรชมพู',
+            'ครบกำหนดถ่ายบัตรชมพู',
             'เบอร์ติดต่อแรงงาน',//19
             'ที่อยู่แรงงาน',//19
             'เอเจนซี่', //20
@@ -210,11 +220,16 @@ class YourExportSheet implements FromCollection,WithTitle,WithHeadings,WithMappi
         date('d-m-Y',strtotime($data->labour_visa_date_start)),//12
         date('d-m-Y',strtotime($data->labour_visa_date_end)),//13
         $data->labour_work_permit_number,//14
+      
         date('d-n-Y',strtotime($data->labour_work_permit_date_start)),//15
         date('d-n-Y',strtotime($data->labour_work_permit_date_end)),//16
         date('d-m-Y',strtotime($data->labour_ninety_date_start)),//17
         date('d-m-Y',strtotime($data->labour_ninety_date_end)),//18
         $data->labour_immigration_number,
+        $data->labour_idcard_number ? $data->labour_idcard_number : '-',
+        $data->labour_idcard_date_start ? date('d-m-Y',strtotime($data->labour_idcard_date_start)) : '-',
+        $data->labour_idcard_date_end ? date('d-m-Y',strtotime($data->labour_idcard_date_end)) : '-',
+        $data->labour_idcard_date_notify ?  date('d-m-Y',strtotime($data->labour_idcard_date_notify)) : '-',
         ($data->addr_note == '' ? "ไม่พบข้อมูล" : $data->addr_note),//9
         ($data->addr_province == '' ? "ไม่พบที่อยู่" : 'เลขที่ '.$data->addr_number.' ตำบล/แขวง '.$data->DISTRICT_NAME. 'อำเภอ/เขต '.$data->AMPHUR_NAME.' จังหวัด '.$data->PROVINCE_NAME.' รหัสไปรษณีย์ '.$data->addr_zipcode),
         $data->agent_company,//19

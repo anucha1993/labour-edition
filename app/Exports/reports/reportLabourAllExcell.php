@@ -51,8 +51,11 @@ class reportLabourAllExcell implements FromCollection, WithMultipleSheets
     private $passport_start;
     private $passport_end;
     private $passport_ci;
+    private $idcard_start;
+    private $idcard_end;
 
-    public function __construct($data, $company_id, $status, $import_id, $ninety_day_start, $ninety_day_end, $visa_start, $visa_end, $work_start, $work_end, $passport_start, $passport_end,$passport_ci)
+
+    public function __construct($data, $company_id, $status, $import_id, $ninety_day_start, $ninety_day_end, $visa_start, $visa_end, $work_start, $work_end, $passport_start, $passport_end,$passport_ci,$idcard_start,$idcard_end,)
     {
         $this->company_id = $company_id;
         $this->status = $status;
@@ -66,8 +69,11 @@ class reportLabourAllExcell implements FromCollection, WithMultipleSheets
         $this->passport_start   = $passport_start;
         $this->passport_end     = $passport_end;
         $this->passport_ci     = $passport_ci;
+        $this->idcard_start     = $idcard_start;
+        $this->idcard_end     = $idcard_end;
 
-        //dd($this->company_id);
+       // dd(['idcard_start' => $this->idcard_start, 'idcard_end' => $this->idcard_end]);
+
 
         $data = LabourModel::leftJoin('company', 'company.company_id', '=', 'labour.labour_company')
             ->leftJoin('nationality', 'nationality.nationality_id', '=', 'labour.labour_nationality')
@@ -136,6 +142,11 @@ class reportLabourAllExcell implements FromCollection, WithMultipleSheets
             ->when($this->passport_start !== null && $this->passport_end !== null, function ($query) {
                 return $query->whereDate('labour_passport_date_end', '>=', $this->passport_start)
                              ->whereDate('labour_passport_date_end', '<=', $this->passport_end);
+            })
+
+            ->when($this->idcard_start !== null && $this->idcard_end !== null, function ($query) {
+                return $query->whereDate('labour_idcard_date_end', '>=', $this->idcard_start)
+                             ->whereDate('labour_idcard_date_end', '<=', $this->idcard_end);
             })
 
 

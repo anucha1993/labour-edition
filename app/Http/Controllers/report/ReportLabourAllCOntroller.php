@@ -28,12 +28,11 @@ class ReportLabourAllCOntroller extends Controller
         public function exportLabours(Request $request)
 
         {
-
+            //dd(['idcard_start' => $request->idcard_start, 'idcard_end' => $request->idcard_end]);
         $data = [];
         $company_id = $request->company_id;
         $status = $request->status;
         $import_id = $request->import_id;
-
         $ninety_day_start = $request->ninety_day_start;
         $ninety_day_end = $request->ninety_day_end;
         $visa_start = $request->visa_start;
@@ -43,6 +42,8 @@ class ReportLabourAllCOntroller extends Controller
         $passport_start = $request->passport_start;
         $passport_end = $request->passport_end;
         $passport_ci = $request->passport_ci;
+        $idcard_start = $request->idcard_start;
+        $idcard_end = $request->idcard_end;
 
 
         return Excel::download(new reportLabourAllExcell(
@@ -57,7 +58,9 @@ class ReportLabourAllCOntroller extends Controller
             $work_end,
             $passport_start,
             $passport_end,
-            $passport_ci
+            $passport_ci,
+            $idcard_start,
+            $idcard_end
 
         ), 'labour'.date('d-m-Y').'.xlsx');
         
